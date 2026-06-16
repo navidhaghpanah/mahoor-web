@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  phone         String    @unique
+  email         String    @unique
+  password      String
+  role          String    @default("USER")
+  createdAt     DateTime  @default(now())
+  
+  properties    Property[]
+  receivedMsgs  Message[] @relation("ReceivedMessages")
+}
+
+model Property {
+  id            String    @id @default(cuid())
+  title         String
+  description   String
+  type          String
+  price         Int
+  bedrooms      Int
+  bathrooms     Int
+  area          Int
+  address       String
+  latitude      Float
+  longitude     Float
+  status        String    @default("PENDING")
+  createdAt     DateTime  @default(now())
+  
+  agentId       String
+  agent         User      @relation(fields: [agentId], references: [id])
+  images        PropertyImage[]
+  messages      Message[]
+}
+
+model PropertyImage {
+  id          String    @id @default(cuid())
+  url         String
+  isPrimary   Boolean   @default(false)
+  propertyId  String
+  property    Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id            String    @id @default(cuid())
+  content       String
+  senderName    String    // نام فرستنده (مستقیم ذخیره می‌شود)
+  senderPhone   String    // شماره تماس فرستنده (مستقیم ذخیره می‌شود)
+  createdAt     DateTime  @default(now())
+  
+  agentId       String
+  agent         User      @relation("ReceivedMessages", fields: [agentId], references: [id])
+  
+  propertyId    String
+  property      Property  @relation(fields: [propertyId], references: [id])
+}
