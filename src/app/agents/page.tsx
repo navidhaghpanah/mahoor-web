@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Phone, Star, Award, Briefcase } from "lucide-react";
 
 interface Agent {
