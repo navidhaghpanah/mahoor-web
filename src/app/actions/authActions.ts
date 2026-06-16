@@ -1,7 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { hashPassword, verifyPassword, createToken } from "@/lib/auth";
-import { cookies } from "next/headers";
+import { createToken, setTokenCookie, removeTokenCookie } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
 // دستور ثبت‌نام کاربر جدید
 export async function registerUser(formData: FormData) {
