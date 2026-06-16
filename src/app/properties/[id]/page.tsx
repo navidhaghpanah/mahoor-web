@@ -1,3 +1,10 @@
+export const dynamic = "force-dynamic";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+
+export default async function MakeAdminPage() {
+  // ... بقیه کد
+}
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
