@@ -1,11 +1,5 @@
 export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-
-export default async function MakeAdminPage() {
-  // ... بقیه کد
-}
-import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
 import { Search, Home } from "lucide-react";
 
