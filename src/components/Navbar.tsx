@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Menu, Phone, Search, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PUBLIC_NAV, SITE } from "@/lib/site";
@@ -40,116 +39,98 @@ export default function Navbar() {
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
 
+  const link = (href: string, label: string) => (
+    <Link
+      key={href}
+      href={href}
+      className={`text-[11px] font-bold tracking-[0.14em] ${
+        isActive(href)
+          ? ghost
+            ? "text-white"
+            : "text-[var(--navy)]"
+          : ghost
+            ? "text-white/70 hover:text-white"
+            : "text-[var(--navy)]/55 hover:text-[var(--navy)]"
+      }`}
+    >
+      {label}
+    </Link>
+  );
+
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
-        ghost
-          ? "border-b border-white/10 bg-transparent text-white shadow-none"
-          : "border-b border-[#102847]/10 bg-[#f4f0e6]/95 text-[#102847] backdrop-blur-xl"
+        ghost ? "bg-transparent text-white" : "bg-[var(--sand)]/95 text-[var(--navy)] backdrop-blur-md"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-[76px] items-center justify-between gap-4">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="flex h-12 w-16 items-center justify-center overflow-hidden bg-white p-1">
-              <Image
-                src="/images/mahoor-logo-v1.png"
-                alt="لوگوی املاک ماهور"
-                width={1280}
-                height={720}
-                priority
-                className="h-full w-full object-contain"
-              />
-            </div>
-            <div>
-              <p className={`text-xl font-black leading-none ${ghost ? "text-white" : "text-[#102847]"}`}>
-                املاک ماهور
-              </p>
-              <p className={`mt-1 text-[11px] font-bold ${ghost ? "text-[#d4af37]" : "text-[#129b96]"}`}>
-                <NasimMark />
-              </p>
-            </div>
-          </Link>
+      <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 lg:px-8">
+        <nav aria-label="منوی اصلی" className="hidden items-center gap-6 lg:flex">
+          {PUBLIC_NAV.slice(0, 3).map((item) => link(item.href, item.label))}
+        </nav>
 
-          <nav aria-label="منوی اصلی" className="hidden items-center gap-1 lg:flex">
-            {PUBLIC_NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`rounded-lg px-3 py-2 text-sm font-bold transition ${
-                  isActive(item.href)
-                    ? ghost
-                      ? "bg-white/10 text-white"
-                      : "bg-[#d7eeea] text-[#0d817e]"
-                    : ghost
-                      ? "text-white/80 hover:bg-white/10"
-                      : "text-[#102847]/70 hover:bg-white"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+        <Link href="/" className="justify-self-center text-center">
+          <p className={`text-[17px] font-black tracking-[0.18em] ${ghost ? "text-white" : "text-[var(--navy)]"}`}>
+            املاک ماهور
+          </p>
+          <p className={`mt-0.5 text-[10px] font-bold tracking-[0.22em] ${ghost ? "text-[var(--gold)]" : "text-[var(--sea)]"}`}>
+            <NasimMark />
+          </p>
+        </Link>
+
+        <div className="flex items-center justify-end gap-3">
+          <nav className="hidden items-center gap-6 lg:flex">
+            {PUBLIC_NAV.slice(3).map((item) => link(item.href, item.label))}
           </nav>
-
-          <div className="hidden items-center gap-3 lg:flex">
-            <a
-              href={SITE.telephoneHref}
-              className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-extrabold ${ghost ? "text-white" : "text-[#102847]"}`}
-            >
-              <Phone className={ghost ? "text-[#d4af37]" : "text-[#129b96]"} size={17} />
-              <PhoneText>{SITE.telephoneHeader}</PhoneText>
-            </a>
-            <Link
-              href="/register"
-              className="bg-[#d4af37] px-5 py-2.5 text-sm font-extrabold text-[#102847]"
-            >
-              ثبت آگهی
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-2 lg:hidden">
-            <a
-              href={SITE.telephoneHref}
-              className={`px-3 py-2 text-sm font-extrabold ${ghost ? "text-[#d4af37]" : "text-[#102847]"}`}
-            >
-              تماس
-            </a>
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen((open) => !open)}
-              className={`rounded-lg p-2 ${ghost ? "text-white" : "text-[#102847]"}`}
-              aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-menu"
-            >
-              {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
-            </button>
-          </div>
+          <a
+            href={SITE.telephoneHref}
+            className={`hidden items-center gap-2 text-[12px] font-extrabold lg:inline-flex ${ghost ? "text-white" : "text-[var(--navy)]"}`}
+          >
+            <Phone size={14} className="text-[var(--gold)]" />
+            <PhoneText>{SITE.telephoneHeader}</PhoneText>
+          </a>
+          <Link
+            href="/register"
+            className={`hidden px-4 py-2 text-[11px] font-extrabold tracking-[0.12em] lg:inline-flex ${
+              ghost
+                ? "border border-white/80 text-white hover:bg-white hover:text-[var(--navy)]"
+                : "bg-[var(--gold)] text-[var(--navy)]"
+            }`}
+          >
+            ثبت آگهی
+          </Link>
+          <a
+            href={SITE.telephoneHref}
+            className={`px-2 py-2 text-sm font-extrabold lg:hidden ${ghost ? "text-[var(--gold)]" : "text-[var(--navy)]"}`}
+          >
+            تماس
+          </a>
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className={`p-2 lg:hidden ${ghost ? "text-white" : "text-[var(--navy)]"}`}
+            aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+          >
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div id="mobile-menu" className="border-t border-[#102847]/10 bg-[#f4f0e6] px-4 py-4 text-[#102847] lg:hidden">
+        <div id="mobile-menu" className="border-t border-[var(--navy)]/10 bg-[var(--sand)] px-5 py-5 text-[var(--navy)] lg:hidden">
           <nav className="space-y-1" aria-label="منوی موبایل">
             {PUBLIC_NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block px-3 py-3 font-bold ${isActive(item.href) ? "bg-[#d7eeea] text-[#0d817e]" : ""}`}
-              >
+              <Link key={item.href} href={item.href} className="block py-3 text-sm font-bold tracking-[0.08em]">
                 {item.label}
               </Link>
             ))}
           </nav>
-          <a href={SITE.telephoneHref} className="mt-3 flex items-center gap-2 px-3 py-3 font-bold">
-            <Phone size={18} />
+          <a href={SITE.telephoneHref} className="mt-4 flex items-center gap-2 py-3 text-sm font-extrabold">
+            <Phone size={16} />
             <PhoneText>{SITE.telephoneHeader}</PhoneText>
           </a>
-          <Link href="/search" className="mt-1 flex items-center gap-2 px-3 py-3 font-bold">
-            <Search size={18} />
-            جستجوی پیشرفته
-          </Link>
-          <Link href="/register" className="mt-2 block bg-[#d4af37] px-4 py-3 text-center font-extrabold text-[#102847]">
+          <Link href="/register" className="mt-2 block border border-[var(--navy)] px-4 py-3 text-center text-sm font-extrabold">
             ثبت آگهی
           </Link>
         </div>
