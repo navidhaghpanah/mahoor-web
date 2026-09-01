@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { NasimMark } from "@/components/PhoneText";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,31 +26,46 @@ const services = [
 export default function AboutPage() {
   return (
     <div className="bg-[var(--sand)] text-[var(--navy)]">
+      <section className="relative min-h-[50vh] overflow-hidden text-white">
+        <img
+          src="/images/mahoor-brand-still.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[var(--deep)]/70" />
+        <div className="relative z-10 flex min-h-[50vh] flex-col items-center justify-center px-5 py-20 text-center">
+          <h1 className="text-[56px] font-black leading-[1.1] sm:text-[80px]">دفتر</h1>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--gold)]" />
+      </section>
+
       <section className="mx-auto max-w-3xl px-5 py-20">
-        <h1 className="text-[36px] font-black leading-[1.1] tracking-[-0.02em] sm:text-[44px]">
-          درباره املاک ماهور
-        </h1>
-        <p className="mt-6 text-[15px] leading-7 text-[var(--navy)]/75">
+        <p className="text-[15px] font-normal leading-7 text-[var(--navy)]/80">
           انجام کلیه خدمات ملکی در محمودآباد با بیش از ۱۵ سال تجربه.
         </p>
-        <p className="mt-4 text-[15px] leading-7 text-[var(--navy)]/75">
-          <strong className="text-[var(--navy)]">املاک ماهور</strong> در {SITE.address}. {SITE.addressExtra}.
+        <p className="mt-5 text-[15px] font-normal leading-7 text-[var(--navy)]/80">
+          <strong className="font-bold text-[var(--navy)]">املاک ماهور</strong> در محمودآباد،
+          خیابان امام، بعد از <NasimMark />. {SITE.addressExtra}.
         </p>
-        <p className="mt-4 text-[15px] leading-7 text-[var(--navy)]/75">
+        <p className="mt-5 text-[15px] font-normal leading-7 text-[var(--navy)]/80">
           تیم کارشناسان با شناخت بازار محلی، همراه خرید، فروش، رهن و اجاره تا قرارداد.
         </p>
       </section>
-      <section className="mx-auto max-w-3xl border-t border-[var(--navy)]/10 px-5 py-16">
-        <h2 className="text-[36px] font-black leading-[1.1]">خدمات</h2>
-        <ul className="mt-8 divide-y divide-[var(--navy)]/10">
+
+      <section id="services" className="mx-auto max-w-3xl border-t border-[var(--navy)]/10 px-5 py-20">
+        <h2 className="text-[36px] font-black leading-[1.1] sm:text-[48px]">خدمات</h2>
+        <ul className="mt-10">
           {services.map((item) => (
-            <li key={item.title} className="py-5">
-              <p className="font-black">{item.title}</p>
-              <p className="mt-1 text-[15px] leading-7 text-[var(--navy)]/65">{item.body}</p>
+            <li key={item.title} className="border-t border-[var(--navy)]/10 py-8 first:border-t-0">
+              <p className="text-2xl font-black leading-[1.1] sm:text-3xl">{item.title}</p>
+              <p className="mt-3 text-[15px] font-normal leading-7 text-[var(--navy)]/70">{item.body}</p>
             </li>
           ))}
         </ul>
-        <a href={SITE.telephoneHref} className="mt-10 inline-flex border border-[var(--navy)] px-6 py-3 text-[13px] font-bold">
+        <a
+          href={SITE.telephoneHref}
+          className="mt-10 inline-flex bg-[var(--navy)] px-8 py-3.5 text-[13px] font-bold text-[var(--sand)]"
+        >
           تماس با دفتر
         </a>
       </section>
