@@ -35,11 +35,11 @@ export default async function PropertiesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f3eee4] py-10 px-4">
+    <div className="min-h-screen bg-[#f4f0e6] py-10 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10 text-right">
-          <p className="text-xs font-bold tracking-[0.2em] text-[#2a5a45]">محمودآباد · خزر</p>
-          <h1 className="display-font text-4xl md:text-5xl text-[#0b3a4a] mt-2 flex items-center justify-end gap-3">
+          <p className="text-xs font-bold tracking-[0.2em] text-[#129b96]">محمودآباد · خزر</p>
+          <h1 className="text-4xl md:text-5xl text-[#102847] mt-2 flex items-center justify-end gap-3">
             املاک موجود در ماهور
             <Home className="text-[#c6a15b]" />
           </h1>
@@ -67,7 +67,7 @@ export default async function PropertiesPage() {
           </div>
         ) : (
           <div className="empty-lot p-12 text-center">
-            <h3 className="display-font text-3xl text-[#0b3a4a] mb-2">ساحل هنوز خلوت است</h3>
+            <h3 className="text-3xl text-[#102847] mb-2">ساحل هنوز خلوت است</h3>
             <p className="text-[#142428]/70 mb-6">
               هنوز ملک تاییدشده‌ای منتشر نشده. برای ثبت آگهی یا مشاوره با دفتر ماهور در تماس باشید.
             </p>
