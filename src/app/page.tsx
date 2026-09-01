@@ -2,17 +2,9 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
 import PhoneText, { NasimMark } from "@/components/PhoneText";
-import { CONTACTS, SITE } from "@/lib/site";
+import { CONTACTS, SERVICES, SITE } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
-
-const SERVICES = [
-  "خرید و فروش",
-  "اجاره و رهن",
-  "تفکیک سند",
-  "طراحی و نظارت",
-  "پیمانکاری",
-] as const;
 
 export default async function HomePage() {
   let featured: {
@@ -59,12 +51,17 @@ export default async function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--deep)] via-[var(--deep)]/55 to-black/35" />
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 pb-16 pt-24 text-center">
-          <p className="text-[13px] font-bold text-[var(--gold)]">املاک ماهور</p>
-          <h1 className="mt-5 text-[56px] font-black leading-[1.1] sm:text-[88px] md:text-[104px]">
-            محمودآباد
+          <img
+            src={SITE.logoPath}
+            alt={SITE.name}
+            className="h-28 w-auto object-contain sm:h-36 md:h-44"
+          />
+          <p className="mt-5 text-[13px] font-bold text-[var(--gold)]">{SITE.englishName}</p>
+          <h1 className="mt-4 max-w-3xl text-[36px] font-black leading-[1.1] sm:text-[56px] md:text-[72px]">
+            {SITE.heroLine}
           </h1>
-          <p className="mt-6 max-w-lg text-[15px] font-normal leading-7 text-white/80">
-            خرید، رهن، اجاره — مشاور محلی، بازدید حضوری.
+          <p className="mt-5 max-w-lg text-[15px] font-normal leading-7 text-white/80">
+            بزرگ‌ترین پایگاه ملکی محمودآباد | خرید، فروش، اجاره و رهن
           </p>
           <a
             href={SITE.telephoneHref}
@@ -88,6 +85,7 @@ export default async function HomePage() {
           <p className="mt-6 max-w-xl text-[15px] font-normal leading-7 text-white/80">
             محمودآباد، خیابان امام، بعد از <NasimMark />. {SITE.addressExtra}.
           </p>
+          <p className="mt-3 text-[15px] font-normal leading-7 text-white/80">{SITE.hours}</p>
           <Link
             href="/about"
             className="mt-8 text-[15px] font-bold text-white hover:text-[var(--gold)]"
@@ -100,10 +98,11 @@ export default async function HomePage() {
       <section className="flex min-h-[70vh] items-center bg-[var(--deep)] px-5 py-24 text-white">
         <div className="mx-auto w-full max-w-3xl text-center">
           <h2 className="text-[48px] font-black leading-[1.1] sm:text-[72px]">خدمات</h2>
-          <ul className="mt-12 space-y-4">
-            {SERVICES.map((title) => (
-              <li key={title} className="text-2xl font-normal leading-[1.1] sm:text-3xl">
-                {title}
+          <ul className="mt-12 space-y-6">
+            {SERVICES.map((item) => (
+              <li key={item.title}>
+                <p className="text-2xl font-normal leading-[1.1] sm:text-3xl">{item.title}</p>
+                <p className="mt-2 text-[15px] text-white/65">{item.body}</p>
               </li>
             ))}
           </ul>
@@ -126,7 +125,12 @@ export default async function HomePage() {
                   href={person.href}
                   className="flex items-center justify-between gap-3 py-4 text-[15px]"
                 >
-                  <span className="font-bold">{person.name}</span>
+                  <span>
+                    <span className="block font-bold">{person.name}</span>
+                    <span className="mt-1 block text-[13px] font-normal text-[var(--navy)]/55">
+                      {person.role}
+                    </span>
+                  </span>
                   <PhoneText className="font-bold">{person.phoneDisplay}</PhoneText>
                 </a>
               </li>
@@ -141,6 +145,14 @@ export default async function HomePage() {
               className="text-[15px] font-bold hover:text-[var(--gold)]"
             >
               واتساپ
+            </a>
+            <a
+              href={SITE.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[15px] font-bold hover:text-[var(--gold)]"
+            >
+              کانال تلگرام
             </a>
             <Link href="/contact" className="text-[15px] font-bold hover:text-[var(--gold)]">
               «بیشتر»
