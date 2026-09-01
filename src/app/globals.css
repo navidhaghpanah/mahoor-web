@@ -148,3 +148,9 @@ body {
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out;
 }
+
+/* شماره‌ها باید مستقل از چیدمان راست‌به‌چپ، به شکل طبیعی نمایش داده شوند. */
+a[href^="tel:"] {
+  direction: ltr;
+  unicode-bidi: embed;
+}

@@ -23,10 +23,10 @@ export default function Navbar() {
           <div className="hidden items-center gap-8 lg:flex">
             {navItems.map(([href, label]) => <Link key={href} href={href} className="text-sm font-bold text-slate-600 transition hover:text-[#129b96]">{label}</Link>)}
           </div>
-          <div className="hidden items-center gap-5 lg:flex"><a href="tel:01144735333" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#102847]"><Phone className="text-[#159e9b]" size={17} />۰۱۱ ۴۴۷۳ ۵۳۳۳</a><Link href="/register" className="rounded-xl bg-[#e3ae3b] px-5 py-3 text-sm font-extrabold text-[#102847] transition hover:bg-[#c9972e]">+ ثبت آگهی</Link></div>
+          <div className="hidden items-center gap-5 lg:flex"><a href="tel:01144735333" dir="ltr" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#102847]"><Phone className="text-[#159e9b]" size={17} />011 4473 5333</a><Link href="/register" className="rounded-xl bg-[#e3ae3b] px-5 py-3 text-sm font-extrabold text-[#102847] transition hover:bg-[#c9972e]">+ ثبت آگهی</Link></div>
           <button onClick={() => setIsMenuOpen((open) => !open)} className="text-[#102847] transition hover:text-[#159e9b] lg:hidden" aria-label="باز کردن منو">{isMenuOpen ? <X size={28} /> : <Menu size={28} />}</button>
         </div>
-        {isMenuOpen && <div className="space-y-2 border-t border-slate-100 py-4 lg:hidden">{navItems.map(([href, label]) => <Link key={href} href={href} className="block rounded-lg px-3 py-3 font-bold text-slate-700 hover:bg-[#effafa]" onClick={() => setIsMenuOpen(false)}>{label}</Link>)}<a href="tel:01144735333" className="block rounded-lg px-3 py-3 font-bold text-[#159e9b]">۰۱۱ ۴۴۷۳ ۵۳۳۳</a><Link href="/register" className="mt-2 block rounded-xl bg-[#e3ae3b] px-4 py-3 text-center font-extrabold text-[#102847]" onClick={() => setIsMenuOpen(false)}>ثبت آگهی</Link></div>}
+        {isMenuOpen && <div className="space-y-2 border-t border-slate-100 py-4 lg:hidden">{navItems.map(([href, label]) => <Link key={href} href={href} className="block rounded-lg px-3 py-3 font-bold text-slate-700 hover:bg-[#effafa]" onClick={() => setIsMenuOpen(false)}>{label}</Link>)}<a href="tel:01144735333" dir="ltr" className="block rounded-lg px-3 py-3 font-bold text-[#159e9b]">011 4473 5333</a><Link href="/register" className="mt-2 block rounded-xl bg-[#e3ae3b] px-4 py-3 text-center font-extrabold text-[#102847]" onClick={() => setIsMenuOpen(false)}>ثبت آگهی</Link></div>}
       </div>
     </nav>
   );
