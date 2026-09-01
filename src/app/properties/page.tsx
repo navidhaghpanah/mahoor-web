@@ -4,7 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
 import { SITE } from "@/lib/site";
-import PhoneText from "@/components/PhoneText";
+import PhoneText, { NasimMark } from "@/components/PhoneText";
 
 export const metadata: Metadata = {
   title: "آگهی‌های ملک",
@@ -27,14 +27,20 @@ export default async function PropertiesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[var(--sand)] px-6 py-16 text-[var(--navy)]">
-      <div className="mx-auto max-w-6xl">
-        <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">محمودآباد</p>
-        <h1 className="mt-3 text-4xl font-black">فایل‌های فعال</h1>
-        <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--navy)]/65">فقط آگهی‌های تاییدشده دفتر. بدون فایل ساختگی.</p>
+    <div className="min-h-screen bg-[var(--sand)] text-[var(--navy)]">
+      <section className="bg-[var(--deep)] px-5 py-16 text-white">
+        <div className="mx-auto max-w-6xl">
+          <p className="text-[13px] font-bold text-[var(--gold)]">محمودآباد</p>
+          <h1 className="mt-3 text-[36px] font-black leading-[1.1] sm:text-[48px]">فایل‌های فعال</h1>
+          <p className="mt-4 max-w-xl text-[15px] font-normal leading-7 text-white/70">
+            فقط آگهی‌های تاییدشده دفتر. بدون فایل ساختگی.
+          </p>
+        </div>
+      </section>
 
+      <div className="mx-auto max-w-6xl px-5 py-16">
         {properties.length > 0 ? (
-          <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
             {properties.map((property) => (
               <PropertyCard
                 key={property.id}
@@ -51,16 +57,19 @@ export default async function PropertiesPage() {
             ))}
           </div>
         ) : (
-          <div className="mt-16 max-w-lg border-t border-[var(--navy)]/10 pt-10">
-            <h2 className="text-2xl font-black">الان فایلی روی میز نیست</h2>
-            <p className="mt-3 text-sm leading-7 text-[var(--navy)]/65">
-              برای مشاوره یا ثبت آگهی با دفتر ماهور تماس بگیرید. {SITE.address}.
+          <div className="max-w-lg">
+            <h2 className="text-[28px] font-black leading-[1.1]">الان فایلی روی میز نیست</h2>
+            <p className="mt-4 text-[15px] font-normal leading-7 text-[var(--navy)]/70">
+              برای مشاوره یا ثبت آگهی با دفتر ماهور تماس بگیرید. محمودآباد، خیابان امام، بعد از <NasimMark />.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href={SITE.telephoneHref} className="border border-[var(--navy)] px-5 py-3 text-sm font-extrabold">
+            <div className="mt-8 flex flex-wrap items-center gap-5">
+              <a
+                href={SITE.telephoneHref}
+                className="inline-flex bg-[var(--navy)] px-6 py-3 text-[13px] font-bold text-[var(--sand)]"
+              >
                 <PhoneText>{SITE.telephoneHeader}</PhoneText>
               </a>
-              <Link href="/register" className="px-5 py-3 text-sm font-bold text-[var(--sea)]">
+              <Link href="/register" className="text-[13px] font-bold text-[var(--navy)]">
                 ثبت آگهی
               </Link>
             </div>
