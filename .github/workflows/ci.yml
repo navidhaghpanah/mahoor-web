@@ -8,8 +8,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: file:./dev.db
+      DATABASE_URL: postgresql://mahoor:mahoor@localhost:5432/mahoor?schema=public
       JWT_SECRET: ci-only-not-for-production
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: mahoor
+          POSTGRES_PASSWORD: mahoor
+          POSTGRES_DB: mahoor
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mahoor -d mahoor"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
