@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PUBLIC_NAV, SITE } from "@/lib/site";
-import PhoneText, { NasimMark } from "@/components/PhoneText";
+import PhoneText from "@/components/PhoneText";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,75 +39,50 @@ export default function Navbar() {
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
 
-  const link = (href: string, label: string) => (
-    <Link
-      key={href}
-      href={href}
-      className={`text-[11px] font-bold tracking-[0.14em] ${
-        isActive(href)
-          ? ghost
-            ? "text-white"
-            : "text-[var(--navy)]"
-          : ghost
-            ? "text-white/70 hover:text-white"
-            : "text-[var(--navy)]/55 hover:text-[var(--navy)]"
-      }`}
-    >
-      {label}
-    </Link>
-  );
-
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        ghost ? "bg-transparent text-white" : "bg-[var(--sand)]/95 text-[var(--navy)] backdrop-blur-md"
+      className={`sticky top-0 z-50 ${
+        ghost
+          ? "bg-transparent text-white"
+          : "border-b border-[var(--navy)]/10 bg-[var(--sand)] text-[var(--navy)]"
       }`}
     >
-      <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 lg:px-8">
-        <nav aria-label="منوی اصلی" className="hidden items-center gap-6 lg:flex">
-          {PUBLIC_NAV.slice(0, 3).map((item) => link(item.href, item.label))}
-        </nav>
-
-        <Link href="/" className="justify-self-center text-center">
-          <p className={`text-[17px] font-black tracking-[0.18em] ${ghost ? "text-white" : "text-[var(--navy)]"}`}>
-            املاک ماهور
-          </p>
-          <p className={`mt-0.5 text-[10px] font-bold tracking-[0.22em] ${ghost ? "text-[var(--gold)]" : "text-[var(--sea)]"}`}>
-            <NasimMark />
-          </p>
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
+        <Link href="/" className="text-[17px] font-black leading-none">
+          املاک ماهور
         </Link>
 
-        <div className="flex items-center justify-end gap-3">
-          <nav className="hidden items-center gap-6 lg:flex">
-            {PUBLIC_NAV.slice(3).map((item) => link(item.href, item.label))}
-          </nav>
+        <nav aria-label="منوی اصلی" className="hidden items-center gap-8 lg:flex">
+          {PUBLIC_NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`text-[13px] font-bold ${
+                isActive(item.href)
+                  ? ghost
+                    ? "text-white"
+                    : "text-[var(--navy)]"
+                  : ghost
+                    ? "text-white/70 hover:text-white"
+                    : "text-[var(--navy)]/55 hover:text-[var(--navy)]"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-3">
           <a
             href={SITE.telephoneHref}
-            className={`hidden items-center gap-2 text-[12px] font-extrabold lg:inline-flex ${ghost ? "text-white" : "text-[var(--navy)]"}`}
+            className={`text-[13px] font-bold ${ghost ? "text-white" : "text-[var(--navy)]"}`}
           >
-            <Phone size={14} className="text-[var(--gold)]" />
             <PhoneText>{SITE.telephoneHeader}</PhoneText>
-          </a>
-          <Link
-            href="/register"
-            className={`hidden px-4 py-2 text-[11px] font-extrabold tracking-[0.12em] lg:inline-flex ${
-              ghost
-                ? "border border-white/80 text-white hover:bg-white hover:text-[var(--navy)]"
-                : "bg-[var(--gold)] text-[var(--navy)]"
-            }`}
-          >
-            ثبت آگهی
-          </Link>
-          <a
-            href={SITE.telephoneHref}
-            className={`px-2 py-2 text-sm font-extrabold lg:hidden ${ghost ? "text-[var(--gold)]" : "text-[var(--navy)]"}`}
-          >
-            تماس
           </a>
           <button
             type="button"
             onClick={() => setIsMenuOpen((open) => !open)}
-            className={`p-2 lg:hidden ${ghost ? "text-white" : "text-[var(--navy)]"}`}
+            className="p-2 lg:hidden"
             aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -121,18 +96,14 @@ export default function Navbar() {
         <div id="mobile-menu" className="border-t border-[var(--navy)]/10 bg-[var(--sand)] px-5 py-5 text-[var(--navy)] lg:hidden">
           <nav className="space-y-1" aria-label="منوی موبایل">
             {PUBLIC_NAV.map((item) => (
-              <Link key={item.href} href={item.href} className="block py-3 text-sm font-bold tracking-[0.08em]">
+              <Link key={item.href} href={item.href} className="block py-3 text-[13px] font-bold">
                 {item.label}
               </Link>
             ))}
+            <Link href="/register" className="block py-3 text-[13px] font-bold">
+              ثبت آگهی
+            </Link>
           </nav>
-          <a href={SITE.telephoneHref} className="mt-4 flex items-center gap-2 py-3 text-sm font-extrabold">
-            <Phone size={16} />
-            <PhoneText>{SITE.telephoneHeader}</PhoneText>
-          </a>
-          <Link href="/register" className="mt-2 block border border-[var(--navy)] px-4 py-3 text-center text-sm font-extrabold">
-            ثبت آگهی
-          </Link>
         </div>
       )}
     </header>
