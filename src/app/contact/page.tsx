@@ -39,21 +39,27 @@ export default function ContactPage() {
               <div className="space-y-5">
                 <ContactItem
                   icon={<Phone size={20} />}
-                  label="کارشناس عزیزپور"
-                  value="۰۹۱۱۱۱۳۴۷۶۷"
-                  href="tel:09111134767"
+                  label="دفتر ماهور"
+                  value="۰۱۱ ۴۴۷۳ ۵۳۳۳"
+                  href="tel:01144735333"
+                />
+                <ContactItem
+                  icon={<Phone size={20} />}
+                  label="کارشناس حیدری"
+                  value="۰۹۱۲ ۰۹۹ ۶۴۲۶"
+                  href="tel:09120996426"
                 />
                 <ContactItem
                   icon={<Phone size={20} />}
                   label="مهندس آزاد"
-                  value="۰۹۱۱۳۲۷۶۶۷"
-                  href="tel:09113276667"
+                  value="۰۹۱۱ ۳۲۷ ۶۶۴۷"
+                  href="tel:09113276647"
                 />
                 <ContactItem
                   icon={<Phone size={20} />}
-                  label="کارشناس رضایی"
-                  value="۰۹۱۹۵۱۸۳۹۵۰"
-                  href="tel:09195183950"
+                  label="کارشناس راعی"
+                  value="۰۹۱۲ ۰۹۹ ۷۴۵۳"
+                  href="tel:09120997453"
                 />
                 <ContactItem
                   icon={<MapPin size={20} />}

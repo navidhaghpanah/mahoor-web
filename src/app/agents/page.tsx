@@ -14,10 +14,10 @@ interface Agent {
 
 const agents: Agent[] = [
   {
-    name: "کارشناس عزیزپور",
-    role: "کارشناس ارشد ملکی",
-    phone: "09111134767",
-    initial: "ع",
+    name: "کارشناس حیدری",
+    role: "کارشناس فروش",
+    phone: "09120996426",
+    initial: "ح",
     deals: "۳۰۰+",
     experience: "۱۰+ سال",
     rating: "۴.۹",
@@ -26,7 +26,7 @@ const agents: Agent[] = [
   {
     name: "مهندس آزاد",
     role: "مهندس عمران و کارشناس",
-    phone: "09113276667",
+    phone: "09113276647",
     initial: "آ",
     deals: "۵۰+",
     experience: "۸+ سال",
@@ -34,9 +34,9 @@ const agents: Agent[] = [
     specialty: "پیمانکاری، طراحی و نظارت",
   },
   {
-    name: "کارشناس رضایی",
-    role: "کارشناس اجاره و رهن",
-    phone: "09195183950",
+    name: "کارشناس راعی",
+    role: "کارشناس اجاره",
+    phone: "09120997453",
     initial: "ر",
     deals: "۲۰۰+",
     experience: "۷+ سال",
@@ -112,9 +112,9 @@ export default function AgentsPage() {
             با هر یک از کارشناسان ما تماس بگیرید یا به دفتر ما در محمودآباد مراجعه کنید
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:09111134767" className="btn-secondary inline-flex items-center justify-center gap-2">
+            <a href="tel:01144735333" className="btn-secondary inline-flex items-center justify-center gap-2">
               <Phone size={20} />
-              ۰۹۱۱۱۱۳۴۷۶۷
+              ۰۱۱ ۴۴۷۳ ۵۳۳۳
             </a>
             <a href="/contact" className="btn-outline inline-flex items-center justify-center gap-2 border-white text-white hover:bg-white hover:text-[#1e3a5f]">
               اطلاعات تماس کامل
