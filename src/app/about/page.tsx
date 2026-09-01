@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Shield, Users, TrendingUp, Building2, Award, Target, Wrench, FileText, PenTool, HardHat, Car } from "lucide-react";
-
+import { SITE } from "@/lib/site";
+import { NasimMark } from "@/components/PhoneText";
 
 export const metadata: Metadata = {
   title: "درباره ما و خدمات ملکی",
@@ -16,166 +16,67 @@ export const metadata: Metadata = {
   },
 };
 
+const services = [
+  { title: "خرید و فروش", body: "خرید و فروش انواع ملک مسکونی، تجاری و زمین" },
+  { title: "اجاره و رهن", body: "بهترین قیمت اجاره و رهن کامل در محمودآباد" },
+  { title: "تفکیک سند", body: "خدمات ثبتی و حقوقی برای تفکیک و انتقال سند" },
+  { title: "طراحی و نظارت", body: "خدمات معماری، طراحی و نظارت بر ساخت" },
+  { title: "پیمانکاری", body: "ساخت و ساز با بهترین کیفیت و قیمت" },
+];
+
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#f4f0e6]">
-      {/* هدر صفحه */}
-      <section className="gradient-hero text-white py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f4f0e6]/10 backdrop-blur-sm rounded-2xl mb-6">
-            <Building2 className="text-[#d4af37]" size={40} />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">درباره املاک ماهور</h1>
-          <p className="text-xl text-gray-200 max-w-2xl mx-auto">
-            انجام کلیه خدمات ملکی در محمودآباد با بیش از ۱۵ سال تجربه
+    <div className="bg-[var(--sand)] text-[var(--navy)]">
+      <section className="bg-[var(--deep)] px-6 py-24 text-white">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--gold)]">
+            <NasimMark /> · محمودآباد
+          </p>
+          <h1 className="mt-4 text-4xl font-black leading-[1.15] sm:text-5xl">درباره املاک ماهور</h1>
+          <p className="mt-5 max-w-xl text-base leading-8 text-white/75">
+            انجام کلیه خدمات ملکی در محمودآباد با بیش از ۱۵ سال تجربه.
           </p>
         </div>
       </section>
 
-      {/* داستان ما */}
-      <section className="py-16 px-4 bg-[#f4f0e6]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#102847] mb-6 text-center">داستان ما</h2>
-          <div className="prose prose-lg max-w-none text-gray-700 leading-8">
-            <p className="mb-4">
-              <strong className="text-[#102847]">املاک ماهور</strong> با بیش از ۱۵ سال سابقه درخشان در زمینه خدمات ملکی در محمودآباد مازندران، یکی از معتبرترین آژانس‌های ملکی منطقه است. ما در خیابان امام، بعد از نسیم ۶۹/۱، روبروی بروی پارکینگ قزوینی‌پور واقع شده‌ایم.
-            </p>
-            <p className="mb-4">
-              تیم ما متشکل از کارشناسان با تجربه و متخصص در حوزه املاک است که با شناخت عمیق از بازار مسکن محمودآباد و مناطق اطراف، بهترین خدمات را به مشتریان عزیز ارائه می‌دهند.
+      <section className="mx-auto grid max-w-6xl lg:grid-cols-2">
+        <div className="px-6 py-16 sm:px-12">
+          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">داستان</p>
+          <h2 className="mt-3 text-3xl font-black">دفتر خیابان امام</h2>
+          <div className="mt-6 space-y-4 text-[15px] leading-8 text-[var(--navy)]/75">
+            <p>
+              <strong className="text-[var(--navy)]">املاک ماهور</strong> با بیش از ۱۵ سال سابقه در خدمات ملکی
+              محمودآباد مازندران. {SITE.address}. {SITE.addressExtra}.
             </p>
             <p>
-              هدف ما ایجاد یک پلتفرم جامع و قابل اعتماد در حوزه املاک و مستغلات است تا شما بتوانید در هر زمان و از هر مکانی، ملک مورد نظر خود را پیدا کنید.
+              تیم کارشناسان با شناخت بازار محلی، همراه خرید، فروش، رهن و اجاره تا قرارداد.
             </p>
           </div>
         </div>
-      </section>
-
-      {/* ارزش‌های ما */}
-      <section className="py-16 px-4 bg-[#f4f0e6]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#102847] mb-12 text-center">ارزش‌های ما</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ValueCard
-              icon={<Shield className="text-[#102847]" size={32} />}
-              title="اعتماد و شفافیت"
-              description="تمامی اطلاعات املاک با دقت بررسی و تایید می‌شوند تا شما با اطمینان کامل تصمیم بگیرید."
-            />
-            <ValueCard
-              icon={<Users className="text-[#d4af37]" size={32} />}
-              title="مشاوره تخصصی"
-              description="تیم کارشناسان ما با سال‌ها تجربه، در تمام مراحل خرید، فروش یا اجاره همراه شما هستند."
-            />
-            <ValueCard
-              icon={<TrendingUp className="text-[#102847]" size={32} />}
-              title="بهترین فرصت‌ها"
-              description="دسترسی به گسترده‌ترین مجموعه املاک با بهترین قیمت‌ها در محمودآباد و مناطق اطراف."
-            />
-          </div>
+        <div className="border-t border-[var(--navy)]/10 px-6 py-16 sm:px-12 lg:border-t-0 lg:border-r">
+          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">خدمات</p>
+          <ul className="mt-6 divide-y divide-[var(--navy)]/10">
+            {services.map((item) => (
+              <li key={item.title} className="py-4">
+                <p className="font-black">{item.title}</p>
+                <p className="mt-1 text-sm leading-7 text-[var(--navy)]/65">{item.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* خدمات ما */}
-      <section className="py-16 px-4 bg-[#f4f0e6]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#102847] mb-12 text-center">خدمات ما</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ServiceCard
-              icon={<Building2 className="text-white" size={28} />}
-              title="خرید و فروش"
-              description="خرید و فروش انواع ملک مسکونی، تجاری و زمین"
-            />
-            <ServiceCard
-              icon={<Target className="text-white" size={28} />}
-              title="اجاره و رهن"
-              description="بهترین قیمت اجاره و رهن کامل در محمودآباد"
-            />
-            <ServiceCard
-              icon={<FileText className="text-white" size={28} />}
-              title="تفکیک سند"
-              description="خدمات ثبتی و حقوقی برای تفکیک و انتقال سند"
-            />
-            <ServiceCard
-              icon={<Car className="text-white" size={28} />}
-              title="بروی پارکینگ"
-              description="خدمات تخصصی قزوینی‌پور برای پارکینگ"
-            />
-            <ServiceCard
-              icon={<PenTool className="text-white" size={28} />}
-              title="طراحی و نظارت"
-              description="خدمات معماری، طراحی و نظارت بر ساخت"
-            />
-            <ServiceCard
-              icon={<HardHat className="text-white" size={28} />}
-              title="پیمانکاری"
-              description="ساخت و ساز با بهترین کیفیت و قیمت"
-            />
-          </div>
+      <section className="border-t border-[var(--navy)]/10 px-6 py-16 text-center">
+        <p className="text-lg font-black">برای بازدید یا مشاوره، با دفتر هماهنگ کنید.</p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <a href={SITE.telephoneHref} className="border border-[var(--navy)] px-6 py-3 text-sm font-extrabold">
+            تماس با دفتر
+          </a>
+          <Link href="/agents" className="px-6 py-3 text-sm font-bold text-[var(--sea)]">
+            مشاوران
+          </Link>
         </div>
       </section>
-
-      {/* آمار ما */}
-      <section className="py-16 px-4 bg-[#f4f0e6]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#102847] mb-12 text-center">ما در اعداد</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <StatCard number="۵۰۰+" label="آگهی فعال" />
-            <StatCard number="۱۰۰۰+" label="معامله موفق" />
-            <StatCard number="۱۵+" label="سال سابقه" />
-            <StatCard number="۳" label="کارشناس متخصص" />
-          </div>
-        </div>
-      </section>
-
-      {/* دعوت به اقدام */}
-      <section className="py-16 px-4 gradient-hero text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">آماده همکاری با ما هستید؟</h2>
-          <p className="text-xl text-gray-200 mb-8">
-            همین حالا با کارشناسان ما تماس بگیرید
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="btn-secondary inline-flex items-center justify-center gap-2">
-              تماس با ما
-            </Link>
-            <Link href="/agents" className="btn-outline inline-flex items-center justify-center gap-2 border-white text-white hover:bg-[#f4f0e6] hover:text-[#102847]">
-              مشاهده کارشناسان
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function ValueCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
-  return (
-    <div className="card-modern p-8 text-center">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-2xl mb-4">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold text-[#102847] mb-3">{title}</h3>
-      <p className="text-gray-600 leading-7">{description}</p>
-    </div>
-  );
-}
-
-function ServiceCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
-  return (
-    <div className="bg-gradient-to-br from-[#102847] to-[#0b1f33] text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-      <div className="w-14 h-14 bg-[#f4f0e6]/20 rounded-xl flex items-center justify-center mb-4">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-200 text-sm leading-6">{description}</p>
-    </div>
-  );
-}
-
-function StatCard({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="bg-[#f4f0e6] p-6 rounded-2xl text-center shadow-sm border border-gray-100">
-      <p className="text-4xl font-extrabold text-[#102847] mb-2">{number}</p>
-      <p className="text-gray-600">{label}</p>
     </div>
   );
 }
