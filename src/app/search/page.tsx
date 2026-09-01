@@ -97,7 +97,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   });
 
   return (
-    <div className="min-h-screen bg-[#f6f8fb] py-8 px-4">
+    <div className="min-h-screen bg-[#f4f0e6] py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* هدر صفحه */}
         <div className="mb-8 text-center">
@@ -136,7 +136,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl p-12 text-center border border-gray-200 shadow-sm mt-8">
+          <div className="bg-[#f4f0e6] rounded-2xl p-12 text-center border border-gray-200 shadow-sm mt-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
               <Home className="text-gray-400" size={32} />
             </div>
