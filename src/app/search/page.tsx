@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
 import SearchFilters from "@/components/SearchFilters";
@@ -12,6 +13,31 @@ interface SearchParams {
   minArea?: string;
   maxArea?: string;
   bedrooms?: string;
+}
+
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const keyword = params.keyword?.trim();
+  const title = keyword ? `جستجو: ${keyword}` : "جستجوی املاک";
+  const description = keyword
+    ? `نتایج جستجو برای «${keyword}» در آگهی‌های املاک ماهور محمودآباد.`
+    : "جستجوی پیشرفته خرید، فروش و اجاره ملک در محمودآباد با فیلتر قیمت، متراژ و تعداد خواب.";
+  return {
+    title,
+    description,
+    alternates: { canonical: "/search" },
+    openGraph: {
+      title: `${title} | املاک ماهور`,
+      description,
+      url: "/search",
+      locale: "fa_IR",
+    },
+  };
 }
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
@@ -71,11 +97,11 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-[#f6f8fb] py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* هدر صفحه */}
         <div className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 flex items-center justify-center gap-3">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#102847] mb-3 flex items-center justify-center gap-3">
             <Search className="text-[#d4af37]" />
             جستجوی املاک
           </h1>

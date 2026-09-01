@@ -4,22 +4,38 @@
   --mahoor-blue: #1e3a5f;
   --mahoor-blue-dark: #152a45;
   --mahoor-blue-light: #2d4a6f;
+  --mahoor-navy: #102847;
   --mahoor-gold: #d4af37;
   --mahoor-gold-light: #e5c158;
   --mahoor-gold-dark: #b8960c;
-  
-  --background: #fafafa;
-  --foreground: #1a1a1a;
+  --mahoor-teal: #129b96;
+  --mahoor-teal-dark: #0d817e;
+  --background: #f6f8fb;
+  --foreground: #102847;
 }
 
 * {
   border-color: #e5e7eb;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: #f6f8fb;
+  color: #102847;
   font-family: var(--font-vazir), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(18, 155, 150, 0.22);
+  color: #102847;
+}
+
+:focus-visible {
+  outline: 2px solid #129b96;
+  outline-offset: 2px;
 }
 
 /* دکمه‌های مدرن */
@@ -41,7 +57,7 @@ body {
 
 .btn-secondary {
   background-color: #d4af37;
-  color: white;
+  color: #102847;
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   font-weight: 700;
@@ -51,6 +67,7 @@ body {
 
 .btn-secondary:hover {
   background-color: #b8960c;
+  color: white;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
   transform: translateY(-2px);
 }
@@ -73,14 +90,15 @@ body {
 .card-modern {
   background-color: white;
   border-radius: 1rem;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  border: 1px solid #f3f4f6;
+  box-shadow: 0 1px 2px 0 rgb(16 40 71 / 0.06);
+  border: 1px solid #eef2f6;
   transition: all 0.3s;
 }
 
 .card-modern:hover {
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  box-shadow: 0 22px 40px -12px rgb(16 40 71 / 0.16);
   transform: translateY(-4px);
+  border-color: #d4e8e6;
 }
 
 /* اینپوت‌های مدرن */
@@ -93,15 +111,16 @@ body {
   transition: all 0.2s;
   color: #111827;
   font-weight: 500;
+  background: #fff;
 }
 
 .input-modern:focus {
-  border-color: #1e3a5f;
-  box-shadow: 0 0 0 4px rgb(30 58 95 / 0.1);
+  border-color: #129b96;
+  box-shadow: 0 0 0 4px rgb(18 155 150 / 0.12);
 }
 
 .input-modern::placeholder {
-  color: #4b5563;
+  color: #6b7280;
   font-weight: 400;
 }
 
@@ -126,7 +145,7 @@ body {
 
 /* گرادیان‌ها */
 .gradient-hero {
-  background: linear-gradient(to bottom right, #1e3a5f, #2d4a6f, #1e3a5f);
+  background: linear-gradient(to bottom right, #1e3a5f, #2d4a6f, #102847);
 }
 
 .gradient-gold {
@@ -135,13 +154,13 @@ body {
 
 /* انیمیشن‌ها */
 @keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px); 
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

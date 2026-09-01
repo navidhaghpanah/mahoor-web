@@ -37,7 +37,7 @@ export default function PropertyCard({
         <div className="relative h-56 w-full overflow-hidden bg-gray-200">
           <Image
             src={imageUrl || "/placeholder-property.jpg"}
-            alt={title}
+            alt={`${title} — ${address}`}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-500"
           />
@@ -52,11 +52,11 @@ export default function PropertyCard({
 
         {/* بخش محتوا */}
         <div className="p-5 flex flex-col flex-grow">
-          <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-1 group-hover:text-[#1e3a5f] transition-colors">
+          <h3 className="font-bold text-lg text-[#102847] mb-2 line-clamp-1 group-hover:text-[#129b96] transition-colors">
             {title}
           </h3>
           
-          <p className="text-[#d4af37] font-extrabold text-xl mb-4">
+          <p className="text-[#d4af37] font-extrabold text-xl mb-4 tracking-tight">
             {formatPrice(price)} <span className="text-sm text-gray-500 font-normal">تومان</span>
           </p>
 

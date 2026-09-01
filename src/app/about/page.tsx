@@ -1,5 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Shield, Users, TrendingUp, Building2, Award, Target, Wrench, FileText, PenTool, HardHat, Car } from "lucide-react";
+
+
+export const metadata: Metadata = {
+  title: "درباره ما و خدمات ملکی",
+  description:
+    "املاک ماهور با بیش از ۱۵ سال سابقه در محمودآباد: خرید، فروش، رهن و اجاره، تفکیک سند، طراحی و پیمانکاری.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "درباره املاک ماهور محمودآباد",
+    description: "خدمات ملکی، ارزش‌ها و داستان آژانس املاک ماهور در محمودآباد.",
+    url: "/about",
+    locale: "fa_IR",
+  },
+};
 
 export default function AboutPage() {
   return (

@@ -1,10 +1,46 @@
 export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Bed, Bath, Square, MapPin, Phone, Mail, Calendar, Home } from "lucide-react";
 import PropertyMap from "@/components/PropertyMap";
 import ContactForm from "@/components/ContactForm";
+
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  try {
+    const property = await prisma.property.findFirst({
+      where: { id, status: "ACTIVE" },
+      select: { title: true, description: true, address: true },
+    });
+    if (!property) {
+      return { title: "ملک یافت نشد", robots: { index: false, follow: false } };
+    }
+    const description = (property.description || property.address || "").slice(0, 160);
+    return {
+      title: property.title,
+      description: description || `جزئیات ملک ${property.title} در املاک ماهور محمودآباد.`,
+      alternates: { canonical: `/properties/${id}` },
+      openGraph: {
+        title: `${property.title} | املاک ماهور`,
+        description: description || property.title,
+        url: `/properties/${id}`,
+        locale: "fa_IR",
+      },
+    };
+  } catch {
+    return {
+      title: "جزئیات ملک",
+      alternates: { canonical: `/properties/${id}` },
+    };
+  }
+}
 
 export default async function PropertyDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   // در Next.js 16، params یک Promise است و باید await شود

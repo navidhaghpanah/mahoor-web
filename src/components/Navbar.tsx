@@ -2,32 +2,139 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, Phone, X } from "lucide-react";
-import { useState } from "react";
-
-const navItems = [["/properties", "خرید و اجاره"], ["/about", "خدمات"], ["/agents", "مشاوران"], ["/contact", "تماس با ما"]] as const;
+import { Menu, Phone, Search, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { PUBLIC_NAV, SITE } from "@/lib/site";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(href));
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white text-[#102847] shadow-[0_2px_12px_rgba(16,40,71,0.05)]">
+    <header className="sticky top-0 z-50 border-b border-[#1e3a5f]/10 bg-white/90 text-[#102847] shadow-[0_8px_30px_rgba(16,40,71,0.06)] backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-[72px] items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-12 w-16 items-center justify-center overflow-hidden rounded-lg bg-[#f8fbfb] p-1 transition group-hover:ring-2 group-hover:ring-[#159e9b]/50">
-              <Image src="/images/mahoor-logo-v1.png" alt="لوگوی املاک ماهور" width={1280} height={720} priority className="h-full w-full object-contain" />
+        <div className="flex h-[76px] items-center justify-between gap-4">
+          <Link href="/" className="group flex items-center gap-3">
+            <div className="flex h-12 w-16 items-center justify-center overflow-hidden rounded-xl bg-[#f8fbfb] p-1 ring-1 ring-[#129b96]/15 transition group-hover:ring-[#d4af37]/50">
+              <Image
+                src="/images/mahoor-logo-v1.png"
+                alt="لوگوی املاک ماهور"
+                width={1280}
+                height={720}
+                priority
+                className="h-full w-full object-contain"
+              />
             </div>
-            <div><h1 className="text-xl font-black text-[#102847]">املاک <span className="text-[#129b96]">ماهور</span></h1><p className="-mt-1 text-xs text-slate-500">خرید، فروش و اجاره</p></div>
+            <div>
+              <p className="text-xl font-black leading-none text-[#102847]">
+                املاک <span className="text-[#129b96]">ماهور</span>
+              </p>
+              <p className="mt-1 text-[11px] text-slate-500">خرید، فروش و اجاره در محمودآباد</p>
+            </div>
           </Link>
-          <div className="hidden items-center gap-8 lg:flex">
-            {navItems.map(([href, label]) => <Link key={href} href={href} className="text-sm font-bold text-slate-600 transition hover:text-[#129b96]">{label}</Link>)}
+
+          <nav aria-label="منوی اصلی" className="hidden items-center gap-1 lg:flex">
+            {PUBLIC_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-lg px-3 py-2 text-sm font-bold transition ${
+                  isActive(item.href)
+                    ? "bg-[#e8f7f6] text-[#087e7b]"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-[#129b96]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="hidden items-center gap-3 lg:flex">
+            <a
+              href={SITE.telephoneHref}
+              dir="ltr"
+              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-extrabold text-[#102847] transition hover:bg-slate-50"
+            >
+              <Phone className="text-[#129b96]" size={17} />
+              011 4473 5333
+            </a>
+            <Link
+              href="/register"
+              className="rounded-xl bg-[#d4af37] px-5 py-2.5 text-sm font-extrabold text-[#102847] shadow-[0_8px_20px_rgba(212,175,55,0.28)] transition hover:bg-[#c9972e]"
+            >
+              + ثبت آگهی
+            </Link>
           </div>
-          <div className="hidden items-center gap-5 lg:flex"><a href="tel:01144735333" dir="ltr" className="inline-flex items-center gap-2 text-sm font-extrabold text-[#102847]"><Phone className="text-[#159e9b]" size={17} />011 4473 5333</a><Link href="/register" className="rounded-xl bg-[#e3ae3b] px-5 py-3 text-sm font-extrabold text-[#102847] transition hover:bg-[#c9972e]">+ ثبت آگهی</Link></div>
-          <button onClick={() => setIsMenuOpen((open) => !open)} className="text-[#102847] transition hover:text-[#159e9b] lg:hidden" aria-label="باز کردن منو">{isMenuOpen ? <X size={28} /> : <Menu size={28} />}</button>
+
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="rounded-lg p-2 text-[#102847] transition hover:bg-slate-50 hover:text-[#129b96] lg:hidden"
+            aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+          >
+            {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
         </div>
-        {isMenuOpen && <div className="space-y-2 border-t border-slate-100 py-4 lg:hidden">{navItems.map(([href, label]) => <Link key={href} href={href} className="block rounded-lg px-3 py-3 font-bold text-slate-700 hover:bg-[#effafa]" onClick={() => setIsMenuOpen(false)}>{label}</Link>)}<a href="tel:01144735333" dir="ltr" className="block rounded-lg px-3 py-3 font-bold text-[#159e9b]">011 4473 5333</a><Link href="/register" className="mt-2 block rounded-xl bg-[#e3ae3b] px-4 py-3 text-center font-extrabold text-[#102847]" onClick={() => setIsMenuOpen(false)}>ثبت آگهی</Link></div>}
       </div>
-    </nav>
+
+      {isMenuOpen && (
+        <div
+          id="mobile-menu"
+          className="border-t border-slate-100 bg-white px-4 py-4 shadow-lg lg:hidden"
+        >
+          <nav className="space-y-1" aria-label="منوی موبایل">
+            {PUBLIC_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block rounded-xl px-3 py-3 font-bold ${
+                  isActive(item.href) ? "bg-[#e8f7f6] text-[#087e7b]" : "text-slate-700 hover:bg-[#effafa]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <a
+            href={SITE.telephoneHref}
+            dir="ltr"
+            className="mt-3 flex items-center gap-2 rounded-xl px-3 py-3 font-bold text-[#129b96]"
+          >
+            <Phone size={18} />
+            011 4473 5333
+          </a>
+          <Link
+            href="/search"
+            className="mt-1 flex items-center gap-2 rounded-xl px-3 py-3 font-bold text-slate-700 hover:bg-[#effafa]"
+          >
+            <Search size={18} />
+            جستجوی پیشرفته
+          </Link>
+          <Link
+            href="/register"
+            className="mt-2 block rounded-xl bg-[#d4af37] px-4 py-3 text-center font-extrabold text-[#102847]"
+          >
+            ثبت آگهی
+          </Link>
+        </div>
+      )}
+    </header>
   );
 }
