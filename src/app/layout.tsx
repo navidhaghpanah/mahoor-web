@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Vazirmatn, Markazi_Text } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,15 +8,8 @@ import { SITE, SITE_URL } from "@/lib/site";
 
 const vazir = Vazirmatn({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["400", "700", "900"],
   variable: "--font-vazir",
-  display: "swap",
-});
-
-const display = Markazi_Text({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -71,7 +64,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b3a4a",
+  themeColor: "#0b1f33",
   width: "device-width",
   initialScale: 1,
 };
@@ -86,7 +79,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body className={`${vazir.variable} ${display.variable} font-[family-name:var(--font-vazir)] antialiased bg-[#f3eee4] text-[#142428]`}>
+      <body className={`${vazir.variable} font-[family-name:var(--font-vazir)] antialiased bg-[#f4f0e6] text-[#102847]`}>
         <JsonLd />
         <a
           href="#content"
