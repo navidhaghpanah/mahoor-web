@@ -1,90 +1,36 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Home, TrendingUp, Shield, Users, MapPin, Phone } from "lucide-react";
+import { ArrowLeft, Building2, MapPin, Search, ShieldCheck, Users } from "lucide-react";
+
+const benefits = [
+  [ShieldCheck, "انتخاب مطمئن", "آگهی‌ها پیش از نمایش بررسی می‌شوند تا با اطمینان تصمیم بگیرید."],
+  [MapPin, "جستجوی دقیق", "ملک مناسب را بر اساس محله، نوع معامله و نیازهای خود پیدا کنید."],
+  [Users, "همراهی حرفه‌ای", "برای هر قدم از خرید، فروش یا اجاره، یک مشاور در کنار شماست."],
+] as const;
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section با گرادیان آبی */}
-      <section className="gradient-hero text-white py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
-            <MapPin size={18} className="text-[#d4af37]" />
-            <span className="text-sm">مشاورین املاک و سرمایه‌گذاری ماهور</span>
-          </div>
-          
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            خانه رویایی خود را با{" "}
-            <span className="text-[#d4af37]">ماهور</span> پیدا کنید
-          </h1>
-          
-          <p className="text-xl text-gray-200 max-w-2xl mx-auto">
-            هزاران ملک در سراسر کشور با بهترین قیمت و شرایط
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-            <Link href="/properties" className="btn-secondary inline-flex items-center justify-center gap-2">
-              <Home size={20} />
-              مشاهده املاک
-            </Link>
-            <Link href="/contact" className="btn-outline inline-flex items-center justify-center gap-2 border-white text-white hover:bg-white hover:text-[#1e3a5f]">
-              <Phone size={20} />
-              تماس با ما
-            </Link>
+    <main className="overflow-hidden bg-white">
+      <section className="relative min-h-[610px] border-b border-slate-200 bg-white">
+        <Image src="/images/mahoor-hero-v1.png" alt="ویلای مدرن در میان فضای سبز" fill priority className="object-cover object-left" sizes="100vw" />
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-l from-white via-white/92 to-white/10 md:w-[70%]" />
+        <div className="relative mx-auto flex min-h-[610px] max-w-7xl items-center px-5 py-16 sm:px-8">
+          <div className="ml-auto w-full max-w-2xl text-right">
+            <h1 className="text-4xl font-black leading-[1.35] tracking-tight text-[#0c1f37] sm:text-5xl lg:text-6xl">خانه‌ای که به آن تعلق دارید را پیدا کنید</h1>
+            <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">ماهور، همراه مطمئن شما برای خرید، فروش و اجاره ملک در بهترین محله‌های ایران است.</p>
+            <form action="/search" className="mt-10 grid gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-[0_18px_50px_rgba(15,32,56,0.12)] sm:grid-cols-[1.4fr_1fr_auto]">
+              <label className="flex min-h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 text-right"><MapPin className="shrink-0 text-[#b68a31]" size={21} /><span><span className="block text-xs font-bold text-slate-800">موقعیت مکانی</span><span className="mt-1 block text-sm text-slate-500">شهر، محله یا منطقه</span></span></label>
+              <label className="flex min-h-14 items-center rounded-xl border border-slate-200 px-4 text-right"><span><span className="block text-xs font-bold text-slate-800">نوع معامله</span><span className="mt-1 block text-sm text-slate-500">خرید، فروش یا اجاره</span></span></label>
+              <button type="submit" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[#bd9139] px-7 text-base font-extrabold text-white transition hover:bg-[#9b7121]"><Search size={19} />جستجو</button>
+            </form>
           </div>
         </div>
       </section>
-
-      {/* ویژگی‌ها */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">چرا ماهور؟</h2>
-            <p className="text-gray-600">خدمات متمایز ما را بشناسید</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FeatureCard 
-              icon={<Shield className="text-[#1e3a5f]" size={40} />}
-              title="امن و مطمئن"
-              description="تمامی معاملات با ضمانت و امنیت کامل انجام می‌شود"
-            />
-            <FeatureCard 
-              icon={<TrendingUp className="text-[#d4af37]" size={40} />}
-              title="بهترین قیمت‌ها"
-              description="دسترسی به بهترین فرصت‌های سرمایه‌گذاری"
-            />
-            <FeatureCard 
-              icon={<Users className="text-[#1e3a5f]" size={40} />}
-              title="مشاوره تخصصی"
-              description="تیم مجرب ما در تمام مراحل همراه شماست"
-            />
-          </div>
-        </div>
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><h2 className="text-3xl font-black text-[#0c1f37]">شروعی مطمئن برای یک انتخاب مهم</h2><p className="mt-3 max-w-xl leading-8 text-slate-600">همه چیز برای رسیدن به ملک بعدی شما، ساده و شفاف طراحی شده است.</p></div><Link href="/properties" className="inline-flex items-center gap-2 self-start font-bold text-[#a77a25] transition hover:text-[#0c1f37] sm:self-auto">مشاهده همه املاک <ArrowLeft size={18} /></Link></div>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">{benefits.map(([Icon, title, description]) => <article key={title} className="rounded-2xl border border-slate-200 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-[#d4b16a] hover:shadow-[0_16px_38px_rgba(12,31,55,0.09)]"><Icon className="text-[#bd9139]" size={30} strokeWidth={1.7} /><h3 className="mt-6 text-xl font-extrabold text-[#0c1f37]">{title}</h3><p className="mt-3 leading-8 text-slate-600">{description}</p></article>)}</div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl font-bold text-gray-900">آماده شروع هستید؟</h2>
-          <p className="text-gray-600">همین حالا ثبت‌نام کنید و به جمع مشتریان ماهور بپیوندید</p>
-          <Link href="/register" className="btn-primary inline-flex items-center gap-2">
-            ثبت‌نام رایگان
-            <TrendingUp size={20} />
-          </Link>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
-  return (
-    <div className="card-modern p-8 text-center">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-2xl mb-4">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
+      <section className="border-y border-slate-200 bg-[#0c1f37] px-5 py-16 text-white sm:px-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div className="max-w-2xl"><Building2 className="text-[#d9b45c]" size={32} strokeWidth={1.6} /><h2 className="mt-5 text-3xl font-black">ملک خود را با ماهور ثبت کنید</h2><p className="mt-3 leading-8 text-slate-300">آگهی خود را ثبت کنید تا پس از بررسی، در دسترس خریداران و مستأجران واقعی قرار بگیرد.</p></div><Link href="/register" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d9b45c] px-6 font-extrabold text-[#0c1f37] transition hover:bg-white">ثبت آگهی</Link></div></section>
+    </main>
   );
 }
