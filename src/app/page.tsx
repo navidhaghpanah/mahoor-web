@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Building2, MapPin, Search, ShieldCheck, Users } from "lucide-react";
+import { ArrowLeft, Building2, MapPin, MessageCircle, Navigation, Phone, Search, ShieldCheck, Users } from "lucide-react";
 
 const benefits = [
   [ShieldCheck, "انتخاب مطمئن", "آگهی‌ها پیش از نمایش بررسی می‌شوند تا با اطمینان تصمیم بگیرید."],
@@ -34,6 +34,13 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="text-right"><span className="font-bold text-[#a77a25]">هویت ماهور</span><h2 className="mt-3 text-3xl font-black leading-tight text-[#0c1f37]">اعتماد، در هر نگاه</h2><p className="mt-4 max-w-lg leading-8 text-slate-600">این همان امضای ماهور است؛ ترکیبی از نگاه حرفه‌ای به ملک و همراهی مطمئن در مسیر سرمایه‌گذاری شما.</p></div>
           <div className="overflow-hidden rounded-2xl border border-[#d9b45c]/40 bg-[#0c1f37] shadow-[0_20px_45px_rgba(12,31,55,0.18)]"><video className="aspect-video w-full object-cover" autoPlay loop muted playsInline preload="metadata" poster="/images/mahoor-logo-v1.png" aria-label="ویدیوی معرفی برند ماهور"><source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" /></video></div>
+        </div>
+      </section>
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div className="mb-9 text-right"><span className="font-bold text-[#a77a25]">همیشه در دسترس</span><h2 className="mt-2 text-3xl font-black text-[#0c1f37]">با ماهور در ارتباط باشید</h2><p className="mt-3 text-slate-600">محمودآباد، خیابان امام، بعد از نسیم ۶۹/۱</p></div>
+        <div className="grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(12,31,55,0.08)] lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="flex flex-col justify-center bg-[#0c1f37] p-8 text-right text-white sm:p-10"><MapPin className="text-[#d9b45c]" size={31} /><h3 className="mt-5 text-2xl font-black">دفتر املاک ماهور</h3><p className="mt-3 leading-8 text-slate-300">برای مشاوره، بازدید ملک و راهنمایی سرمایه‌گذاری، مستقیم با ما تماس بگیرید.</p><a href="tel:01144735333" className="mt-6 inline-flex items-center justify-center gap-2 self-start rounded-xl border border-white/20 px-5 py-3 font-bold transition hover:bg-white/10"><Phone size={18} />۰۱۱ ۴۴۷۳ ۵۳۳۳</a><a href="https://wa.me/989120996426" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center justify-center gap-2 self-start rounded-xl bg-[#25D366] px-5 py-3 font-extrabold text-white transition hover:bg-[#1ebd5a]"><MessageCircle size={19} />گفت‌وگو در واتساپ</a></div>
+          <div className="min-h-[340px]"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.0!2d52.2607!3d36.6333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8eb760f2e84c87%3A0x0!2z2YXYrdmF2YjYr9in2KjYp9ivINmF2KfYmdmI2LMg2LnYsiDZhdix2YPYsiDZhdi52YPZhdin2KvYp9ioINmF2K_YrdmF2YjYr9in2KjYp9iv!5e0!3m2!1sfa!2sir!4v1700000000000!5m2!1sfa!2sir" width="100%" height="100%" className="min-h-[340px] border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="موقعیت دفتر املاک ماهور" /><a href="https://maps.app.goo.gl/Dv4UxLHXSBrPe1xbA" target="_blank" rel="noopener noreferrer" className="-mt-14 mr-4 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-3 font-bold text-[#0c1f37] shadow-lg transition hover:text-[#a77a25]"><Navigation size={18} />مسیریابی</a></div>
         </div>
       </section>
       <section className="border-y border-slate-200 bg-[#0c1f37] px-5 py-16 text-white sm:px-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div className="max-w-2xl"><Building2 className="text-[#d9b45c]" size={32} strokeWidth={1.6} /><h2 className="mt-5 text-3xl font-black">ملک خود را با ماهور ثبت کنید</h2><p className="mt-3 leading-8 text-slate-300">آگهی خود را ثبت کنید تا پس از بررسی، در دسترس خریداران و مستأجران واقعی قرار بگیرد.</p></div><Link href="/register" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d9b45c] px-6 font-extrabold text-[#0c1f37] transition hover:bg-white">ثبت آگهی</Link></div></section>
