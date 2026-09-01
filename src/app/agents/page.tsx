@@ -1,52 +1,32 @@
 export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
-import { Phone, Star } from "lucide-react";
-import PhoneText from "@/components/PhoneText";
+import { Phone } from "lucide-react";
+import PhoneText, { NasimMark } from "@/components/PhoneText";
+import { SITE } from "@/lib/site";
 
-interface Agent {
-  name: string;
-  role: string;
-  phone: string;
-  initial: string;
-  deals: string;
-  experience: string;
-  rating: string;
-  specialty: string;
-}
-
-const agents: Agent[] = [
+const agents = [
   {
     name: "کارشناس حیدری",
     role: "کارشناس فروش",
-    phone: "09120996426",
-    initial: "ح",
-    deals: "۳۰۰+",
-    experience: "۱۰+ سال",
-    rating: "۴.۹",
+    phoneDisplay: "۰۹۱۲ ۰۹۹ ۶۴۲۶",
+    href: "tel:09120996426",
     specialty: "خرید، فروش و مشاوره ملکی",
   },
   {
     name: "مهندس آزاد",
     role: "مهندس عمران و کارشناس",
-    phone: "09113276647",
-    initial: "آ",
-    deals: "۵۰+",
-    experience: "۸+ سال",
-    rating: "۴.۸",
+    phoneDisplay: "۰۹۱۱ ۳۲۷ ۶۶۴۷",
+    href: "tel:09113276647",
     specialty: "پیمانکاری، طراحی و نظارت",
   },
   {
     name: "کارشناس راعی",
     role: "کارشناس اجاره",
-    phone: "09120997453",
-    initial: "ر",
-    deals: "۲۰۰+",
-    experience: "۷+ سال",
-    rating: "۴.۷",
+    phoneDisplay: "۰۹۱۲ ۰۹۹ ۷۴۵۳",
+    href: "tel:09120997453",
     specialty: "اجاره، رهن و مشاوره حقوقی",
   },
 ];
-
 
 export const metadata: Metadata = {
   title: "مشاوران و کارشناسان",
@@ -63,80 +43,39 @@ export const metadata: Metadata = {
 
 export default function AgentsPage() {
   return (
-    <div className="min-h-screen bg-[#f4f0e6] py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        
-        {/* هدر */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-[#102847] mb-4">کارشناسان املاک ماهور</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            تیم متخصص ما با سال‌ها تجربه، آماده خدمت‌رسانی به شما هستند
+    <div className="bg-[var(--sand)] text-[var(--navy)]">
+      <section className="bg-[var(--deep)] px-6 py-20 text-white">
+        <div className="mx-auto max-w-3xl">
+          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--gold)]">
+            <NasimMark />
           </p>
+          <h1 className="mt-4 text-4xl font-black">مشاوران دفتر</h1>
+          <p className="mt-4 max-w-xl text-white/75">حیدری، آزاد، راعی — تماس مستقیم با همان شماره‌های دفتر.</p>
         </div>
+      </section>
 
-        {/* لیست کارشناسان */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {agents.map((agent) => (
-            <div key={agent.phone} className="card-modern p-8 text-center">
-              {/* آواتار */}
-              <div className="relative inline-block mb-4">
-                <div className="w-24 h-24 bg-gradient-to-br from-[#102847] to-[#0b1f33] rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto border-4 border-[#d4af37]">
-                  {agent.initial}
-                </div>
-              </div>
-
-              {/* اطلاعات */}
-              <h3 className="text-xl font-bold text-gray-900 mb-1">{agent.name}</h3>
-              <p className="text-[#d4af37] font-medium text-sm mb-4">{agent.role}</p>
-              <p className="text-gray-600 text-sm mb-4">{agent.specialty}</p>
-
-              {/* آمار */}
-              <div className="flex justify-center gap-4 py-4 border-y border-gray-200 mb-4">
-                <div className="text-center">
-                  <p className="text-xl font-bold text-[#102847]">{agent.deals}</p>
-                  <p className="text-xs text-gray-500">معامله</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xl font-bold text-[#102847]">{agent.experience}</p>
-                  <p className="text-xs text-gray-500">سابقه</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-xl font-bold text-[#102847] flex items-center gap-1">
-                    <Star size={16} className="fill-[#d4af37] text-[#d4af37]" />
-                    {agent.rating}
-                  </p>
-                  <p className="text-xs text-gray-500">امتیاز</p>
-                </div>
-              </div>
-
-              {/* دکمه تماس */}
-              <a
-                href={`tel:${agent.phone}`}
-                className="btn-primary w-full flex items-center justify-center gap-2"
-              >
-                <Phone size={20} />
-                <PhoneText>{agent.phone}</PhoneText>
-              </a>
+      <ul className="mx-auto max-w-3xl divide-y divide-[var(--navy)]/10 px-6">
+        {agents.map((agent) => (
+          <li key={agent.href} className="flex flex-col gap-3 py-10 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[11px] font-bold tracking-[0.2em] text-[var(--sea)]">{agent.role}</p>
+              <h2 className="mt-2 text-2xl font-black">{agent.name}</h2>
+              <p className="mt-2 text-sm text-[var(--navy)]/65">{agent.specialty}</p>
             </div>
-          ))}
-        </div>
+            <a href={agent.href} className="inline-flex items-center gap-2 border border-[var(--navy)] px-5 py-3 text-sm font-extrabold">
+              <Phone size={15} />
+              <PhoneText>{agent.phoneDisplay}</PhoneText>
+            </a>
+          </li>
+        ))}
+      </ul>
 
-        {/* اطلاعات تماس دفتر */}
-        <div className="mt-12 gradient-hero text-white rounded-2xl p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">نیاز به مشاوره دارید؟</h2>
-          <p className="text-gray-200 mb-6">
-            با هر یک از کارشناسان ما تماس بگیرید یا به دفتر ما در محمودآباد مراجعه کنید
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:01144735333" className="btn-secondary inline-flex items-center justify-center gap-2">
-              <Phone size={20} />
-              ۰۱۱ ۴۴۷۳ ۵۳۳۳
-            </a>
-            <a href="/contact" className="btn-outline inline-flex items-center justify-center gap-2 border-white text-white hover:bg-white hover:text-[#102847]">
-              اطلاعات تماس کامل
-            </a>
-          </div>
-        </div>
+      <div className="mx-auto max-w-3xl border-t border-[var(--navy)]/10 px-6 py-12">
+        <p className="text-sm text-[var(--navy)]/65">دفتر: {SITE.address}. {SITE.hours}.</p>
+        <a href={SITE.telephoneHref} className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold">
+          <Phone size={15} />
+          <PhoneText>{SITE.telephoneDisplay}</PhoneText>
+        </a>
       </div>
     </div>
   );
