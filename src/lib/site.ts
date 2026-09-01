@@ -11,6 +11,7 @@ export const SITE = {
   telephoneDisplay: "۰۱۱ ۴۴۷۳ ۵۳۳۳",
   telephoneIntl: "+98-11-4473-5333",
   telephoneHref: "tel:01144735333",
+  telephoneHeader: "011 4473 5333",
   address: "محمودآباد، خیابان امام، بعد از نسیم ۶۹/۱",
   addressExtra: "روبروی بروی پارکینگ قزوینی‌پور",
   locality: "محمودآباد",
