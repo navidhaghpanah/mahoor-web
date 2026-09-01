@@ -100,12 +100,6 @@ export default function Navbar() {
               <PhoneText>{SITE.telephoneHeader}</PhoneText>
             </a>
             <Link
-              href="/login"
-              className={`text-sm font-bold ${ghost ? "text-white/80" : "text-[#102847]/70"}`}
-            >
-              ورود
-            </Link>
-            <Link
               href="/register"
               className="bg-[#d4af37] px-5 py-2.5 text-sm font-extrabold text-[#102847]"
             >
@@ -113,16 +107,24 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen((open) => !open)}
-            className={`rounded-lg p-2 lg:hidden ${ghost ? "text-white" : "text-[#102847]"}`}
-            aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-          >
-            {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <a
+              href={SITE.telephoneHref}
+              className={`px-3 py-2 text-sm font-extrabold ${ghost ? "text-[#d4af37]" : "text-[#102847]"}`}
+            >
+              تماس
+            </a>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              className={`rounded-lg p-2 ${ghost ? "text-white" : "text-[#102847]"}`}
+              aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -146,9 +148,6 @@ export default function Navbar() {
           <Link href="/search" className="mt-1 flex items-center gap-2 px-3 py-3 font-bold">
             <Search size={18} />
             جستجوی پیشرفته
-          </Link>
-          <Link href="/login" className="mt-2 block px-4 py-3 text-center font-bold">
-            ورود
           </Link>
           <Link href="/register" className="mt-2 block bg-[#d4af37] px-4 py-3 text-center font-extrabold text-[#102847]">
             ثبت آگهی
