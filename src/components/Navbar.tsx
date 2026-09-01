@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { Building2, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [["/", "خانه"], ["/properties", "املاک"], ["/agents", "مشاوران"], ["/about", "درباره ما"]] as const;
@@ -14,7 +15,9 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex h-[72px] items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#d9b45c]/60 transition group-hover:border-[#d9b45c]"><Building2 className="text-[#d9b45c]" size={23} /></div>
+            <div className="flex h-14 w-20 items-center justify-center overflow-hidden rounded-lg bg-[#fcfaf5] p-1 shadow-sm transition group-hover:ring-2 group-hover:ring-[#d9b45c]/70">
+              <Image src="/images/mahoor-logo-v1.png" alt="لوگوی املاک ماهور" width={1280} height={720} priority className="h-full w-full object-contain" />
+            </div>
             <div><h1 className="text-xl font-extrabold text-white">ماهور</h1><p className="-mt-1 text-xs text-slate-300">املاک و سرمایه‌گذاری</p></div>
           </Link>
           <div className="hidden items-center gap-7 md:flex">
