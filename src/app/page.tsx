@@ -43,22 +43,15 @@ export default async function HomePage() {
   return (
     <div className="bg-[var(--sand)] text-[var(--navy)]">
       <section className="relative -mt-16 min-h-[100svh] overflow-hidden text-white">
-        <video
+        <img
+          src="/images/mahoor-brand-still.jpg"
+          alt=""
           className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster="/images/mahoor-logo-v1.png"
-          aria-label="ویدیوی معرفی برند ماهور"
-        >
-          <source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--deep)] via-[var(--deep)]/45 to-black/20" />
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--deep)] via-[var(--deep)]/50 to-black/30" />
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 pb-16 pt-24 text-center">
           <p className="text-[11px] font-bold text-[var(--gold)]">محمودآباد</p>
-          <h1 className="mt-4 text-[52px] font-black leading-[1.1] tracking-[-0.02em] sm:text-[80px]">
+          <h1 className="mt-4 text-[56px] font-black leading-[1.1] sm:text-[88px]">
             املاک ماهور
           </h1>
           <p className="mt-5 max-w-lg text-[15px] leading-7 text-white/80">
@@ -66,7 +59,7 @@ export default async function HomePage() {
           </p>
           <a
             href={SITE.telephoneHref}
-            className="mt-10 inline-flex border border-white/80 px-8 py-3.5 text-[13px] font-bold hover:bg-white hover:text-[var(--navy)]"
+            className="mt-10 inline-flex bg-[var(--sand)] px-8 py-3.5 text-[13px] font-bold text-[var(--navy)]"
           >
             تماس با دفتر
           </a>
@@ -79,7 +72,7 @@ export default async function HomePage() {
           <div className="order-2 flex flex-col justify-center px-6 py-24 lg:order-1 lg:px-12">
             <div className="max-w-[28rem]">
               <p className="text-[11px] font-bold text-[var(--sea)]">امروز در ماهور</p>
-              <h2 className="mt-4 text-[36px] font-black leading-[1.1] tracking-[-0.02em] sm:text-[44px]">
+              <h2 className="mt-4 text-[36px] font-black leading-[1.1] sm:text-[44px]">
                 دفتر خیابان امام، بعد از <NasimMark />
               </h2>
               <p className="mt-6 text-[15px] leading-7 text-[var(--navy)]/75">
@@ -103,19 +96,12 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <div className="order-1 min-h-[42vh] lg:order-2 lg:min-h-full">
-            <video
+          <div className="order-1 min-h-[42vh] lg:order-2">
+            <img
+              src="/images/mahoor-brand-still.jpg"
+              alt=""
               className="h-full min-h-[42vh] w-full object-cover lg:min-h-[70vh]"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              poster="/images/mahoor-logo-v1.png"
-              aria-hidden
-            >
-              <source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" />
-            </video>
+            />
           </div>
         </div>
       </section>
