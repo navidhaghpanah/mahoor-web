@@ -1,49 +1,34 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Building2, MapPin, MessageCircle, Navigation, Phone, Search, ShieldCheck, Users } from "lucide-react";
+import { Building2, ChevronDown, Home, LandPlot, MapPin, MessageCircle, Search, Store } from "lucide-react";
+import { FormEvent, useState } from "react";
 
-const benefits = [
-  [ShieldCheck, "انتخاب مطمئن", "آگهی‌ها پیش از نمایش بررسی می‌شوند تا با اطمینان تصمیم بگیرید."],
-  [MapPin, "جستجوی دقیق", "ملک مناسب را بر اساس محله، نوع معامله و نیازهای خود پیدا کنید."],
-  [Users, "همراهی حرفه‌ای", "برای هر قدم از خرید، فروش یا اجاره، یک مشاور در کنار شماست."],
-] as const;
+const categories = [["همه", Home], ["آپارتمان", Building2], ["ویلا", Home], ["زمین", LandPlot], ["تجاری", Store]] as const;
+const listings = [["ویلای مدرن در محمودآباد", "خرید", "۴۵۰ متر زمین · ۲۸۰ متر بنا", "تماس برای قیمت"], ["آپارتمان نزدیک ساحل", "اجاره", "۱۱۰ متر · دو خواب", "تماس برای قیمت"], ["زمین سرمایه‌گذاری", "خرید", "۳۲۰ متر · سنددار", "تماس برای قیمت"]] as const;
+
+function SelectField({ label, value }: { label: string; value: string }) {
+  return <button type="button" className="flex min-h-[72px] w-full items-center justify-between px-5 text-right transition hover:bg-slate-50"><ChevronDown className="shrink-0 text-slate-900" size={18} /><span><span className="block text-xs text-slate-400">{label}</span><span className="mt-1 block text-sm font-extrabold text-[#102847]">{value}</span></span></button>;
+}
 
 export default function HomePage() {
-  return (
-    <main className="overflow-hidden bg-white">
-      <section className="relative min-h-[610px] border-b border-slate-200 bg-white">
-        <Image src="/images/mahoor-hero-v1.png" alt="ویلای مدرن در میان فضای سبز" fill priority className="object-cover object-left" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-l from-white/95 via-white/86 to-white/24" />
-        <div className="relative mx-auto flex min-h-[610px] max-w-7xl items-center px-5 py-16 sm:px-8">
-          <div className="ml-auto w-full max-w-2xl text-right">
-            <h1 className="text-3xl font-black leading-[1.35] tracking-tight text-[#0c1f37] sm:text-4xl lg:text-5xl">خانه‌ای که به آن تعلق دارید را پیدا کنید</h1>
-            <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">ماهور، همراه مطمئن شما برای خرید، فروش و اجاره ملک در بهترین محله‌های ایران است.</p>
-            <form action="/search" className="mt-10 grid gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-[0_18px_50px_rgba(15,32,56,0.12)] sm:grid-cols-[1.4fr_1fr_auto]">
-              <label className="flex min-h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 text-right"><MapPin className="shrink-0 text-[#b68a31]" size={21} /><span><span className="block text-xs font-bold text-slate-800">موقعیت مکانی</span><span className="mt-1 block text-sm text-slate-500">شهر، محله یا منطقه</span></span></label>
-              <label className="flex min-h-14 items-center rounded-xl border border-slate-200 px-4 text-right"><span><span className="block text-xs font-bold text-slate-800">نوع معامله</span><span className="mt-1 block text-sm text-slate-500">خرید، فروش یا اجاره</span></span></label>
-              <button type="submit" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[#bd9139] px-7 text-base font-extrabold text-white transition hover:bg-[#9b7121]"><Search size={19} />جستجو</button>
-            </form>
-          </div>
-        </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><h2 className="text-3xl font-black text-[#0c1f37]">شروعی مطمئن برای یک انتخاب مهم</h2><p className="mt-3 max-w-xl leading-8 text-slate-600">همه چیز برای رسیدن به ملک بعدی شما، ساده و شفاف طراحی شده است.</p></div><Link href="/properties" className="inline-flex items-center gap-2 self-start font-bold text-[#a77a25] transition hover:text-[#0c1f37] sm:self-auto">مشاهده همه املاک <ArrowLeft size={18} /></Link></div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">{benefits.map(([Icon, title, description]) => <article key={title} className="rounded-2xl border border-slate-200 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-[#d4b16a] hover:shadow-[0_16px_38px_rgba(12,31,55,0.09)]"><Icon className="text-[#bd9139]" size={30} strokeWidth={1.7} /><h3 className="mt-6 text-xl font-extrabold text-[#0c1f37]">{title}</h3><p className="mt-3 leading-8 text-slate-600">{description}</p></article>)}</div>
-      </section>
-      <section className="bg-[#f7f5ef] px-5 py-20 sm:px-8">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="text-right"><span className="font-bold text-[#a77a25]">هویت ماهور</span><h2 className="mt-3 text-3xl font-black leading-tight text-[#0c1f37]">اعتماد، در هر نگاه</h2><p className="mt-4 max-w-lg leading-8 text-slate-600">این همان امضای ماهور است؛ ترکیبی از نگاه حرفه‌ای به ملک و همراهی مطمئن در مسیر سرمایه‌گذاری شما.</p></div>
-          <div className="overflow-hidden rounded-2xl border border-[#d9b45c]/40 bg-[#0c1f37] shadow-[0_20px_45px_rgba(12,31,55,0.18)]"><video className="aspect-video w-full object-cover" autoPlay loop muted playsInline preload="metadata" poster="/images/mahoor-logo-v1.png" aria-label="ویدیوی معرفی برند ماهور"><source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" /></video></div>
-        </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-        <div className="mb-9 text-right"><span className="font-bold text-[#a77a25]">همیشه در دسترس</span><h2 className="mt-2 text-3xl font-black text-[#0c1f37]">با ماهور در ارتباط باشید</h2><p className="mt-3 text-slate-600">محمودآباد، خیابان امام، بعد از نسیم ۶۹/۱</p></div>
-        <div className="grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(12,31,55,0.08)] lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="flex flex-col justify-center bg-[#0c1f37] p-8 text-right text-white sm:p-10"><MapPin className="text-[#d9b45c]" size={31} /><h3 className="mt-5 text-2xl font-black">دفتر املاک ماهور</h3><p className="mt-3 leading-8 text-slate-300">برای مشاوره، بازدید ملک و راهنمایی سرمایه‌گذاری، مستقیم با ما تماس بگیرید.</p><a href="tel:01144735333" className="mt-6 inline-flex items-center justify-center gap-2 self-start rounded-xl border border-white/20 px-5 py-3 font-bold transition hover:bg-white/10"><Phone size={18} />۰۱۱ ۴۴۷۳ ۵۳۳۳</a><a href="https://wa.me/989120996426" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center justify-center gap-2 self-start rounded-xl bg-[#25D366] px-5 py-3 font-extrabold text-white transition hover:bg-[#1ebd5a]"><MessageCircle size={19} />گفت‌وگو در واتساپ</a></div>
-          <div className="min-h-[340px]"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.0!2d52.2607!3d36.6333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8eb760f2e84c87%3A0x0!2z2YXYrdmF2YjYr9in2KjYp9ivINmF2KfYmdmI2LMg2LnYsiDZhdix2YPYsiDZhdi52YPZhdin2KvYp9ioINmF2K_YrdmF2YjYr9in2KjYp9iv!5e0!3m2!1sfa!2sir!4v1700000000000!5m2!1sfa!2sir" width="100%" height="100%" className="min-h-[340px] border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="موقعیت دفتر املاک ماهور" /><a href="https://maps.app.goo.gl/Dv4UxLHXSBrPe1xbA" target="_blank" rel="noopener noreferrer" className="-mt-14 mr-4 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-3 font-bold text-[#0c1f37] shadow-lg transition hover:text-[#a77a25]"><Navigation size={18} />مسیریابی</a></div>
-        </div>
-      </section>
-      <section className="border-y border-slate-200 bg-[#0c1f37] px-5 py-16 text-white sm:px-8"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div className="max-w-2xl"><Building2 className="text-[#d9b45c]" size={32} strokeWidth={1.6} /><h2 className="mt-5 text-3xl font-black">ملک خود را با ماهور ثبت کنید</h2><p className="mt-3 leading-8 text-slate-300">آگهی خود را ثبت کنید تا پس از بررسی، در دسترس خریداران و مستأجران واقعی قرار بگیرد.</p></div><Link href="/register" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d9b45c] px-6 font-extrabold text-[#0c1f37] transition hover:bg-white">ثبت آگهی</Link></div></section>
-    </main>
-  );
+  const [activeCategory, setActiveCategory] = useState("همه");
+  const [didSearch, setDidSearch] = useState(false);
+  const visibleListings = activeCategory === "همه" ? listings : listings.filter(([title]) => title.includes(activeCategory));
+  function handleSearch(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setDidSearch(true); document.getElementById("listings")?.scrollIntoView({ behavior: "smooth", block: "start" }); }
+
+  return <main className="overflow-hidden bg-white">
+    <section className="border-b border-[#d9e9e8] bg-[#f0fbfa]"><div className="mx-auto max-w-7xl px-5 pb-12 pt-20 sm:px-8 sm:pb-14 sm:pt-24">
+      <div className="mx-auto max-w-4xl text-center"><h1 className="text-4xl font-black leading-[1.4] tracking-tight text-[#102847] sm:text-5xl">دنبال ملک توی محمودآباد می‌گردی؟<br /><span className="text-[#129b96]">ماهور کنارته.</span></h1><p className="mt-6 text-base leading-8 text-slate-600 sm:text-lg">خرید، فروش، رهن و اجاره با شناخت دقیق منطقه و همراهی مستقیم مشاوران ماهور.</p></div>
+      <form onSubmit={handleSearch} className="mt-16 rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_14px_30px_rgba(16,40,71,0.12)]"><div className="grid overflow-hidden rounded-xl sm:grid-cols-[repeat(4,1fr)_120px]"><div className="border-b border-slate-200 sm:border-b-0 sm:border-l"><SelectField label="نوع معامله" value="همه" /></div><div className="border-b border-slate-200 sm:border-b-0 sm:border-l"><SelectField label="نوع ملک" value="همه" /></div><div className="border-b border-slate-200 sm:border-b-0 sm:border-l"><SelectField label="محدوده قیمت" value="همه" /></div><div className="border-b border-slate-200 sm:border-b-0"><SelectField label="موقعیت" value="همه مناطق محمودآباد" /></div><button type="submit" className="m-1 flex min-h-[64px] items-center justify-center gap-2 rounded-lg bg-[#159e9b] px-4 font-extrabold text-white transition hover:bg-[#0d817e]"><Search size={20} />جستجو</button></div></form>
+      <div className="mt-12 flex flex-wrap justify-center gap-3">{categories.map(([label, Icon]) => <button key={label} onClick={() => { setActiveCategory(label); setDidSearch(false); }} className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-bold transition ${activeCategory === label ? "border-[#159e9b] bg-[#e8f7f6] text-[#087e7b]" : "border-slate-200 bg-white text-slate-600 hover:border-[#159e9b]"}`}><Icon size={17} strokeWidth={1.8} />{label}</button>)}</div>
+    </div></section>
+
+    <section id="listings" className="mx-auto max-w-7xl px-5 py-16 sm:px-8"><div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div className="text-right"><h2 className="text-3xl font-black text-[#102847]">جدیدترین آگهی‌ها</h2><p className="mt-3 text-slate-500">فایل‌های منتخب برای خرید و اجاره در محمودآباد</p></div><Link href="/register" className="inline-flex items-center gap-2 self-start font-bold text-[#129b96] transition hover:text-[#102847]">ثبت آگهی رایگان <span aria-hidden="true">←</span></Link></div>{didSearch && <p className="mt-6 rounded-xl bg-[#e8f7f6] px-4 py-3 text-sm font-bold text-[#087e7b]">نتایج پیشنهادی بر اساس جست‌وجوی شما نمایش داده شد.</p>}<div className="mt-9 grid gap-6 md:grid-cols-3">{visibleListings.length ? visibleListings.map(([title, deal, details, price], index) => <article key={title} className="overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-[0_16px_28px_rgba(16,40,71,0.12)]"><div className="relative h-48 bg-[#eaf4f3]"><Image src="/images/mahoor-hero-v1.png" alt={title} fill className={`object-cover ${index === 1 ? "object-center" : "object-left"}`} sizes="(max-width: 768px) 100vw, 33vw" /><span className="absolute right-4 top-4 rounded-full bg-white px-3 py-1.5 text-xs font-extrabold text-[#159e9b] shadow">{deal}</span></div><div className="p-5 text-right"><h3 className="text-lg font-extrabold text-[#102847]">{title}</h3><p className="mt-2 flex items-center justify-end gap-1 text-sm text-slate-500"><MapPin size={15} />محمودآباد، مازندران</p><p className="mt-4 border-t border-slate-100 pt-4 text-sm text-slate-600">{details}</p><p className="mt-3 font-extrabold text-[#129b96]">{price}</p></div></article>) : <div className="rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500 md:col-span-3">برای این دسته‌بندی آگهی نمونه‌ای نداریم؛ همهٔ آگهی‌ها را ببینید.</div>}</div></section>
+
+    <section className="bg-[#102847] px-5 py-16 text-white sm:px-8"><div className="mx-auto grid max-w-7xl gap-9 lg:grid-cols-[1fr_1.1fr] lg:items-center"><div className="text-right"><h2 className="text-3xl font-black">دفتر ماهور، نزدیک شما</h2><p className="mt-4 leading-8 text-slate-300">محمودآباد، خیابان امام، بعد از نسیم ۶۹/۱. برای مشاوره و بازدید ملک با ما در تماس باشید.</p><div className="mt-7 flex flex-wrap justify-end gap-3"><a href="tel:01144735333" className="rounded-xl border border-white/20 px-5 py-3 font-bold transition hover:bg-white/10">۰۱۱ ۴۴۷۳ ۵۳۳۳</a><a href="https://wa.me/989120996426" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 font-extrabold text-white transition hover:bg-[#1ebd5a]"><MessageCircle size={19} />واتساپ</a></div></div><div className="overflow-hidden rounded-2xl border border-white/15 bg-white"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.0!2d52.2607!3d36.6333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8eb760f2e84c87%3A0x0!2z2YXYrdmF2YjYr9in2KjYp9ivINmF2KfYmdmI2LMg2LnYsiDZhdix2YPYsiDZhdi52YPZhdin2KvYp9ioINmF2K_YrdmF2YjYr9in2KjYp9iv!5e0!3m2!1sfa!2sir!4v1700000000000!5m2!1sfa!2sir" width="100%" height="290" className="border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="موقعیت دفتر املاک ماهور" /></div></div></section>
+
+    <section className="bg-[#f0fbfa] px-5 py-16 sm:px-8"><div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center"><div className="overflow-hidden rounded-2xl border border-[#cfe7e5] bg-white"><video className="aspect-video w-full object-cover" autoPlay loop muted playsInline preload="metadata" poster="/images/mahoor-logo-v1.png" aria-label="ویدیوی معرفی برند ماهور"><source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" /></video></div><div className="text-right"><h2 className="text-3xl font-black text-[#102847]">اعتماد، در هر نگاه</h2><p className="mt-4 leading-8 text-slate-600">ماهور با شناخت منطقه و تجربهٔ واقعی در بازار، برای انتخاب بهتر کنار شماست.</p><Link href="/about" className="mt-6 inline-flex items-center gap-2 font-bold text-[#129b96]">بیشتر درباره ماهور <span aria-hidden="true">←</span></Link></div></div></section>
+  </main>;
 }
