@@ -8,7 +8,7 @@ import { SITE, SITE_URL } from "@/lib/site";
 
 const vazir = Vazirmatn({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["400", "700", "900"],
   variable: "--font-vazir",
   display: "swap",
 });
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e3a5f",
+  themeColor: "#0b1f33",
   width: "device-width",
   initialScale: 1,
 };
@@ -79,7 +79,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body className={`${vazir.variable} font-[family-name:var(--font-vazir)] antialiased bg-[#f6f8fb] text-[#102847]`}>
+      <body className={`${vazir.variable} font-[family-name:var(--font-vazir)] antialiased bg-[#f4f0e6] text-[#102847]`}>
         <JsonLd />
         <a
           href="#content"

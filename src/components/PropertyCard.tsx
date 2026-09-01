@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Bed, Bath, Square, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { SITE } from "@/lib/site";
 
 interface PropertyCardProps {
   id: string;
@@ -12,11 +13,25 @@ interface PropertyCardProps {
   area: number;
   address: string;
   imageUrl: string;
+  neighborhood?: string;
+  landArea?: number;
+  buildingArea?: number;
 }
 
-// تابع فرمت کردن قیمت به صورت فارسی (مثلاً ۵,۰۰۰,۰۰۰,۰۰۰)
 function formatPrice(price: number) {
   return new Intl.NumberFormat("fa-IR").format(price);
+}
+
+function typeTone(type: string) {
+  if (type === "SALE") return "bg-[#102847] text-[#f4f0e6]";
+  if (type === "RENT") return "bg-[#129b96] text-white";
+  return "bg-[#d4af37] text-[#102847]";
+}
+
+function typeLabel(type: string) {
+  if (type === "SALE") return "فروش";
+  if (type === "RENT") return "اجاره";
+  return type;
 }
 
 export default function PropertyCard({
@@ -25,62 +40,61 @@ export default function PropertyCard({
   price,
   type,
   bedrooms,
-  bathrooms,
+  bathrooms: _bathrooms,
   area,
   address,
   imageUrl,
+  neighborhood,
+  landArea,
+  buildingArea,
 }: PropertyCardProps) {
+  const meters =
+    landArea && buildingArea
+      ? `${new Intl.NumberFormat("fa-IR").format(landArea)} زمین · ${new Intl.NumberFormat("fa-IR").format(buildingArea)} بنا`
+      : `${new Intl.NumberFormat("fa-IR").format(area)} متر · ${bedrooms} خواب`;
+  const hasPrice = typeof price === "number" && price > 0;
+
   return (
-    <Link href={`/properties/${id}`} className="block group">
-      <div className="card-modern overflow-hidden h-full flex flex-col">
-        {/* بخش تصویر */}
-        <div className="relative h-56 w-full overflow-hidden bg-gray-200">
-          <Image
-            src={imageUrl || "/placeholder-property.jpg"}
-            alt={`${title} — ${address}`}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-          <div className="absolute top-3 right-3">
-            <span className={`px-3 py-1 rounded-full text-xs font-bold text-white shadow-md ${
-              type === "SALE" ? "bg-[#1e3a5f]" : "bg-[#d4af37]"
-            }`}>
-              {type === "SALE" ? "فروش" : "اجاره"}
-            </span>
+    <article className="flex h-full flex-col overflow-hidden bg-[#f4f0e6] [border-inline-start:6px_solid_#129b96] border border-[#102847]/10">
+      <Link href={`/properties/${id}`} className="flex flex-1 flex-col">
+        {imageUrl ? (
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#d7eeea]">
+            <Image src={imageUrl} alt={`${title} — ${address}`} fill className="object-cover" />
           </div>
-        </div>
-
-        {/* بخش محتوا */}
-        <div className="p-5 flex flex-col flex-grow">
-          <h3 className="font-bold text-lg text-[#102847] mb-2 line-clamp-1 group-hover:text-[#129b96] transition-colors">
-            {title}
-          </h3>
-          
-          <p className="text-[#d4af37] font-extrabold text-xl mb-4 tracking-tight">
-            {formatPrice(price)} <span className="text-sm text-gray-500 font-normal">تومان</span>
+        ) : (
+          <div className={`flex aspect-[4/5] items-end p-5 ${typeTone(type)}`}>
+            <p className="text-sm font-extrabold">{typeLabel(type)}</p>
+          </div>
+        )}
+        <div className="flex flex-1 flex-col p-5">
+          {neighborhood ? (
+            <p className="mb-2 w-fit bg-[#d7eeea] px-3 py-1 text-[11px] font-extrabold text-[#0d817e]">
+              {neighborhood}
+            </p>
+          ) : null}
+          <h3 className="line-clamp-2 text-lg font-bold text-[#102847]">{title}</h3>
+          <p className="mt-3 text-xl font-black text-[#d4af37]">
+            {hasPrice ? (
+              <>
+                {formatPrice(price)} <span className="text-sm font-bold text-[#102847]/50">تومان</span>
+              </>
+            ) : (
+              "تماس برای قیمت"
+            )}
           </p>
-
-          <div className="flex items-center justify-between text-gray-600 text-sm mb-4 pt-4 border-t border-gray-100">
-            <div className="flex items-center gap-1.5">
-              <Bed size={16} className="text-gray-400" />
-              <span>{bedrooms} خواب</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Bath size={16} className="text-gray-400" />
-              <span>{bathrooms} سرویس</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Square size={16} className="text-gray-400" />
-              <span>{area} متر</span>
-            </div>
-          </div>
-
-          <div className="mt-auto flex items-start gap-2 text-gray-500 text-xs">
-            <MapPin size={14} className="mt-0.5 flex-shrink-0" />
+          <p className="mt-3 text-sm text-[#102847]/70">{meters}</p>
+          <p className="mt-auto flex items-start gap-2 pt-4 text-xs text-[#102847]/60">
+            <MapPin size={14} className="mt-0.5 shrink-0" />
             <span className="line-clamp-2">{address}</span>
-          </div>
+          </p>
         </div>
-      </div>
-    </Link>
+      </Link>
+      <a
+        href={SITE.telephoneHref}
+        className="border-t border-[#102847]/10 px-5 py-3 text-sm font-extrabold text-[#102847]"
+      >
+        تماس
+      </a>
+    </article>
   );
 }

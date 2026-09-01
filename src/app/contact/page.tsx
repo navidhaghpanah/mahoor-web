@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Phone, MapPin, Clock, Send, Loader2, MessageSquare } from "lucide-react";
+import PhoneText from "@/components/PhoneText";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -15,12 +16,12 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#f4f0e6] py-12 px-4">
       <div className="max-w-6xl mx-auto">
         
         {/* هدر صفحه */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-4">تماس با املاک ماهور</h1>
+          <h1 className="text-4xl font-extrabold text-[#102847] mb-4">تماس با املاک ماهور</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             ما در محمودآباد آماده پاسخگویی به شما هستیم. از هر طریقی که راحت‌ترید با ما در ارتباط باشید.
           </p>
@@ -31,7 +32,7 @@ export default function ContactPage() {
           {/* اطلاعات تماس */}
           <div className="space-y-6">
             <div className="card-modern p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-[#102847] mb-6 flex items-center gap-2">
                 <Phone className="text-[#d4af37]" size={24} />
                 راه‌های ارتباطی
               </h2>
@@ -76,8 +77,8 @@ export default function ContactPage() {
 
             {/* شبکه‌های اجتماعی */}
             <div className="card-modern p-6">
-              <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <MessageSquare className="text-[#1e3a5f]" size={20} />
+              <h3 className="font-bold text-[#102847] mb-4 flex items-center gap-2">
+                <MessageSquare className="text-[#102847]" size={20} />
                 شبکه‌های اجتماعی
               </h3>
               <div className="grid grid-cols-3 gap-3">
@@ -132,8 +133,8 @@ export default function ContactPage() {
           {/* فرم تماس */}
           <div className="lg:col-span-2">
             <div className="card-modern p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Send className="text-[#1e3a5f]" size={24} />
+              <h2 className="text-xl font-bold text-[#102847] mb-6 flex items-center gap-2">
+                <Send className="text-[#102847]" size={24} />
                 ارسال پیام
               </h2>
 
@@ -239,7 +240,7 @@ export default function ContactPage() {
 
             {/* نقشه */}
             <div className="card-modern p-6 mt-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-[#102847] mb-4 flex items-center gap-2">
                 <MapPin className="text-[#d4af37]" size={24} />
                 موقعیت ما روی نقشه
               </h2>
@@ -275,12 +276,14 @@ export default function ContactPage() {
 function ContactItem({ icon, label, value, href }: { icon: React.ReactNode; label: string; value: string; href?: string }) {
   const content = (
     <div className="flex items-start gap-3">
-      <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 text-[#1e3a5f]">
+      <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 text-[#102847]">
         {icon}
       </div>
       <div>
         <p className="text-sm text-gray-500 mb-1">{label}</p>
-        <p className="font-medium text-gray-900">{value}</p>
+        <p className="font-medium text-[#102847]">
+          {href?.startsWith("tel:") ? <PhoneText>{value}</PhoneText> : value}
+        </p>
       </div>
     </div>
   );

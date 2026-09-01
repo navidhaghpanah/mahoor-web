@@ -1,359 +1,180 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
-import {
-  Building2,
-  ChevronDown,
-  Home,
-  LandPlot,
-  MapPin,
-  MessageCircle,
-  Search,
-  Store,
-} from "lucide-react";
-import { FormEvent, useMemo, useState } from "react";
+import { Navigation, Phone } from "lucide-react";
+import { prisma } from "@/lib/prisma";
+import PropertyCard from "@/components/PropertyCard";
+import PhoneText, { NasimMark } from "@/components/PhoneText";
+import { CONTACTS, SITE } from "@/lib/site";
 
-const categories = [
-  ["همه", Home],
-  ["آپارتمان", Building2],
-  ["ویلا", Home],
-  ["زمین", LandPlot],
-  ["تجاری", Store],
+export const dynamic = "force-dynamic";
+
+const chips = [
+  { label: "خرید", href: "/search?type=SALE" },
+  { label: "اجاره", href: "/search?type=RENT" },
+  { label: "رهن", href: "/search?keyword=رهن" },
+  { label: "ویلا", href: "/search?keyword=ویلا" },
+  { label: "آپارتمان", href: "/search?keyword=آپارتمان" },
+  { label: "زمین", href: "/search?keyword=زمین" },
 ] as const;
 
-const listings = [
-  {
-    title: "ویلای مدرن در محمودآباد",
-    deal: "خرید",
-    category: "ویلا",
-    details: "۴۵۰ متر زمین · ۲۸۰ متر بنا",
-    price: "تماس برای قیمت",
-  },
-  {
-    title: "آپارتمان نزدیک ساحل",
-    deal: "اجاره",
-    category: "آپارتمان",
-    details: "۱۱۰ متر · دو خواب",
-    price: "تماس برای قیمت",
-  },
-  {
-    title: "زمین سرمایه‌گذاری",
-    deal: "خرید",
-    category: "زمین",
-    details: "۳۲۰ متر · سنددار",
-    price: "تماس برای قیمت",
-  },
-] as const;
+export default async function HomePage() {
+  let featured: {
+    id: string;
+    title: string;
+    price: number;
+    type: string;
+    bedrooms: number;
+    bathrooms: number;
+    area: number;
+    address: string;
+    imageUrl: string;
+  }[] = [];
 
-function SelectField({
-  label,
-  name,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <label className="relative flex min-h-[72px] w-full cursor-pointer items-center px-5 text-right transition hover:bg-slate-50">
-      <span className="flex-1">
-        <span className="block text-xs text-slate-400">{label}</span>
-        <select
-          name={name}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          className="mt-1 w-full cursor-pointer appearance-none bg-transparent text-sm font-extrabold text-[#102847] outline-none"
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </span>
-      <ChevronDown className="pointer-events-none shrink-0 text-slate-400" size={18} />
-    </label>
-  );
-}
-
-export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState("همه");
-  const [dealType, setDealType] = useState("همه");
-  const [didSearch, setDidSearch] = useState(false);
-
-  const visibleListings = useMemo(() => {
-    return listings.filter((listing) => {
-      const categoryOk = activeCategory === "همه" || listing.category === activeCategory;
-      const dealOk = dealType === "همه" || listing.deal === dealType;
-      return categoryOk && dealOk;
+  try {
+    const rows = await prisma.property.findMany({
+      where: { status: "ACTIVE" },
+      include: { images: { where: { isPrimary: true }, take: 1 } },
+      orderBy: { createdAt: "desc" },
+      take: 3,
     });
-  }, [activeCategory, dealType]);
-
-  function handleSearch(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setDidSearch(true);
-    document.getElementById("listings")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    featured = rows.map((property) => ({
+      id: property.id,
+      title: property.title,
+      price: property.price,
+      type: property.type,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      area: property.area,
+      address: property.address,
+      imageUrl: property.images[0]?.url || "",
+    }));
+  } catch {
+    featured = [];
   }
 
+  const mobileDesk = featured.slice(0, 2);
+
   return (
-    <div className="overflow-hidden bg-white">
-      <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/mahoor-hero-v1.png"
-            alt="نمای املاک و فضای محمودآباد، برند املاک ماهور"
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#102847]/88 via-[#102847]/72 to-[#102847]" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
-          <div className="mx-auto max-w-3xl text-center text-white">
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-bold text-[#d4af37]">
-              مشاور املاک محلی محمودآباد
+    <div className="bg-[var(--sand)] text-[var(--navy)]">
+      <section className="relative -mt-[76px] bg-[var(--deep)] px-5 pb-10 pt-28 text-white sm:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div className="order-2 lg:order-1">
+            <p className="text-xs font-bold tracking-[0.18em] text-[var(--gold)]">روی میز ماهور</p>
+            {featured.length ? (
+              <>
+                <div className="mt-5 grid gap-4 md:hidden">
+                  {mobileDesk.map((listing) => (
+                    <PropertyCard key={listing.id} {...listing} />
+                  ))}
+                </div>
+                <div className="mt-5 hidden gap-4 md:grid">
+                  {featured.map((listing) => (
+                    <PropertyCard key={listing.id} {...listing} />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="mt-5 border border-white/15 p-6 [border-inline-start:6px_solid_var(--sea)]">
+                <p className="text-lg font-black">الان چیزی روی میز نیست — تماس بگیر</p>
+                <a href={SITE.telephoneHref} className="mt-4 inline-flex items-center gap-2 font-extrabold text-[var(--gold)]">
+                  <Phone size={16} />
+                  <PhoneText>{SITE.telephoneDisplay}</PhoneText>
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <p className="text-[11px] font-bold tracking-[0.18em] text-[var(--gold)]">
+              <NasimMark />
             </p>
-            <h1 className="text-4xl font-black leading-[1.45] tracking-tight sm:text-5xl">
-              دنبال ملک توی محمودآباد می‌گردی؟
-              <br />
-              <span className="text-[#d4af37]">ماهور کنارته.</span>
+            <h1 className="mt-4 text-4xl font-black leading-[1.15] tracking-[-0.03em] sm:text-5xl">
+              املاک ماهور · محمودآباد
             </h1>
-            <p className="mt-6 text-base leading-8 text-slate-200 sm:text-lg">
-              خرید، فروش، رهن و اجاره با شناخت دقیق منطقه و همراهی مستقیم مشاوران ماهور.
+            <p className="mt-4 text-base leading-8 text-white/80">
+              خرید، رهن، اجاره — مشاور محلی، بازدید حضوری.
             </p>
-          </div>
-
-          <form
-            onSubmit={handleSearch}
-            className="mx-auto mt-12 max-w-5xl rounded-2xl border border-white/20 bg-white p-3 shadow-[0_24px_60px_rgba(16,40,71,0.28)]"
-          >
-            <div className="grid overflow-hidden rounded-xl sm:grid-cols-[repeat(4,1fr)_132px]">
-              <div className="border-b border-slate-200 sm:border-b-0 sm:border-l">
-                <SelectField
-                  label="نوع معامله"
-                  name="deal"
-                  value={dealType}
-                  onChange={setDealType}
-                  options={[
-                    { value: "همه", label: "همه" },
-                    { value: "خرید", label: "خرید" },
-                    { value: "اجاره", label: "اجاره" },
-                  ]}
-                />
-              </div>
-              <div className="border-b border-slate-200 sm:border-b-0 sm:border-l">
-                <SelectField
-                  label="نوع ملک"
-                  name="category"
-                  value={activeCategory}
-                  onChange={(value) => {
-                    setActiveCategory(value);
-                    setDidSearch(false);
-                  }}
-                  options={categories.map(([label]) => ({ value: label, label }))}
-                />
-              </div>
-              <div className="border-b border-slate-200 sm:border-b-0 sm:border-l">
-                <SelectField
-                  label="محدوده قیمت"
-                  name="price"
-                  value="همه"
-                  onChange={() => undefined}
-                  options={[{ value: "همه", label: "همه" }]}
-                />
-              </div>
-              <div className="border-b border-slate-200 sm:border-b-0">
-                <SelectField
-                  label="موقعیت"
-                  name="location"
-                  value="محمودآباد"
-                  onChange={() => undefined}
-                  options={[{ value: "محمودآباد", label: "همه مناطق محمودآباد" }]}
-                />
-              </div>
-              <button
-                type="submit"
-                className="m-1 flex min-h-[64px] items-center justify-center gap-2 rounded-xl bg-[#129b96] px-4 font-extrabold text-white transition hover:bg-[#0d817e]"
-              >
-                <Search size={20} />
-                جستجو
-              </button>
-            </div>
-          </form>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {categories.map(([label, Icon]) => (
-              <button
-                key={label}
-                type="button"
-                onClick={() => {
-                  setActiveCategory(label);
-                  setDidSearch(false);
-                }}
-                className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-bold transition ${
-                  activeCategory === label
-                    ? "border-[#d4af37] bg-[#d4af37] text-[#102847]"
-                    : "border-white/20 bg-white/10 text-white hover:border-[#d4af37]/70"
-                }`}
-              >
-                <Icon size={17} strokeWidth={1.8} />
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="listings" className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="text-right">
-            <p className="text-sm font-bold text-[#129b96]">فایل‌های منتخب</p>
-            <h2 className="mt-1 text-3xl font-black text-[#102847]">جدیدترین آگهی‌ها</h2>
-            <p className="mt-3 text-slate-500">فایل‌های منتخب برای خرید و اجاره در محمودآباد</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/search"
-              className="inline-flex items-center gap-2 self-start rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold text-[#102847] transition hover:border-[#129b96] hover:text-[#129b96]"
-            >
-              جستجوی پیشرفته
-            </Link>
-            <Link
-              href="/register"
-              className="inline-flex items-center gap-2 self-start font-bold text-[#129b96] transition hover:text-[#102847]"
-            >
-              ثبت آگهی رایگان <span aria-hidden="true">←</span>
-            </Link>
-          </div>
-        </div>
-        {didSearch && (
-          <p className="mt-6 rounded-xl bg-[#e8f7f6] px-4 py-3 text-sm font-bold text-[#087e7b]">
-            نتایج پیشنهادی بر اساس جست‌وجوی شما نمایش داده شد.
-          </p>
-        )}
-        <div className="mt-9 grid gap-6 md:grid-cols-3">
-          {visibleListings.length ? (
-            visibleListings.map((listing, index) => (
-              <article
-                key={listing.title}
-                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-[#cfe7e5] hover:shadow-[0_18px_36px_rgba(16,40,71,0.12)]"
-              >
-                <div className="relative h-52 bg-[#eaf4f3]">
-                  <Image
-                    src="/images/mahoor-hero-v1.png"
-                    alt={`${listing.title} در محمودآباد`}
-                    fill
-                    className={`object-cover ${index === 1 ? "object-center" : "object-left"}`}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <span className="absolute right-4 top-4 rounded-full bg-white px-3 py-1.5 text-xs font-extrabold text-[#129b96] shadow">
-                    {listing.deal}
-                  </span>
-                  <span className="absolute left-4 top-4 rounded-full bg-[#102847]/80 px-3 py-1.5 text-xs font-bold text-white">
-                    {listing.category}
-                  </span>
-                </div>
-                <div className="p-5 text-right">
-                  <h3 className="text-lg font-extrabold text-[#102847] group-hover:text-[#129b96]">
-                    {listing.title}
-                  </h3>
-                  <p className="mt-2 flex items-center justify-end gap-1 text-sm text-slate-500">
-                    <MapPin size={15} className="text-[#d4af37]" />
-                    محمودآباد، مازندران
-                  </p>
-                  <p className="mt-4 border-t border-slate-100 pt-4 text-sm text-slate-600">{listing.details}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <Link
-                      href="/contact"
-                      className="text-sm font-bold text-[#129b96] hover:text-[#102847]"
-                    >
-                      درخواست بازدید
-                    </Link>
-                    <p className="font-extrabold text-[#d4af37]">{listing.price}</p>
-                  </div>
-                </div>
-              </article>
-            ))
-          ) : (
-            <div className="rounded-2xl border border-dashed border-slate-300 p-10 text-center text-slate-500 md:col-span-3">
-              برای این دسته‌بندی آگهی نمونه‌ای نداریم؛ همهٔ آگهی‌ها را ببینید.
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="bg-[#102847] px-5 py-16 text-white sm:px-8">
-        <div className="mx-auto grid max-w-7xl gap-9 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <div className="text-right">
-            <p className="text-sm font-bold text-[#d4af37]">دفتر مرکزی</p>
-            <h2 className="mt-2 text-3xl font-black">دفتر ماهور، نزدیک شما</h2>
-            <p className="mt-4 leading-8 text-slate-300">
-              محمودآباد، خیابان امام، بعد از نسیم ۶۹/۱. برای مشاوره و بازدید ملک با ما در تماس باشید.
-            </p>
-            <div className="mt-7 flex flex-wrap justify-end gap-3">
+            <p className="mt-2 text-sm text-white/60">بازدید با مشاور، نه آگهی تنها</p>
+            <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="tel:01144735333"
-                className="rounded-xl border border-white/20 px-5 py-3 font-bold transition hover:bg-white/10"
+                href={SITE.telephoneHref}
+                className="inline-flex items-center gap-2 bg-[var(--sand)] px-5 py-3 text-sm font-extrabold text-[var(--navy)]"
               >
-                ۰۱۱ ۴۴۷۳ ۵۳۳۳
+                <Phone size={16} />
+                <PhoneText>{SITE.telephoneHeader}</PhoneText>
               </a>
               <a
-                href="https://wa.me/989120996426"
+                href={SITE.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 font-extrabold text-white transition hover:bg-[#1ebd5a]"
+                className="inline-flex items-center gap-2 border border-white/30 px-5 py-3 text-sm font-bold"
               >
-                <MessageCircle size={19} />
                 واتساپ
               </a>
+              <Link
+                href="/register"
+                className="inline-flex items-center px-5 py-3 text-sm font-bold text-white/70 underline-offset-4 hover:text-[var(--gold)] hover:underline"
+              >
+                ثبت آگهی
+              </Link>
             </div>
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-white/15 bg-white">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.0!2d52.2607!3d36.6333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8eb760f2e84c87%3A0x0!2z2YXYrdmF2YjYr9in2KjYp9ivINmF2KfYmdmI2LMg2LnYsiDZhdix2YPYsiDZhdi52YPZhdin2KvYp9ioINmF2K_YrdmF2YjYr9in2KjYp9iv!5e0!3m2!1sfa!2sir!4v1700000000000!5m2!1sfa!2sir"
-              width="100%"
-              height="290"
-              className="border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="موقعیت دفتر املاک ماهور"
-            />
           </div>
         </div>
       </section>
 
-      <section className="bg-[#f0fbfa] px-5 py-16 sm:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-          <div className="overflow-hidden rounded-2xl border border-[#cfe7e5] bg-white">
-            <video
-              className="aspect-video w-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              poster="/images/mahoor-logo-v1.png"
-              aria-label="ویدیوی معرفی برند ماهور"
+      <div className="h-[6px] w-full bg-[var(--gold)]" />
+
+      <section className="bg-[var(--sea)] px-5 py-6 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap gap-2">
+          {chips.map((chip) => (
+            <Link
+              key={chip.href}
+              href={chip.href}
+              className="rounded-full bg-[var(--foam)] px-4 py-2 text-sm font-extrabold text-[var(--navy)]"
             >
-              <source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div className="text-right">
-            <h2 className="text-3xl font-black text-[#102847]">اعتماد، در هر نگاه</h2>
-            <p className="mt-4 leading-8 text-slate-600">
-              ماهور با شناخت منطقه و تجربهٔ واقعی در بازار، برای انتخاب بهتر کنار شماست.
-            </p>
-            <Link href="/about" className="mt-6 inline-flex items-center gap-2 font-bold text-[#129b96]">
-              بیشتر درباره ماهور <span aria-hidden="true">←</span>
+              {chip.label}
             </Link>
-          </div>
+          ))}
+          <Link
+            href="/properties"
+            className="rounded-full border border-white/40 px-4 py-2 text-sm font-extrabold text-white"
+          >
+            همه آگهی‌ها
+          </Link>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
+        <p className="text-xs font-bold tracking-[0.2em] text-[var(--sea)]">دفتر</p>
+        <h2 className="mt-2 text-2xl font-black">
+          <NasimMark />
+          <span className="mx-2 text-[var(--navy)]/30">·</span>
+          خیابان امام
+        </h2>
+        <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--navy)]/70">
+          {SITE.address}. {SITE.addressExtra}. {SITE.hours}.
+        </p>
+        <ul className="mt-6 max-w-xl divide-y divide-[var(--navy)]/10">
+          {CONTACTS.map((person) => (
+            <li key={person.href}>
+              <a href={person.href} className="flex items-center justify-between gap-3 py-3 text-sm">
+                <span className="font-bold">{person.name}</span>
+                <span className="inline-flex items-center gap-2 text-[var(--navy)]">
+                  <Phone size={14} />
+                  <PhoneText>{person.phoneDisplay}</PhoneText>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={SITE.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--sea)]"
+        >
+          <Navigation size={16} />
+          مسیریابی
+        </a>
       </section>
     </div>
   );

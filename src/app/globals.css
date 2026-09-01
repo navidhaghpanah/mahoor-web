@@ -1,16 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --mahoor-blue: #1e3a5f;
-  --mahoor-blue-dark: #152a45;
-  --mahoor-blue-light: #2d4a6f;
+  --deep: #0b1f33;
+  --navy: #102847;
+  --gold: #d4af37;
+  --sea: #129b96;
+  --sand: #f4f0e6;
+  --foam: #d7eeea;
+  --mahoor-blue: #102847;
+  --mahoor-blue-dark: #0b1f33;
+  --mahoor-blue-light: #1e3a5f;
   --mahoor-navy: #102847;
   --mahoor-gold: #d4af37;
   --mahoor-gold-light: #e5c158;
   --mahoor-gold-dark: #b8960c;
   --mahoor-teal: #129b96;
   --mahoor-teal-dark: #0d817e;
-  --background: #f6f8fb;
+  --background: #f4f0e6;
   --foreground: #102847;
 }
 
@@ -23,36 +29,47 @@ html {
 }
 
 body {
-  background-color: #f6f8fb;
-  color: #102847;
+  background-color: var(--sand);
+  color: var(--navy);
   font-family: var(--font-vazir), system-ui, sans-serif;
 }
 
 ::selection {
   background: rgba(18, 155, 150, 0.22);
-  color: #102847;
+  color: var(--navy);
 }
 
 :focus-visible {
-  outline: 2px solid #129b96;
+  outline: 2px solid var(--sea);
   outline-offset: 2px;
 }
 
-/* دکمه‌های مدرن */
+.phone-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+a[href^="tel:"] {
+  unicode-bidi: isolate;
+}
+
+.horizon-gold {
+  box-shadow: 0 0 0 0 var(--gold);
+}
+
 .btn-primary {
-  background-color: #1e3a5f;
-  color: white;
+  background-color: #102847;
+  color: #f4f0e6;
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   font-weight: 700;
   transition: all 0.3s;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
 .btn-primary:hover {
-  background-color: #152a45;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-  transform: translateY(-2px);
+  background-color: #0b1f33;
 }
 
 .btn-secondary {
@@ -62,19 +79,16 @@ body {
   border-radius: 0.75rem;
   font-weight: 700;
   transition: all 0.3s;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
 .btn-secondary:hover {
   background-color: #b8960c;
   color: white;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-  transform: translateY(-2px);
 }
 
 .btn-outline {
-  border: 2px solid #1e3a5f;
-  color: #1e3a5f;
+  border: 2px solid #102847;
+  color: #102847;
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
   font-weight: 700;
@@ -82,26 +96,24 @@ body {
 }
 
 .btn-outline:hover {
-  background-color: #1e3a5f;
-  color: white;
+  background-color: #102847;
+  color: #f4f0e6;
 }
 
-/* کارت‌های مدرن */
 .card-modern {
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 1px 2px 0 rgb(16 40 71 / 0.06);
-  border: 1px solid #eef2f6;
-  transition: all 0.3s;
+  background-color: #f4f0e6;
+  border-radius: 16px;
+  border: 1px solid rgba(16, 40, 71, 0.08);
+  box-shadow: none;
+  transition: border-color 0.2s;
 }
 
 .card-modern:hover {
-  box-shadow: 0 22px 40px -12px rgb(16 40 71 / 0.16);
-  transform: translateY(-4px);
-  border-color: #d4e8e6;
+  border-color: #129b96;
+  box-shadow: none;
+  transform: none;
 }
 
-/* اینپوت‌های مدرن */
 .input-modern {
   width: 100%;
   border: 2px solid #e5e7eb;
@@ -109,7 +121,7 @@ body {
   padding: 0.75rem 1rem;
   outline: none;
   transition: all 0.2s;
-  color: #111827;
+  color: #102847;
   font-weight: 500;
   background: #fff;
 }
@@ -124,10 +136,9 @@ body {
   font-weight: 400;
 }
 
-/* بج‌های وضعیت */
 .badge-active {
-  background-color: #dcfce7;
-  color: #15803d;
+  background-color: #d7eeea;
+  color: #0d817e;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.75rem;
@@ -143,16 +154,14 @@ body {
   font-weight: 700;
 }
 
-/* گرادیان‌ها */
 .gradient-hero {
-  background: linear-gradient(to bottom right, #1e3a5f, #2d4a6f, #102847);
+  background: linear-gradient(to bottom right, #0b1f33, #102847, #1e3a5f);
 }
 
 .gradient-gold {
   background: linear-gradient(to right, #d4af37, #e5c158);
 }
 
-/* انیمیشن‌ها */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -168,8 +177,8 @@ body {
   animation: fadeIn 0.5s ease-out;
 }
 
-/* شماره‌ها باید مستقل از چیدمان راست‌به‌چپ، به شکل طبیعی نمایش داده شوند. */
-a[href^="tel:"] {
-  direction: ltr;
-  unicode-bidi: embed;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
