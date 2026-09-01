@@ -36,10 +36,10 @@ export default function SearchFilters() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+    <div className="bg-[#f4f0e6] border border-[#102847]/10 p-6 mb-8">
       <div className="flex items-center gap-2 mb-4">
-        <SlidersHorizontal className="text-[#1e3a5f]" size={24} />
-        <h2 className="text-xl font-bold text-gray-900">جستجوی پیشرفته</h2>
+        <SlidersHorizontal className="text-[#102847]" size={24} />
+        <h2 className="text-xl font-bold text-[#102847]">جستجوی پیشرفته</h2>
       </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-4">
