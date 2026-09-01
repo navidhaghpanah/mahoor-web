@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
 import { SITE } from "@/lib/site";
 
 interface PropertyCardProps {
@@ -20,12 +19,6 @@ interface PropertyCardProps {
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("fa-IR").format(price);
-}
-
-function typeTone(type: string) {
-  if (type === "SALE") return "bg-[#102847] text-[#f4f0e6]";
-  if (type === "RENT") return "bg-[#129b96] text-white";
-  return "bg-[#d4af37] text-[#102847]";
 }
 
 function typeLabel(type: string) {
@@ -55,44 +48,36 @@ export default function PropertyCard({
   const hasPrice = typeof price === "number" && price > 0;
 
   return (
-    <article className="flex h-full flex-col overflow-hidden bg-[#f4f0e6] [border-inline-start:6px_solid_#129b96] border border-[#102847]/10">
+    <article className="flex h-full flex-col bg-white">
       <Link href={`/properties/${id}`} className="flex flex-1 flex-col">
         {imageUrl ? (
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#d7eeea]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--foam)]">
             <Image src={imageUrl} alt={`${title} — ${address}`} fill className="object-cover" />
           </div>
         ) : (
-          <div className={`flex aspect-[4/5] items-end p-5 ${typeTone(type)}`}>
-            <p className="text-sm font-extrabold">{typeLabel(type)}</p>
+          <div className="flex aspect-[4/5] items-end bg-[var(--navy)] p-6 text-white">
+            <p className="text-xs font-bold tracking-[0.2em]">{typeLabel(type)}</p>
           </div>
         )}
-        <div className="flex flex-1 flex-col p-5">
-          {neighborhood ? (
-            <p className="mb-2 w-fit bg-[#d7eeea] px-3 py-1 text-[11px] font-extrabold text-[#0d817e]">
-              {neighborhood}
-            </p>
-          ) : null}
-          <h3 className="line-clamp-2 text-lg font-bold text-[#102847]">{title}</h3>
-          <p className="mt-3 text-xl font-black text-[#d4af37]">
+        <div className="flex flex-1 flex-col px-1 py-5">
+          <p className="text-[11px] font-bold tracking-[0.16em] text-[var(--sea)]">
+            {neighborhood || typeLabel(type)}
+          </p>
+          <h3 className="mt-2 line-clamp-2 text-lg font-black text-[var(--navy)]">{title}</h3>
+          <p className="mt-3 text-xl font-black text-[var(--gold)]">
             {hasPrice ? (
               <>
-                {formatPrice(price)} <span className="text-sm font-bold text-[#102847]/50">تومان</span>
+                {formatPrice(price)} <span className="text-sm font-bold text-[var(--navy)]/40">تومان</span>
               </>
             ) : (
               "تماس برای قیمت"
             )}
           </p>
-          <p className="mt-3 text-sm text-[#102847]/70">{meters}</p>
-          <p className="mt-auto flex items-start gap-2 pt-4 text-xs text-[#102847]/60">
-            <MapPin size={14} className="mt-0.5 shrink-0" />
-            <span className="line-clamp-2">{address}</span>
-          </p>
+          <p className="mt-3 text-sm text-[var(--navy)]/60">{meters}</p>
+          <p className="mt-auto line-clamp-2 pt-4 text-xs text-[var(--navy)]/50">{address}</p>
         </div>
       </Link>
-      <a
-        href={SITE.telephoneHref}
-        className="border-t border-[#102847]/10 px-5 py-3 text-sm font-extrabold text-[#102847]"
-      >
+      <a href={SITE.telephoneHref} className="border-t border-[var(--navy)]/10 py-3 text-sm font-extrabold tracking-[0.08em]">
         تماس
       </a>
     </article>
