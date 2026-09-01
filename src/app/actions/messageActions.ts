@@ -15,6 +15,20 @@ export async function sendMessage(formData: FormData) {
       return { error: "لطفاً تمام فیلدها را پر کنید." };
     }
 
+    if (senderName.length > 100 || senderPhone.length > 32 || messageText.length > 2_000) {
+      return { error: "اطلاعات ارسالی معتبر نیست." };
+    }
+
+    // Never trust the agent id supplied by the browser. The property owns the recipient.
+    const property = await prisma.property.findUnique({
+      where: { id: propertyId },
+      select: { agentId: true },
+    });
+
+    if (!property || property.agentId !== agentId) {
+      return { error: "آگهی موردنظر یافت نشد." };
+    }
+
     // ساخت محتوای پیام
     const content = `پیام:\n${messageText}`;
 
@@ -25,7 +39,7 @@ export async function sendMessage(formData: FormData) {
         senderName,
         senderPhone,
         propertyId,
-        agentId,
+        agentId: property.agentId,
       },
     });
 
