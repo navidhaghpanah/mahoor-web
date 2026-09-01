@@ -1,7 +1,22 @@
 export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
 import { Search, Home } from "lucide-react";
+
+
+export const metadata: Metadata = {
+  title: "آگهی‌های ملک",
+  description:
+    "جدیدترین آگهی‌های تاییدشده خرید، فروش و اجاره ملک در محمودآباد از املاک ماهور.",
+  alternates: { canonical: "/properties" },
+  openGraph: {
+    title: "املاک موجود | املاک ماهور محمودآباد",
+    description: "فهرست آگهی‌های فعال خرید و اجاره در محمودآباد.",
+    url: "/properties",
+    locale: "fa_IR",
+  },
+};
 
 export default async function PropertiesPage() {
   // دریافت فقط املاک تایید شده (ACTIVE) از دیتابیس
@@ -21,12 +36,12 @@ export default async function PropertiesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="min-h-screen bg-[#f6f8fb] py-10 px-4">
       <div className="max-w-7xl mx-auto">
         
         {/* هدر صفحه */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 flex items-center justify-center gap-3">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#102847] mb-3 flex items-center justify-center gap-3">
             <Home className="text-[#d4af37]" />
             املاک موجود در ماهور
           </h1>
