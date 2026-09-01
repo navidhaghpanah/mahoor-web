@@ -1,4 +1,5 @@
 export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
 import { Phone, Star, Award, Briefcase } from "lucide-react";
 
 interface Agent {
@@ -45,14 +46,28 @@ const agents: Agent[] = [
   },
 ];
 
+
+export const metadata: Metadata = {
+  title: "مشاوران و کارشناسان",
+  description:
+    "تیم کارشناسان املاک ماهور در محمودآباد: حیدری، مهندس آزاد و راعی. مشاوره خرید، فروش، اجاره و پیمانکاری.",
+  alternates: { canonical: "/agents" },
+  openGraph: {
+    title: "کارشناسان املاک ماهور محمودآباد",
+    description: "ارتباط مستقیم با مشاوران فروش، اجاره و پیمانکاری ماهور.",
+    url: "/agents",
+    locale: "fa_IR",
+  },
+};
+
 export default function AgentsPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#f6f8fb] py-12 px-4">
       <div className="max-w-6xl mx-auto">
         
         {/* هدر */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-4">کارشناسان املاک ماهور</h1>
+          <h1 className="text-4xl font-extrabold text-[#102847] mb-4">کارشناسان املاک ماهور</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             تیم متخصص ما با سال‌ها تجربه، آماده خدمت‌رسانی به شما هستند
           </p>
