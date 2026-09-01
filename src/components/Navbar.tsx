@@ -36,76 +36,91 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [home]);
 
-  const isActive = (href: string) =>
-    pathname === href || (href !== "/" && pathname.startsWith(href));
-
   return (
     <header
       className={`sticky top-0 z-50 ${
         ghost
           ? "bg-transparent text-white"
-          : "border-b border-[var(--navy)]/10 bg-[var(--sand)] text-[var(--navy)]"
+          : "bg-[var(--deep)] text-white"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
-        <Link href="/" className="text-[17px] font-black leading-none">
+      <div
+        dir="ltr"
+        className="relative z-50 mx-auto flex h-16 items-center justify-between gap-4 px-5 md:h-[4.5rem] md:px-8"
+      >
+        <Link
+          href="/"
+          className="text-[17px] font-black leading-none"
+          dir="rtl"
+        >
           املاک ماهور
         </Link>
 
-        <nav aria-label="منوی اصلی" className="hidden items-center gap-8 lg:flex">
-          {PUBLIC_NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-[13px] font-bold ${
-                isActive(item.href)
-                  ? ghost
-                    ? "text-white"
-                    : "text-[var(--navy)]"
-                  : ghost
-                    ? "text-white/70 hover:text-white"
-                    : "text-[var(--navy)]/55 hover:text-[var(--navy)]"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <a
             href={SITE.telephoneHref}
-            className={`text-[13px] font-bold ${ghost ? "text-white" : "text-[var(--navy)]"}`}
+            className={`text-[13px] font-normal text-white/80 hover:text-white ${
+              ghost ? "" : "text-white/70"
+            }`}
           >
             <PhoneText>{SITE.telephoneHeader}</PhoneText>
           </a>
           <button
             type="button"
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="p-2 lg:hidden"
+            className="p-2 text-white"
             aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
             aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
+            aria-controls="site-menu"
           >
             {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div id="mobile-menu" className="border-t border-[var(--navy)]/10 bg-[var(--sand)] px-5 py-5 text-[var(--navy)] lg:hidden">
-          <nav className="space-y-1" aria-label="منوی موبایل">
+      {isMenuOpen ? (
+        <div
+          id="site-menu"
+          className="fixed inset-0 z-40 bg-[var(--deep)] text-white"
+        >
+          <nav
+            aria-label="منوی اصلی"
+            className="flex h-full flex-col justify-center px-8 pb-12 pt-24 md:px-16"
+          >
             {PUBLIC_NAV.map((item) => (
-              <Link key={item.href} href={item.href} className="block py-3 text-[13px] font-bold">
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="py-2 text-3xl font-normal leading-[1.1] text-white hover:text-[var(--gold)] md:text-4xl"
+              >
                 {item.label}
               </Link>
             ))}
-            <Link href="/register" className="block py-3 text-[13px] font-bold">
+            <Link
+              href="/register"
+              onClick={() => setIsMenuOpen(false)}
+              className="py-2 text-3xl font-normal leading-[1.1] text-white hover:text-[var(--gold)] md:text-4xl"
+            >
               ثبت آگهی
             </Link>
+            <a
+              href={SITE.telephoneHref}
+              className="mt-10 text-xl font-bold text-white/80 hover:text-[var(--gold)] md:text-2xl"
+            >
+              <PhoneText>{SITE.telephoneHeader}</PhoneText>
+            </a>
+            <a
+              href={SITE.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 text-xl font-bold text-white/80 hover:text-[var(--gold)] md:text-2xl"
+            >
+              واتساپ
+            </a>
           </nav>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }
