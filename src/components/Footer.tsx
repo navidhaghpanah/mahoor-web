@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/site";
-import PhoneText from "@/components/PhoneText";
+import PhoneText, { NasimMark } from "@/components/PhoneText";
 
 function isPrivateRoute(pathname: string) {
   return (
@@ -21,17 +21,18 @@ export default function Footer() {
   if (isPrivateRoute(pathname)) return null;
 
   return (
-    <footer className="mt-auto border-t border-[var(--navy)]/10 bg-[var(--sand)] text-[var(--navy)]">
-      <div className="mx-auto max-w-6xl px-5 py-12">
+    <footer className="mt-auto bg-[var(--deep)] text-white">
+      <div className="mx-auto max-w-3xl px-5 py-16">
         <p className="text-[17px] font-black">املاک ماهور</p>
-        <p className="mt-4 max-w-md text-[15px] leading-7 text-[var(--navy)]/75">
-          {SITE.address}. {SITE.hours}.
+        <p className="mt-5 max-w-md text-[15px] font-normal leading-7 text-white/70">
+          محمودآباد، خیابان امام، بعد از <NasimMark />. {SITE.addressExtra}.
         </p>
-        <a href={SITE.telephoneHref} className="mt-3 inline-block text-[15px] font-bold">
+        <p className="mt-2 text-[15px] font-normal leading-7 text-white/70">{SITE.hours}</p>
+        <a href={SITE.telephoneHref} className="mt-5 inline-block text-[15px] font-bold hover:text-[var(--gold)]">
           <PhoneText>{SITE.telephoneDisplay}</PhoneText>
         </a>
-        <div className="mt-8">
-          <Link href="/register" className="text-[13px] font-bold">
+        <div className="mt-10">
+          <Link href="/register" className="text-[13px] font-bold text-white/80 hover:text-[var(--gold)]">
             ثبت آگهی
           </Link>
         </div>
