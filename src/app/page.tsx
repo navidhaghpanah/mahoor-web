@@ -13,10 +13,10 @@ export default function HomePage() {
     <main className="overflow-hidden bg-white">
       <section className="relative min-h-[610px] border-b border-slate-200 bg-white">
         <Image src="/images/mahoor-hero-v1.png" alt="ویلای مدرن در میان فضای سبز" fill priority className="object-cover object-left" sizes="100vw" />
-        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-l from-white via-white/92 to-white/10 md:w-[70%]" />
+        <div className="absolute inset-0 bg-gradient-to-l from-white/95 via-white/86 to-white/24" />
         <div className="relative mx-auto flex min-h-[610px] max-w-7xl items-center px-5 py-16 sm:px-8">
           <div className="ml-auto w-full max-w-2xl text-right">
-            <h1 className="text-4xl font-black leading-[1.35] tracking-tight text-[#0c1f37] sm:text-5xl lg:text-6xl">خانه‌ای که به آن تعلق دارید را پیدا کنید</h1>
+            <h1 className="text-3xl font-black leading-[1.35] tracking-tight text-[#0c1f37] sm:text-4xl lg:text-5xl">خانه‌ای که به آن تعلق دارید را پیدا کنید</h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">ماهور، همراه مطمئن شما برای خرید، فروش و اجاره ملک در بهترین محله‌های ایران است.</p>
             <form action="/search" className="mt-10 grid gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-[0_18px_50px_rgba(15,32,56,0.12)] sm:grid-cols-[1.4fr_1fr_auto]">
               <label className="flex min-h-14 items-center gap-3 rounded-xl border border-slate-200 px-4 text-right"><MapPin className="shrink-0 text-[#b68a31]" size={21} /><span><span className="block text-xs font-bold text-slate-800">موقعیت مکانی</span><span className="mt-1 block text-sm text-slate-500">شهر، محله یا منطقه</span></span></label>
