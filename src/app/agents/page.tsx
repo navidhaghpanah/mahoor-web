@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
-import { Phone } from "lucide-react";
+import { Phone, Star } from "lucide-react";
 import PhoneText from "@/components/PhoneText";
 
 interface Agent {
