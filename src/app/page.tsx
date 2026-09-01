@@ -53,134 +53,133 @@ export default async function HomePage() {
 
   return (
     <div className="bg-[var(--sand)] text-[var(--navy)]">
-      <section className="relative -mt-[76px] bg-[var(--deep)] px-5 pb-12 pt-28 text-white sm:px-8">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
-          <div>
-            <p className="text-[11px] font-bold tracking-[0.18em] text-[var(--gold)]">
-              <NasimMark />
-              <span className="mx-2 text-white/30">·</span>
-              خیابان امام
+      {/* Jade Mills cinema fold — brand video, identity, one CTA */}
+      <section className="relative -mt-[76px] min-h-[100svh] overflow-hidden text-white">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/images/mahoor-logo-v1.png"
+          aria-label="ویدیوی معرفی برند ماهور"
+        >
+          <source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f33] via-[#0b1f33]/45 to-black/25" />
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 pb-16 pt-28 text-center">
+          <p className="text-[11px] font-bold tracking-[0.42em] text-[var(--gold)]">
+            <NasimMark />
+            <span className="mx-3 text-white/35">·</span>
+            محمودآباد
+          </p>
+          <h1 className="mt-5 text-5xl font-black leading-[1.05] tracking-[-0.04em] sm:text-7xl">
+            املاک ماهور
+          </h1>
+          <p className="mt-5 max-w-lg text-base leading-8 text-white/80">
+            خرید، رهن، اجاره — مشاور محلی، بازدید حضوری.
+          </p>
+          <a
+            href={SITE.telephoneHref}
+            className="mt-10 inline-flex items-center gap-3 border border-white/80 px-8 py-3.5 text-sm font-extrabold tracking-[0.12em] hover:bg-white hover:text-[var(--navy)]"
+          >
+            <Phone size={16} />
+            تماس با دفتر
+          </a>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[var(--gold)]" />
+      </section>
+
+      {/* The Modern House editorial split — office story + map */}
+      <section className="bg-[var(--sand)]">
+        <div className="mx-auto grid min-h-[70vh] max-w-7xl lg:grid-cols-2">
+          <div className="order-2 flex flex-col justify-center px-6 py-16 sm:px-12 lg:order-1">
+            <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">
+              امروز در ماهور
             </p>
-            <h1 className="mt-4 text-4xl font-black leading-[1.15] tracking-[-0.03em] sm:text-5xl">
-              املاک ماهور · محمودآباد
-            </h1>
-            <p className="mt-4 max-w-xl text-base leading-8 text-white/80">
-              خرید، رهن، اجاره — مشاور محلی، بازدید حضوری.
+            <h2 className="mt-4 text-3xl font-black leading-[1.25] sm:text-4xl">
+              دفتر خیابان امام،
+              <br />
+              بعد از <NasimMark />
+            </h2>
+            <p className="mt-6 max-w-md text-[15px] leading-8 text-[var(--navy)]/75">
+              {SITE.address}. {SITE.addressExtra}. {SITE.hours}.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href={SITE.telephoneHref}
-                className="inline-flex items-center gap-2 bg-[var(--sand)] px-5 py-3 text-sm font-extrabold text-[var(--navy)]"
+                className="inline-flex items-center gap-2 border border-[var(--navy)] px-5 py-3 text-sm font-extrabold"
               >
-                <Phone size={16} />
+                <Phone size={15} />
                 <PhoneText>{SITE.telephoneHeader}</PhoneText>
               </a>
               <a
-                href={SITE.whatsapp}
+                href={SITE.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-white/30 px-5 py-3 text-sm font-bold"
+                className="inline-flex items-center gap-2 px-5 py-3 text-sm font-bold text-[var(--sea)]"
               >
-                واتساپ
+                <Navigation size={15} />
+                مسیریابی
               </a>
-              <Link href="/register" className="inline-flex items-center bg-[var(--gold)] px-5 py-3 text-sm font-extrabold text-[var(--navy)]">
-                ثبت آگهی
-              </Link>
+            </div>
+            <div className="mt-10 flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[var(--navy)]/55">
+              {chips.map((chip) => (
+                <Link key={chip.href} href={chip.href} className="hover:text-[var(--navy)]">
+                  {chip.label}
+                </Link>
+              ))}
             </div>
           </div>
-          <div className="overflow-hidden border border-white/10">
-            <video
-              className="aspect-video w-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              poster="/images/mahoor-logo-v1.png"
-              aria-label="ویدیوی معرفی برند ماهور"
-            >
-              <source src="/videos/mahoor-brand-v1.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-      </section>
-
-      <div className="h-[6px] w-full bg-[var(--gold)]" />
-
-      <section className="bg-[var(--sea)] px-5 py-6 sm:px-8">
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-2">
-          {chips.map((chip) => (
-            <Link
-              key={chip.href}
-              href={chip.href}
-              className="rounded-full bg-[var(--foam)] px-4 py-2 text-sm font-extrabold text-[var(--navy)]"
-            >
-              {chip.label}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {featured.length > 0 ? (
-        <section className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
-          <p className="text-xs font-bold tracking-[0.2em] text-[var(--sea)]">روی میز ماهور</p>
-          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {featured.map((listing) => (
-              <PropertyCard key={listing.id} {...listing} />
-            ))}
-          </div>
-          <Link href="/properties" className="mt-6 inline-block text-sm font-bold text-[var(--sea)]">
-            همه آگهی‌ها
-          </Link>
-        </section>
-      ) : null}
-
-      <section className="bg-[var(--navy)] px-5 py-16 text-white sm:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <p className="text-xs font-bold tracking-[0.2em] text-[var(--gold)]">دفتر</p>
-            <h2 className="mt-2 text-3xl font-black">
-              <NasimMark />
-              <span className="mx-2 text-white/30">·</span>
-              خیابان امام
-            </h2>
-            <p className="mt-4 max-w-xl leading-8 text-white/75">
-              {SITE.address}. {SITE.addressExtra}. {SITE.hours}.
-            </p>
-            <ul className="mt-6 divide-y divide-white/10">
-              {CONTACTS.map((person) => (
-                <li key={person.href}>
-                  <a href={person.href} className="flex items-center justify-between gap-3 py-3 text-sm">
-                    <span className="font-bold">{person.name}</span>
-                    <span className="inline-flex items-center gap-2 text-[var(--gold)]">
-                      <Phone size={14} />
-                      <PhoneText>{person.phoneDisplay}</PhoneText>
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <a
-              href={SITE.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[var(--gold)]"
-            >
-              <Navigation size={16} />
-              مسیریابی
-            </a>
-          </div>
-          <div className="overflow-hidden border border-white/15">
+          <div className="order-1 min-h-[42vh] border-b border-[var(--navy)]/10 lg:order-2 lg:min-h-full lg:border-b-0 lg:border-r">
             <iframe
               src={SITE.mapEmbed}
               width="100%"
-              height="320"
-              className="border-0"
+              height="100%"
+              className="h-full min-h-[42vh] w-full border-0 lg:min-h-[70vh]"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="موقعیت دفتر املاک ماهور"
             />
           </div>
+        </div>
+      </section>
+
+      {featured.length > 0 ? (
+        <section className="border-t border-[var(--navy)]/10 bg-white px-5 py-16 sm:px-8">
+          <div className="mx-auto max-w-7xl">
+            <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">فایل‌های فعال</p>
+            <h2 className="mt-3 text-3xl font-black">روی میز ماهور</h2>
+            <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {featured.map((listing) => (
+                <PropertyCard key={listing.id} {...listing} />
+              ))}
+            </div>
+            <Link href="/properties" className="mt-8 inline-block text-sm font-bold tracking-wide">
+              همه آگهی‌ها
+            </Link>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="bg-[var(--deep)] px-5 py-16 text-white sm:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--gold)]">تماس</p>
+          <h2 className="mt-3 text-3xl font-black">مشاوران دفتر</h2>
+          <ul className="mt-8 divide-y divide-white/10 border-y border-white/10">
+            {CONTACTS.map((person) => (
+              <li key={person.href}>
+                <a href={person.href} className="flex items-center justify-between gap-3 py-5 text-sm">
+                  <span className="font-bold">{person.name}</span>
+                  <span className="inline-flex items-center gap-2 text-[var(--gold)]">
+                    <Phone size={14} />
+                    <PhoneText>{person.phoneDisplay}</PhoneText>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>
