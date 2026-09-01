@@ -1,17 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --mahoor-blue: #1e3a5f;
-  --mahoor-blue-dark: #152a45;
-  --mahoor-blue-light: #2d4a6f;
-  --mahoor-navy: #102847;
-  --mahoor-gold: #d4af37;
-  --mahoor-gold-light: #e5c158;
-  --mahoor-gold-dark: #b8960c;
-  --mahoor-teal: #129b96;
-  --mahoor-teal-dark: #0d817e;
-  --background: #f6f8fb;
-  --foreground: #102847;
+  --sea: #0b3a4a;
+  --sea-deep: #041e26;
+  --foam: #f3eee4;
+  --sand: #e8dcc8;
+  --pine: #2a5a45;
+  --coral: #c45c4a;
+  --gold: #c6a15b;
+  --ink: #142428;
+  --mahoor-blue: #0b3a4a;
+  --mahoor-blue-dark: #041e26;
+  --mahoor-blue-light: #165264;
+  --mahoor-navy: #0b3a4a;
+  --mahoor-gold: #c6a15b;
+  --mahoor-gold-light: #e8dcc8;
+  --mahoor-gold-dark: #9a7a3a;
+  --mahoor-teal: #2a5a45;
+  --mahoor-teal-dark: #1c3f30;
+  --background: #f3eee4;
+  --foreground: #142428;
 }
 
 * {
@@ -23,85 +31,164 @@ html {
 }
 
 body {
-  background-color: #f6f8fb;
-  color: #102847;
+  background-color: var(--foam);
+  color: var(--ink);
   font-family: var(--font-vazir), system-ui, sans-serif;
 }
 
+.display-font {
+  font-family: var(--font-display), var(--font-vazir), serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
 ::selection {
-  background: rgba(18, 155, 150, 0.22);
-  color: #102847;
+  background: rgba(196, 92, 74, 0.22);
+  color: var(--sea-deep);
 }
 
 :focus-visible {
-  outline: 2px solid #129b96;
+  outline: 2px solid var(--pine);
   outline-offset: 2px;
 }
 
-/* دکمه‌های مدرن */
+.hero-mist {
+  background:
+    linear-gradient(180deg, rgba(4, 30, 38, 0.28) 0%, rgba(4, 30, 38, 0.12) 38%, rgba(4, 30, 38, 0.82) 100%),
+    radial-gradient(1200px 480px at 80% 10%, rgba(42, 90, 69, 0.28), transparent 60%);
+}
+
+.shore-spine {
+  position: absolute;
+  top: 50%;
+  left: 28px;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  letter-spacing: 0.38em;
+  color: rgba(243, 238, 228, 0.55);
+  font-weight: 700;
+}
+
+.tide-chip {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(4, 30, 38, 0.35);
+  color: #f3eee4;
+  border-radius: 999px;
+  padding: 0.7rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+  backdrop-filter: blur(16px);
+  transition: 0.2s ease;
+}
+
+.tide-chip:hover {
+  border-color: #e8dcc8;
+  background: rgba(232, 220, 200, 0.16);
+}
+
+.wave-break {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 72px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 72' preserveAspectRatio='none'%3E%3Cpath fill='%23f3eee4' d='M0 32c120 24 240-24 360-16s240 40 360 32 240-40 360-24 240 40 360 16v32H0z'/%3E%3C/svg%3E")
+    center / 100% 72px no-repeat;
+}
+
+.empty-lot {
+  border: 1px dashed #cbbfa8;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(243, 238, 228, 0.3)),
+    repeating-linear-gradient(-12deg, transparent, transparent 10px, rgba(11, 58, 74, 0.03) 10px, rgba(11, 58, 74, 0.03) 11px);
+  border-radius: 28px;
+}
+
+.plate-number {
+  position: absolute;
+  left: -12px;
+  top: 10px;
+  font-family: var(--font-display), serif;
+  font-size: clamp(7rem, 22vw, 16rem);
+  line-height: 0.8;
+  color: rgba(243, 238, 228, 0.07);
+  pointer-events: none;
+  font-weight: 700;
+}
+
+.nap-dock {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: #041e26;
+  color: #f3eee4;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.nap-dock a {
+  padding: 0.95rem 0.5rem;
+  text-align: center;
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .btn-primary {
-  background-color: #1e3a5f;
+  background-color: #0b3a4a;
   color: white;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
+  border-radius: 999px;
   font-weight: 700;
   transition: all 0.3s;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
 .btn-primary:hover {
-  background-color: #152a45;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-  transform: translateY(-2px);
+  background-color: #041e26;
 }
 
 .btn-secondary {
-  background-color: #d4af37;
-  color: #102847;
+  background-color: #c6a15b;
+  color: #041e26;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
+  border-radius: 999px;
   font-weight: 700;
   transition: all 0.3s;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
 .btn-secondary:hover {
-  background-color: #b8960c;
+  background-color: #9a7a3a;
   color: white;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-  transform: translateY(-2px);
 }
 
 .btn-outline {
-  border: 2px solid #1e3a5f;
-  color: #1e3a5f;
+  border: 2px solid #0b3a4a;
+  color: #0b3a4a;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
+  border-radius: 999px;
   font-weight: 700;
   transition: all 0.3s;
 }
 
 .btn-outline:hover {
-  background-color: #1e3a5f;
+  background-color: #0b3a4a;
   color: white;
 }
 
-/* کارت‌های مدرن */
 .card-modern {
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 1px 2px 0 rgb(16 40 71 / 0.06);
-  border: 1px solid #eef2f6;
+  background-color: #fffaf2;
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 2px 0 rgb(11 58 74 / 0.06);
+  border: 1px solid #e8dcc8;
   transition: all 0.3s;
 }
 
 .card-modern:hover {
-  box-shadow: 0 22px 40px -12px rgb(16 40 71 / 0.16);
+  box-shadow: 0 22px 40px -12px rgb(11 58 74 / 0.16);
   transform: translateY(-4px);
-  border-color: #d4e8e6;
+  border-color: #cbbfa8;
 }
 
-/* اینپوت‌های مدرن */
 .input-modern {
   width: 100%;
   border: 2px solid #e5e7eb;
@@ -109,14 +196,14 @@ body {
   padding: 0.75rem 1rem;
   outline: none;
   transition: all 0.2s;
-  color: #111827;
+  color: #142428;
   font-weight: 500;
   background: #fff;
 }
 
 .input-modern:focus {
-  border-color: #129b96;
-  box-shadow: 0 0 0 4px rgb(18 155 150 / 0.12);
+  border-color: #2a5a45;
+  box-shadow: 0 0 0 4px rgb(42 90 69 / 0.12);
 }
 
 .input-modern::placeholder {
@@ -124,7 +211,6 @@ body {
   font-weight: 400;
 }
 
-/* بج‌های وضعیت */
 .badge-active {
   background-color: #dcfce7;
   color: #15803d;
@@ -143,16 +229,14 @@ body {
   font-weight: 700;
 }
 
-/* گرادیان‌ها */
 .gradient-hero {
-  background: linear-gradient(to bottom right, #1e3a5f, #2d4a6f, #102847);
+  background: linear-gradient(to bottom right, #0b3a4a, #165264, #041e26);
 }
 
 .gradient-gold {
-  background: linear-gradient(to right, #d4af37, #e5c158);
+  background: linear-gradient(to right, #c6a15b, #e8dcc8);
 }
 
-/* انیمیشن‌ها */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -168,8 +252,16 @@ body {
   animation: fadeIn 0.5s ease-out;
 }
 
-/* شماره‌ها باید مستقل از چیدمان راست‌به‌چپ، به شکل طبیعی نمایش داده شوند. */
 a[href^="tel:"] {
   direction: ltr;
   unicode-bidi: embed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .shore-page video {
+    display: none;
+  }
 }
