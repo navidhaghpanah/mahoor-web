@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Clock, Instagram, MapPin, Phone, Send } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { PUBLIC_NAV, SITE } from "@/lib/site";
+import PhoneText, { NasimMark } from "@/components/PhoneText";
 
 function isPrivateRoute(pathname: string) {
   return (
@@ -22,11 +23,12 @@ export default function Footer() {
   if (isPrivateRoute(pathname)) return null;
 
   return (
-    <footer className="mt-auto border-t border-white/10 bg-[#041e26] text-[#f3eee4]">
+    <footer className="mt-auto border-t border-white/10 bg-[#0b1f33] text-white">
+      <div className="h-[6px] w-full bg-[#d4af37]" />
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 lg:grid-cols-4">
         <div className="lg:col-span-1">
           <Link href="/" className="inline-flex items-center gap-3">
-            <span className="flex h-12 w-16 overflow-hidden rounded-lg bg-white p-1">
+            <span className="flex h-12 w-16 overflow-hidden bg-white p-1">
               <Image
                 src="/images/mahoor-logo-v1.png"
                 alt="لوگوی املاک ماهور"
@@ -36,10 +38,10 @@ export default function Footer() {
               />
             </span>
             <span>
-              <span className="block text-lg font-black">
-                املاک <span className="text-[#e8dcc8]">ماهور</span>
+              <span className="block text-lg font-black">املاک ماهور</span>
+              <span className="text-xs font-bold text-[#d4af37]">
+                <NasimMark />
               </span>
-              <span className="text-xs text-white/60">{SITE.tagline}</span>
             </span>
           </Link>
           <p className="mt-4 text-sm leading-7 text-white/70">
@@ -48,11 +50,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="text-sm font-extrabold tracking-wide text-[#e8dcc8]">دسترسی سریع</h2>
+          <h2 className="text-sm font-extrabold tracking-wide text-[#d4af37]">دسترسی سریع</h2>
           <ul className="mt-4 space-y-2">
             {PUBLIC_NAV.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="text-sm text-white/80 transition hover:text-[#e8dcc8]">
+                <Link href={item.href} className="text-sm text-white/80 hover:text-[#d4af37]">
                   {item.label}
                 </Link>
               </li>
@@ -61,64 +63,45 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="text-sm font-extrabold tracking-wide text-[#e8dcc8]">دفتر ماهور</h2>
+          <h2 className="text-sm font-extrabold tracking-wide text-[#d4af37]">دفتر ماهور</h2>
           <ul className="mt-4 space-y-3 text-sm text-white/80">
             <li className="flex items-start gap-2">
-              <MapPin size={16} className="mt-1 shrink-0 text-[#c6a15b]" />
+              <MapPin size={16} className="mt-1 shrink-0 text-[#d4af37]" />
               <span>
                 {SITE.address}
                 <span className="mt-1 block text-xs text-white/50">{SITE.addressExtra}</span>
               </span>
             </li>
             <li>
-              <a href={SITE.telephoneHref} className="inline-flex items-center gap-2 hover:text-[#e8dcc8]">
-                <Phone size={16} className="text-[#c6a15b]" />
-                {SITE.telephoneDisplay}
+              <a href={SITE.telephoneHref} className="inline-flex items-center gap-2 hover:text-[#d4af37]">
+                <Phone size={16} className="text-[#d4af37]" />
+                <PhoneText>{SITE.telephoneDisplay}</PhoneText>
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Clock size={16} className="text-[#c6a15b]" />
+              <Clock size={16} className="text-[#d4af37]" />
               {SITE.hours}
             </li>
           </ul>
         </div>
 
         <div>
-          <h2 className="text-sm font-extrabold tracking-wide text-[#e8dcc8]">شبکه‌های اجتماعی</h2>
+          <h2 className="text-sm font-extrabold tracking-wide text-[#d4af37]">شبکه‌های اجتماعی</h2>
           <div className="mt-4 flex flex-wrap gap-2">
-            <a
-              href={SITE.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-sm transition hover:bg-white/15"
-            >
+            <a href={SITE.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white/10 px-3 py-2 text-sm">
               <Instagram size={16} />
               اینستاگرام
             </a>
-            <a
-              href={SITE.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-sm transition hover:bg-white/15"
-            >
+            <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white/10 px-3 py-2 text-sm">
               <Send size={16} />
               تلگرام
             </a>
-            <a
-              href={SITE.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#25D366] px-3 py-2 text-sm font-bold text-white"
-            >
+            <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] px-3 py-2 text-sm font-bold text-white">
               واتساپ
             </a>
           </div>
-          <a
-            href={SITE.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex text-sm text-[#c6a15b] hover:underline"
-          >
+          <p className="mt-3 text-xs text-white/50">روبیکا، بله و ایتا: {SITE.otherSocial}</p>
+          <a href={SITE.mapsUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm text-[#d4af37] hover:underline">
             مسیریابی در گوگل مپ
           </a>
         </div>
