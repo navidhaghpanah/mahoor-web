@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
-import { NasimMark } from "@/components/PhoneText";
 
 export const metadata: Metadata = {
   title: "درباره ما و خدمات ملکی",
@@ -27,55 +26,33 @@ const services = [
 export default function AboutPage() {
   return (
     <div className="bg-[var(--sand)] text-[var(--navy)]">
-      <section className="bg-[var(--deep)] px-6 py-24 text-white">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--gold)]">
-            <NasimMark /> · محمودآباد
-          </p>
-          <h1 className="mt-4 text-4xl font-black leading-[1.15] sm:text-5xl">درباره املاک ماهور</h1>
-          <p className="mt-5 max-w-xl text-base leading-8 text-white/75">
-            انجام کلیه خدمات ملکی در محمودآباد با بیش از ۱۵ سال تجربه.
-          </p>
-        </div>
+      <section className="mx-auto max-w-3xl px-5 py-20">
+        <h1 className="text-[36px] font-black leading-[1.1] tracking-[-0.02em] sm:text-[44px]">
+          درباره املاک ماهور
+        </h1>
+        <p className="mt-6 text-[15px] leading-7 text-[var(--navy)]/75">
+          انجام کلیه خدمات ملکی در محمودآباد با بیش از ۱۵ سال تجربه.
+        </p>
+        <p className="mt-4 text-[15px] leading-7 text-[var(--navy)]/75">
+          <strong className="text-[var(--navy)]">املاک ماهور</strong> در {SITE.address}. {SITE.addressExtra}.
+        </p>
+        <p className="mt-4 text-[15px] leading-7 text-[var(--navy)]/75">
+          تیم کارشناسان با شناخت بازار محلی، همراه خرید، فروش، رهن و اجاره تا قرارداد.
+        </p>
       </section>
-
-      <section className="mx-auto grid max-w-6xl lg:grid-cols-2">
-        <div className="px-6 py-16 sm:px-12">
-          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">داستان</p>
-          <h2 className="mt-3 text-3xl font-black">دفتر خیابان امام</h2>
-          <div className="mt-6 space-y-4 text-[15px] leading-8 text-[var(--navy)]/75">
-            <p>
-              <strong className="text-[var(--navy)]">املاک ماهور</strong> با بیش از ۱۵ سال سابقه در خدمات ملکی
-              محمودآباد مازندران. {SITE.address}. {SITE.addressExtra}.
-            </p>
-            <p>
-              تیم کارشناسان با شناخت بازار محلی، همراه خرید، فروش، رهن و اجاره تا قرارداد.
-            </p>
-          </div>
-        </div>
-        <div className="border-t border-[var(--navy)]/10 px-6 py-16 sm:px-12 lg:border-t-0 lg:border-r">
-          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">خدمات</p>
-          <ul className="mt-6 divide-y divide-[var(--navy)]/10">
-            {services.map((item) => (
-              <li key={item.title} className="py-4">
-                <p className="font-black">{item.title}</p>
-                <p className="mt-1 text-sm leading-7 text-[var(--navy)]/65">{item.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="border-t border-[var(--navy)]/10 px-6 py-16 text-center">
-        <p className="text-lg font-black">برای بازدید یا مشاوره، با دفتر هماهنگ کنید.</p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <a href={SITE.telephoneHref} className="border border-[var(--navy)] px-6 py-3 text-sm font-extrabold">
-            تماس با دفتر
-          </a>
-          <Link href="/agents" className="px-6 py-3 text-sm font-bold text-[var(--sea)]">
-            مشاوران
-          </Link>
-        </div>
+      <section className="mx-auto max-w-3xl border-t border-[var(--navy)]/10 px-5 py-16">
+        <h2 className="text-[36px] font-black leading-[1.1]">خدمات</h2>
+        <ul className="mt-8 divide-y divide-[var(--navy)]/10">
+          {services.map((item) => (
+            <li key={item.title} className="py-5">
+              <p className="font-black">{item.title}</p>
+              <p className="mt-1 text-[15px] leading-7 text-[var(--navy)]/65">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <a href={SITE.telephoneHref} className="mt-10 inline-flex border border-[var(--navy)] px-6 py-3 text-[13px] font-bold">
+          تماس با دفتر
+        </a>
       </section>
     </div>
   );
