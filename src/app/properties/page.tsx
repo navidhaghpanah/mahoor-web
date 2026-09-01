@@ -1,9 +1,9 @@
 export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
-import { Search, Home } from "lucide-react";
-
+import { Home } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "آگهی‌های ملک",
@@ -19,7 +19,6 @@ export const metadata: Metadata = {
 };
 
 export default async function PropertiesPage() {
-  // دریافت فقط املاک تایید شده (ACTIVE) از دیتابیس
   const properties = await prisma.property.findMany({
     where: {
       status: "ACTIVE",
@@ -36,21 +35,19 @@ export default async function PropertiesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f6f8fb] py-10 px-4">
+    <div className="min-h-screen bg-[#f3eee4] py-10 px-4">
       <div className="max-w-7xl mx-auto">
-        
-        {/* هدر صفحه */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#102847] mb-3 flex items-center justify-center gap-3">
-            <Home className="text-[#d4af37]" />
+        <div className="mb-10 text-right">
+          <p className="text-xs font-bold tracking-[0.2em] text-[#2a5a45]">محمودآباد · خزر</p>
+          <h1 className="display-font text-4xl md:text-5xl text-[#0b3a4a] mt-2 flex items-center justify-end gap-3">
             املاک موجود در ماهور
+            <Home className="text-[#c6a15b]" />
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            جدیدترین آگهی‌های تایید شده را مشاهده کنید. برای اطلاعات بیشتر روی هر ملک کلیک کنید.
+          <p className="text-[#142428]/70 max-w-2xl mr-auto mt-3">
+            فقط آگهی‌های تایید شده. بدون فایل ساختگی.
           </p>
         </div>
 
-        {/* لیست املاک */}
         {properties.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {properties.map((property) => (
@@ -69,15 +66,14 @@ export default async function PropertiesPage() {
             ))}
           </div>
         ) : (
-          // حالت خالی بودن لیست
-          <div className="bg-white rounded-2xl p-12 text-center border border-gray-200 shadow-sm">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-              <Search className="text-gray-400" size={32} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">هنوز ملکی منتشر نشده است</h3>
-            <p className="text-gray-500">
-              به زودی املاک جدید به این بخش اضافه خواهند شد.
+          <div className="empty-lot p-12 text-center">
+            <h3 className="display-font text-3xl text-[#0b3a4a] mb-2">ساحل هنوز خلوت است</h3>
+            <p className="text-[#142428]/70 mb-6">
+              هنوز ملک تاییدشده‌ای منتشر نشده. برای ثبت آگهی یا مشاوره با دفتر ماهور در تماس باشید.
             </p>
+            <Link href="/register" className="btn-secondary inline-block">
+              ثبت آگهی
+            </Link>
           </div>
         )}
       </div>
