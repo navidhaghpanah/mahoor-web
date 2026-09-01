@@ -54,7 +54,7 @@ export default async function HomePage() {
   return (
     <div className="bg-[var(--sand)] text-[var(--navy)]">
       {/* Jade Mills cinema fold — brand video, identity, one CTA */}
-      <section className="relative -mt-[76px] min-h-[100svh] overflow-hidden text-white">
+      <section className="relative -mt-[64px] min-h-[100svh] overflow-hidden text-white">
         <video
           className="absolute inset-0 h-full w-full object-cover"
           autoPlay
