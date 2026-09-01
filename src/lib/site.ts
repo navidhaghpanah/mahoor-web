@@ -1,12 +1,15 @@
 export const SITE_URL = "https://mahoor-web.vercel.app";
 
-/** NAP copied from the existing public contact page. Do not invent. */
+/** NAP copied from the original live site (mahoor-Multi site-index). Do not invent. */
 export const SITE = {
   name: "املاک ماهور",
   legalName: "املاک ماهور محمودآباد",
-  tagline: "خرید، فروش، رهن و اجاره ملک در محمودآباد",
+  englishName: "MAHOOR REAL ESTATE",
+  motto: "مشاورین املاک و سرمایه گذاری",
+  heroLine: "خانه رویاییت را پیدا کن",
+  tagline: "انجام کلیه خدمات ملکی - محمودآباد",
   description:
-    "پلتفرم جامع جستجو و مدیریت املاک ماهور در محمودآباد مازندران. خرید، فروش، رهن و اجاره با شناخت دقیق منطقه و همراهی مشاوران محلی.",
+    "انجام کلیه خدمات ملکی شامل خرید، فروش، اجاره، رهن، تفکیک سند، طراحی، نظارت، اجرا و پیمانکاری. با بیش از ۱۵ سال تجربه در محمودآباد.",
   locale: "fa_IR",
   telephoneDisplay: "۰۱۱ ۴۴۷۳ ۵۳۳۳",
   telephoneIntl: "+98-11-4473-5333",
@@ -27,8 +30,8 @@ export const SITE = {
   telegram: "https://t.me/mahoorrlste",
   whatsapp: "https://wa.me/989111134767",
   otherSocial: "@mahoorrlste",
-  logoPath: "/images/mahoor-logo-v1.png",
-  ogImagePath: "/images/mahoor-hero-v1.png",
+  logoPath: "/images/mahoor-logo.jpg",
+  ogImagePath: "/images/mahoor-logo.jpg",
   keywords: [
     "املاک ماهور",
     "املاک ماهور محمودآباد",
@@ -41,12 +44,22 @@ export const SITE = {
   ],
 } as const;
 
-/** People and numbers already published on /contact. Do not invent. */
+/** People and numbers already published on the original site. Do not invent. */
 export const CONTACTS = [
-  { name: "دفتر ماهور", phoneDisplay: "۰۱۱ ۴۴۷۳ ۵۳۳۳", href: "tel:01144735333" },
-  { name: "کارشناس حیدری", phoneDisplay: "۰۹۱۲ ۰۹۹ ۶۴۲۶", href: "tel:09120996426" },
-  { name: "مهندس آزاد", phoneDisplay: "۰۹۱۱ ۳۲۷ ۶۶۴۷", href: "tel:09113276647" },
-  { name: "کارشناس راعی", phoneDisplay: "۰۹۱۲ ۰۹۹ ۷۴۵۳", href: "tel:09120997453" },
+  { name: "دفتر ماهور", role: "دفتر مرکزی", phoneDisplay: "۰۱۱ ۴۴۷۳ ۵۳۳۳", href: "tel:01144735333" },
+  { name: "مهندس آزاد", role: "مهندس عمران و کارشناس ملکی", phoneDisplay: "۰۹۱۱ ۳۲۷ ۶۶۴۷", href: "tel:09113276647" },
+  { name: "حیدری", role: "کارشناس فروش ملکی", phoneDisplay: "۰۹۱۲ ۰۹۹ ۶۴۲۶", href: "tel:09120996426" },
+  { name: "راعی", role: "کارشناس اجاره و رهن", phoneDisplay: "۰۹۱۲ ۰۹۹ ۷۴۵۳", href: "tel:09120997453" },
+  { name: "موسی مشکیاب", role: "مسئول ویلا و اجاره شبانه", phoneDisplay: "۰۹۳۷ ۳۶۸ ۷۶۰۰", href: "tel:09373687600" },
+] as const;
+
+export const SERVICES = [
+  { title: "خرید و فروش", body: "ملک دلخواهت را بخر" },
+  { title: "اجاره و رهن", body: "بهترین قیمت اجاره" },
+  { title: "اجاره شبانه", body: "ویلا و اقامتگاه روزانه" },
+  { title: "تفکیک سند", body: "خدمات ثبتی و حقوقی" },
+  { title: "طراحی و نظارت", body: "معماری و اجرا" },
+  { title: "پیمانکاری", body: "ساخت و ساز" },
 ] as const;
 
 /** Public chrome: max three links. */
