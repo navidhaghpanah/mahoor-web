@@ -1,32 +1,7 @@
 export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
-import { Phone } from "lucide-react";
-import PhoneText, { NasimMark } from "@/components/PhoneText";
-import { SITE } from "@/lib/site";
-
-const agents = [
-  {
-    name: "کارشناس حیدری",
-    role: "کارشناس فروش",
-    phoneDisplay: "۰۹۱۲ ۰۹۹ ۶۴۲۶",
-    href: "tel:09120996426",
-    specialty: "خرید، فروش و مشاوره ملکی",
-  },
-  {
-    name: "مهندس آزاد",
-    role: "مهندس عمران و کارشناس",
-    phoneDisplay: "۰۹۱۱ ۳۲۷ ۶۶۴۷",
-    href: "tel:09113276647",
-    specialty: "پیمانکاری، طراحی و نظارت",
-  },
-  {
-    name: "کارشناس راعی",
-    role: "کارشناس اجاره",
-    phoneDisplay: "۰۹۱۲ ۰۹۹ ۷۴۵۳",
-    href: "tel:09120997453",
-    specialty: "اجاره، رهن و مشاوره حقوقی",
-  },
-];
+import PhoneText from "@/components/PhoneText";
+import { CONTACTS, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "مشاوران و کارشناسان",
@@ -44,39 +19,24 @@ export const metadata: Metadata = {
 export default function AgentsPage() {
   return (
     <div className="bg-[var(--sand)] text-[var(--navy)]">
-      <section className="bg-[var(--deep)] px-6 py-20 text-white">
-        <div className="mx-auto max-w-3xl">
-          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--gold)]">
-            <NasimMark />
-          </p>
-          <h1 className="mt-4 text-4xl font-black">مشاوران دفتر</h1>
-          <p className="mt-4 max-w-xl text-white/75">حیدری، آزاد، راعی — تماس مستقیم با همان شماره‌های دفتر.</p>
-        </div>
+      <section className="mx-auto max-w-3xl px-5 py-20">
+        <h1 className="text-[36px] font-black leading-[1.1] tracking-[-0.02em] sm:text-[44px]">
+          مشاوران دفتر
+        </h1>
+        <ul className="mt-12 divide-y divide-[var(--navy)]/10 border-y border-[var(--navy)]/10">
+          {CONTACTS.map((person) => (
+            <li key={person.href}>
+              <a href={person.href} className="flex items-center justify-between gap-4 py-6 text-[15px]">
+                <span className="font-bold">{person.name}</span>
+                <PhoneText className="font-bold">{person.phoneDisplay}</PhoneText>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-10 text-[15px] leading-7 text-[var(--navy)]/75">
+          {SITE.address}. {SITE.hours}.
+        </p>
       </section>
-
-      <ul className="mx-auto max-w-3xl divide-y divide-[var(--navy)]/10 px-6">
-        {agents.map((agent) => (
-          <li key={agent.href} className="flex flex-col gap-3 py-10 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[11px] font-bold tracking-[0.2em] text-[var(--sea)]">{agent.role}</p>
-              <h2 className="mt-2 text-2xl font-black">{agent.name}</h2>
-              <p className="mt-2 text-sm text-[var(--navy)]/65">{agent.specialty}</p>
-            </div>
-            <a href={agent.href} className="inline-flex items-center gap-2 border border-[var(--navy)] px-5 py-3 text-sm font-extrabold">
-              <Phone size={15} />
-              <PhoneText>{agent.phoneDisplay}</PhoneText>
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mx-auto max-w-3xl border-t border-[var(--navy)]/10 px-6 py-12">
-        <p className="text-sm text-[var(--navy)]/65">دفتر: {SITE.address}. {SITE.hours}.</p>
-        <a href={SITE.telephoneHref} className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold">
-          <Phone size={15} />
-          <PhoneText>{SITE.telephoneDisplay}</PhoneText>
-        </a>
-      </div>
     </div>
   );
 }
