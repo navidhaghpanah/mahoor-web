@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
-import { Phone, Star, Award, Briefcase } from "lucide-react";
+import { Phone } from "lucide-react";
+import PhoneText from "@/components/PhoneText";
 
 interface Agent {
   name: string;
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
 
 export default function AgentsPage() {
   return (
-    <div className="min-h-screen bg-[#f6f8fb] py-12 px-4">
+    <div className="min-h-screen bg-[#f4f0e6] py-12 px-4">
       <div className="max-w-6xl mx-auto">
         
         {/* هدر */}
@@ -79,7 +80,7 @@ export default function AgentsPage() {
             <div key={agent.phone} className="card-modern p-8 text-center">
               {/* آواتار */}
               <div className="relative inline-block mb-4">
-                <div className="w-24 h-24 bg-gradient-to-br from-[#1e3a5f] to-[#2d4a6f] rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto border-4 border-[#d4af37]">
+                <div className="w-24 h-24 bg-gradient-to-br from-[#102847] to-[#0b1f33] rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto border-4 border-[#d4af37]">
                   {agent.initial}
                 </div>
               </div>
@@ -92,15 +93,15 @@ export default function AgentsPage() {
               {/* آمار */}
               <div className="flex justify-center gap-4 py-4 border-y border-gray-200 mb-4">
                 <div className="text-center">
-                  <p className="text-xl font-bold text-[#1e3a5f]">{agent.deals}</p>
+                  <p className="text-xl font-bold text-[#102847]">{agent.deals}</p>
                   <p className="text-xs text-gray-500">معامله</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-xl font-bold text-[#1e3a5f]">{agent.experience}</p>
+                  <p className="text-xl font-bold text-[#102847]">{agent.experience}</p>
                   <p className="text-xs text-gray-500">سابقه</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-xl font-bold text-[#1e3a5f] flex items-center gap-1">
+                  <p className="text-xl font-bold text-[#102847] flex items-center gap-1">
                     <Star size={16} className="fill-[#d4af37] text-[#d4af37]" />
                     {agent.rating}
                   </p>
@@ -114,7 +115,7 @@ export default function AgentsPage() {
                 className="btn-primary w-full flex items-center justify-center gap-2"
               >
                 <Phone size={20} />
-                تماس با {agent.name.split(" ")[1]}
+                <PhoneText>{agent.phone}</PhoneText>
               </a>
             </div>
           ))}
@@ -131,7 +132,7 @@ export default function AgentsPage() {
               <Phone size={20} />
               ۰۱۱ ۴۴۷۳ ۵۳۳۳
             </a>
-            <a href="/contact" className="btn-outline inline-flex items-center justify-center gap-2 border-white text-white hover:bg-white hover:text-[#1e3a5f]">
+            <a href="/contact" className="btn-outline inline-flex items-center justify-center gap-2 border-white text-white hover:bg-white hover:text-[#102847]">
               اطلاعات تماس کامل
             </a>
           </div>
