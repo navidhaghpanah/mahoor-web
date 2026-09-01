@@ -49,10 +49,9 @@ export const CONTACTS = [
   { name: "کارشناس راعی", phoneDisplay: "۰۹۱۲ ۰۹۹ ۷۴۵۳", href: "tel:09120997453" },
 ] as const;
 
+/** Public chrome: max three links. */
 export const PUBLIC_NAV = [
-  { href: "/properties", label: "خرید و اجاره" },
-  { href: "/search", label: "جستجو" },
-  { href: "/about", label: "خدمات" },
-  { href: "/agents", label: "مشاوران" },
-  { href: "/contact", label: "تماس با ما" },
+  { href: "/properties", label: "فایل‌ها" },
+  { href: "/about", label: "دفتر" },
+  { href: "/contact", label: "تماس" },
 ] as const;
