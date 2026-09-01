@@ -27,7 +27,10 @@ export default function AgentsPage() {
           {CONTACTS.map((person) => (
             <li key={person.href}>
               <a href={person.href} className="flex items-center justify-between gap-4 py-6 text-[15px]">
-                <span className="font-bold">{person.name}</span>
+                <span>
+                  <span className="block font-bold">{person.name}</span>
+                  <span className="mt-1 block text-[13px] font-normal text-[var(--navy)]/55">{person.role}</span>
+                </span>
                 <PhoneText className="font-bold">{person.phoneDisplay}</PhoneText>
               </a>
             </li>
