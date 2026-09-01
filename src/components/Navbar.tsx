@@ -39,29 +39,25 @@ export default function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 ${
-        ghost
-          ? "bg-transparent text-white"
-          : "bg-[var(--deep)] text-white"
+        ghost ? "bg-transparent text-white" : "bg-[var(--deep)] text-white"
       }`}
     >
       <div
         dir="ltr"
         className="relative z-50 mx-auto flex h-16 items-center justify-between gap-4 px-5 md:h-[4.5rem] md:px-8"
       >
-        <Link
-          href="/"
-          className="text-[17px] font-black leading-none"
-          dir="rtl"
-        >
-          املاک ماهور
+        <Link href="/" className="block shrink-0" aria-label={SITE.name}>
+          <img
+            src={SITE.logoPath}
+            alt={SITE.name}
+            className="h-12 w-auto object-contain md:h-14"
+          />
         </Link>
 
         <div className="flex items-center gap-4">
           <a
             href={SITE.telephoneHref}
-            className={`text-[13px] font-normal text-white/80 hover:text-white ${
-              ghost ? "" : "text-white/70"
-            }`}
+            className="text-[13px] font-normal text-white/80 hover:text-white"
           >
             <PhoneText>{SITE.telephoneHeader}</PhoneText>
           </a>
