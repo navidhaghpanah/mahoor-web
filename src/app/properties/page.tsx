@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
-import { Home } from "lucide-react";
+import { SITE } from "@/lib/site";
+import PhoneText from "@/components/PhoneText";
 
 export const metadata: Metadata = {
   title: "آگهی‌های ملک",
@@ -20,36 +21,20 @@ export const metadata: Metadata = {
 
 export default async function PropertiesPage() {
   const properties = await prisma.property.findMany({
-    where: {
-      status: "ACTIVE",
-    },
-    include: {
-      images: {
-        where: { isPrimary: true },
-        take: 1,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+    where: { status: "ACTIVE" },
+    include: { images: { where: { isPrimary: true }, take: 1 } },
+    orderBy: { createdAt: "desc" },
   });
 
   return (
-    <div className="min-h-screen bg-[#f4f0e6] py-10 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-10 text-right">
-          <p className="text-xs font-bold tracking-[0.2em] text-[#129b96]">محمودآباد · خزر</p>
-          <h1 className="text-4xl md:text-5xl text-[#102847] mt-2 flex items-center justify-end gap-3">
-            املاک موجود در ماهور
-            <Home className="text-[#c6a15b]" />
-          </h1>
-          <p className="text-[#142428]/70 max-w-2xl mr-auto mt-3">
-            فقط آگهی‌های تایید شده. بدون فایل ساختگی.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[var(--sand)] px-6 py-16 text-[var(--navy)]">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">محمودآباد</p>
+        <h1 className="mt-3 text-4xl font-black">فایل‌های فعال</h1>
+        <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--navy)]/65">فقط آگهی‌های تاییدشده دفتر. بدون فایل ساختگی.</p>
 
         {properties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
             {properties.map((property) => (
               <PropertyCard
                 key={property.id}
@@ -66,14 +51,19 @@ export default async function PropertiesPage() {
             ))}
           </div>
         ) : (
-          <div className="empty-lot p-12 text-center">
-            <h3 className="text-3xl text-[#102847] mb-2">ساحل هنوز خلوت است</h3>
-            <p className="text-[#142428]/70 mb-6">
-              هنوز ملک تاییدشده‌ای منتشر نشده. برای ثبت آگهی یا مشاوره با دفتر ماهور در تماس باشید.
+          <div className="mt-16 max-w-lg border-t border-[var(--navy)]/10 pt-10">
+            <h2 className="text-2xl font-black">هنوز فایل منتشر نشده</h2>
+            <p className="mt-3 text-sm leading-7 text-[var(--navy)]/65">
+              برای مشاوره یا ثبت آگهی با دفتر ماهور تماس بگیرید. {SITE.address}.
             </p>
-            <Link href="/register" className="btn-secondary inline-block">
-              ثبت آگهی
-            </Link>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href={SITE.telephoneHref} className="border border-[var(--navy)] px-5 py-3 text-sm font-extrabold">
+                <PhoneText>{SITE.telephoneHeader}</PhoneText>
+              </a>
+              <Link href="/register" className="px-5 py-3 text-sm font-bold text-[var(--sea)]">
+                ثبت آگهی
+              </Link>
+            </div>
           </div>
         )}
       </div>
