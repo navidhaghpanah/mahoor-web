@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/PropertyCard";
 import SearchFilters from "@/components/SearchFilters";
-import { Search, Home } from "lucide-react";
 
 interface SearchParams {
   keyword?: string;
@@ -100,12 +99,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     <div className="min-h-screen bg-[#f4f0e6] py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* هدر صفحه */}
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#102847] mb-3 flex items-center justify-center gap-3">
-            <Search className="text-[#d4af37]" />
-            جستجوی املاک
-          </h1>
-          <p className="text-gray-600">ملک رویایی خود را با فیلترهای پیشرفته پیدا کنید</p>
+        <div className="mb-10">
+          <p className="text-[11px] font-bold tracking-[0.28em] text-[var(--sea)]">محمودآباد</p>
+          <h1 className="mt-3 text-4xl font-black text-[var(--navy)]">جستجو</h1>
         </div>
 
         {/* فرم فیلتر */}
@@ -136,13 +132,10 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             ))}
           </div>
         ) : (
-          <div className="bg-[#f4f0e6] rounded-2xl p-12 text-center border border-gray-200 shadow-sm mt-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-              <Home className="text-gray-400" size={32} />
-            </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">ملکی با این مشخصات یافت نشد</h3>
-            <p className="text-gray-500">
-              لطفاً فیلترهای خود را تغییر دهید یا عبارت دیگری را جستجو کنید.
+          <div className="mt-12 max-w-lg border-t border-[var(--navy)]/10 pt-10">
+            <h3 className="text-2xl font-black">فایلی با این مشخصات نیست</h3>
+            <p className="mt-3 text-sm leading-7 text-[var(--navy)]/65">
+              فیلتر را عوض کنید یا با دفتر تماس بگیرید.
             </p>
           </div>
         )}
