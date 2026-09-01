@@ -14,11 +14,11 @@ export default function PhoneText({
 
 export function NasimMark({ className = "" }: { className?: string }) {
   return (
-    <span className={className}>
-      نسیم{" "}
-      <bdi dir="ltr" className="phone-ltr">
+    <span className={`inline-flex items-baseline gap-1 whitespace-nowrap ${className}`.trim()}>
+      <span>نسیم</span>
+      <span dir="ltr" className="phone-ltr inline-block">
         ۶۹/۱
-      </bdi>
+      </span>
     </span>
   );
 }
