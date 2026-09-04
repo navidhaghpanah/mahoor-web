@@ -1,4 +1,4 @@
-export type SmsProvider = "inbox" | "kavenegar" | "melipayamak" | "smsir" | "ippanel";
+export type SmsProvider = "inbox" | "kavenegar" | "melipayamak" | "smartsms" | "smsir" | "ippanel";
 
 export type SmsConfig = {
   smsProvider: SmsProvider;
@@ -6,23 +6,38 @@ export type SmsConfig = {
   smsPassword: string;
   smsTemplate: string;
   smsSender: string;
+  smsSupportOne: string;
+  smsSupportTwo: string;
 };
 
-const PROVIDERS: SmsProvider[] = ["inbox", "kavenegar", "melipayamak", "smsir", "ippanel"];
+const PROVIDERS: SmsProvider[] = ["inbox", "kavenegar", "melipayamak", "smartsms", "smsir", "ippanel"];
 
 export function smsConfig(): SmsConfig {
-  const p = (process.env.SMS_PROVIDER || "inbox").toLowerCase();
+  const irKey = process.env.SMS_IR_API_KEY || "";
+  const irTemplate = process.env.SMS_IR_TEMPLATE_ID || "";
+  let p = (process.env.SMS_PROVIDER || "").toLowerCase();
+  if (!p) {
+    if (process.env.SMS_API_KEY && process.env.SMS_PASSWORD) p = "smartsms";
+    else if (irKey) p = "smsir";
+    else p = "inbox";
+  }
   return {
     smsProvider: PROVIDERS.includes(p as SmsProvider) ? (p as SmsProvider) : "inbox",
-    smsApiKey: process.env.SMS_API_KEY || "",
+    smsApiKey: process.env.SMS_API_KEY || irKey,
     smsPassword: process.env.SMS_PASSWORD || "",
-    smsTemplate: process.env.SMS_TEMPLATE || "verify",
+    smsTemplate: process.env.SMS_TEMPLATE || irTemplate || "verify",
     smsSender: process.env.SMS_SENDER || "",
+    smsSupportOne: process.env.SMS_SENDER_2 || "",
+    smsSupportTwo: process.env.SMS_SENDER_3 || "",
   };
 }
 
 export function smsLive(cfg = smsConfig()) {
-  return cfg.smsProvider !== "inbox" && Boolean(cfg.smsApiKey);
+  if (cfg.smsProvider === "inbox") return false;
+  if (cfg.smsProvider === "smartsms" || cfg.smsProvider === "melipayamak") {
+    return Boolean(cfg.smsApiKey && cfg.smsPassword);
+  }
+  return Boolean(cfg.smsApiKey);
 }
 
 export function iranPhone(raw: string): string {
@@ -34,7 +49,70 @@ export function iranPhone(raw: string): string {
 }
 
 function otpMessage(code: string) {
-  return `کد تایید املاک ماهور: ${code}`;
+  return `کد تایید املاک ماهور: ${code}\nلغو11`;
+}
+
+function smartSmsError(code: unknown, fallback: string) {
+  const n = String(code ?? "");
+  const map: Record<string, string> = {
+    "0": "نام کاربری یا کلید وب‌سرویس اشتباه است",
+    "2": "اعتبار پیامک کافی نیست",
+    "4": "محدودیت تعداد گیرنده",
+    "5": "شماره خط فرستنده معتبر نیست",
+    "7": "متن پیامک فیلتر شد",
+    "9": "ارسال از خط عمومی مجاز نیست",
+    "14": "متن پیامک نباید لینک داشته باشد",
+    "15": "متن پیامک باید عبارت لغو۱۱ داشته باشد",
+  };
+  return map[n] || fallback;
+}
+
+async function sendSmartSms(
+  settings: SmsConfig,
+  to: string,
+  code: string,
+): Promise<{ sent: boolean; via: string; error?: string }> {
+  const username = (settings.smsApiKey || "").trim();
+  const password = (settings.smsPassword || "").trim();
+  const from = (settings.smsSender || "").trim();
+  if (!username || !password) {
+    return { sent: false, via: "smartsms", error: "نام کاربری یا ApiKey پیامک تنظیم نشده" };
+  }
+  if (!from) {
+    return { sent: false, via: "smartsms", error: "شماره خط فرستنده تنظیم نشده" };
+  }
+  const body: Record<string, string> = {
+    username,
+    password,
+    to,
+    text: otpMessage(code),
+    from,
+  };
+  if (settings.smsSupportOne) body.fromSupportOne = settings.smsSupportOne;
+  if (settings.smsSupportTwo) body.fromSupportTwo = settings.smsSupportTwo;
+  const res = await fetch("https://rest.payamak-panel.com/api/SmartSMS/Send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = (await res.json().catch(() => ({}))) as {
+    Value?: string;
+    RetStatus?: number;
+    StrRetStatus?: string;
+    ReqStatus?: string | number;
+    Message?: string;
+  };
+  const ok =
+    data.RetStatus === 1 ||
+    data.ReqStatus === 1 ||
+    data.ReqStatus === "1" ||
+    (res.ok && Boolean(data.Value) && !["0", "2", "4", "5", "7", "9", "14", "15"].includes(String(data.Value)));
+  if (ok) return { sent: true, via: "smartsms" };
+  return {
+    sent: false,
+    via: "smartsms",
+    error: data.Message || data.StrRetStatus || smartSmsError(data.RetStatus ?? data.ReqStatus ?? data.Value, "ارسال پیامک ناموفق"),
+  };
 }
 
 export async function sendOtpSms(
@@ -79,21 +157,8 @@ export async function sendOtpSms(
       return { sent: false, via: "kavenegar", error: data.return?.message || "ارسال پیامک ناموفق" };
     }
 
-    if (provider === "melipayamak") {
-      const res = await fetch("https://rest.payamak-panel.com/api/SendSMS/SendSMS", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: key,
-          password: settings.smsPassword,
-          to,
-          from: settings.smsSender || "",
-          text: otpMessage(code),
-        }),
-      });
-      const data = (await res.json().catch(() => ({}))) as { RetStatus?: number; StrRetStatus?: string };
-      if (data.RetStatus === 1) return { sent: true, via: "melipayamak" };
-      return { sent: false, via: "melipayamak", error: data.StrRetStatus || "ارسال پیامک ناموفق" };
+    if (provider === "smartsms" || provider === "melipayamak") {
+      return await sendSmartSms(settings, to, code);
     }
 
     if (provider === "smsir") {
