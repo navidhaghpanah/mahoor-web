@@ -11,10 +11,30 @@ interface ContactFormProps {
 export default function ContactForm({ propertyId, agentId }: ContactFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
+  const [needCode, setNeedCode] = useState(false);
 
   async function handleSubmit(formData: FormData) {
     setStatus("loading");
     setError("");
+
+    if (!needCode) {
+      const otp = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: String(formData.get("senderPhone") || "") }),
+      });
+      const data = (await otp.json().catch(() => ({}))) as { ok?: boolean; needCode?: boolean; error?: string };
+      if (!otp.ok) {
+        setStatus("error");
+        setError(data.error || "ارسال کد نشد");
+        return;
+      }
+      if (data.needCode) {
+        setNeedCode(true);
+        setStatus("idle");
+        return;
+      }
+    }
 
     formData.append("propertyId", propertyId);
     formData.append("agentId", agentId);
@@ -87,6 +107,13 @@ export default function ContactForm({ propertyId, agentId }: ContactFormProps) {
         />
       </div>
 
+      {needCode ? (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">کد پیامک</label>
+          <input name="code" required inputMode="numeric" className="input-modern" dir="ltr" placeholder="کد ۵ رقمی" />
+        </div>
+      ) : null}
+
       <button
         type="submit"
         disabled={status === "loading"}
@@ -100,7 +127,7 @@ export default function ContactForm({ propertyId, agentId }: ContactFormProps) {
         ) : (
           <>
             <Send size={20} />
-            ارسال پیام به مشاور
+            {needCode ? "تایید و ارسال" : "ارسال کد تایید"}
           </>
         )}
       </button>

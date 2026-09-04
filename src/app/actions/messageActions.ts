@@ -1,6 +1,8 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { consumeOtp } from "@/lib/otp";
+import { smsLive } from "@/lib/sms";
 
 export async function sendMessage(formData: FormData) {
   try {
@@ -9,6 +11,7 @@ export async function sendMessage(formData: FormData) {
     const senderName = formData.get("senderName") as string;
     const senderPhone = formData.get("senderPhone") as string;
     const messageText = formData.get("message") as string;
+    const code = String(formData.get("code") || "");
 
     // اعتبارسنجی
     if (!senderName || !senderPhone || !messageText) {
@@ -17,6 +20,11 @@ export async function sendMessage(formData: FormData) {
 
     if (senderName.length > 100 || senderPhone.length > 32 || messageText.length > 2_000) {
       return { error: "اطلاعات ارسالی معتبر نیست." };
+    }
+
+    if (smsLive()) {
+      const ok = await consumeOtp(senderPhone, code);
+      if (!ok) return { error: "ابتدا کد پیامک را تایید کنید." };
     }
 
     // Never trust the agent id supplied by the browser. The property owns the recipient.

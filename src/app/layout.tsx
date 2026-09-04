@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
+import SwRegister from "@/components/SwRegister";
 import { SITE, SITE_URL } from "@/lib/site";
 
 const vazir = Vazirmatn({
@@ -27,6 +28,14 @@ export const metadata: Metadata = {
   publisher: SITE.name,
   category: "real estate",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/icons/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   alternates: {
     canonical: "/",
   },
@@ -75,12 +84,13 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className={`${vazir.variable} font-[family-name:var(--font-vazir)] antialiased bg-[#f4f0e6] text-[#102847]`}>
         <JsonLd />
+        <SwRegister />
         <a
           href="#content"
           className="sr-only focus:not-sr-only focus:absolute focus:right-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2"

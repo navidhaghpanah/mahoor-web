@@ -6,10 +6,47 @@ import { CONTACTS, SITE } from "@/lib/site";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [needCode, setNeedCode] = useState(false);
+  const [error, setError] = useState("");
 
-  async function handleSubmit() {
+  async function handleSubmit(formData: FormData) {
     setStatus("loading");
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setError("");
+    const payload = {
+      name: String(formData.get("name") || ""),
+      phone: String(formData.get("phone") || ""),
+      message: String(formData.get("message") || ""),
+      code: String(formData.get("code") || ""),
+    };
+    if (!needCode) {
+      const otp = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: payload.phone }),
+      });
+      const data = (await otp.json().catch(() => ({}))) as { ok?: boolean; needCode?: boolean; error?: string };
+      if (!otp.ok) {
+        setStatus("idle");
+        setError(data.error || "ارسال کد نشد");
+        return;
+      }
+      if (data.needCode) {
+        setNeedCode(true);
+        setStatus("idle");
+        return;
+      }
+    }
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      setStatus("idle");
+      setError(data.error || "ارسال نشد");
+      return;
+    }
     setStatus("success");
   }
 
@@ -87,12 +124,29 @@ export default function ContactPage() {
                   className="w-full border-b border-[var(--navy)]/20 bg-transparent py-3 text-[15px] outline-none"
                   placeholder="متن پیام"
                 />
+                {needCode ? (
+                  <input
+                    name="code"
+                    required
+                    inputMode="numeric"
+                    dir="ltr"
+                    className="w-full border-b border-[var(--navy)]/20 bg-transparent py-3 text-[15px] outline-none"
+                    placeholder="کد پیامک"
+                  />
+                ) : null}
+                {error ? <p className="text-sm text-red-700">{error}</p> : null}
                 <button
                   type="submit"
                   disabled={status === "loading"}
                   className="bg-[var(--navy)] px-8 py-3.5 text-[13px] font-bold text-[var(--sand)] disabled:opacity-50"
                 >
-                  {status === "loading" ? <Loader2 className="inline animate-spin" size={16} /> : "ارسال"}
+                  {status === "loading" ? (
+                    <Loader2 className="inline animate-spin" size={16} />
+                  ) : needCode ? (
+                    "تایید و ارسال"
+                  ) : (
+                    "ارسال کد تایید"
+                  )}
                 </button>
               </form>
             )}
