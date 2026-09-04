@@ -1,4 +1,4 @@
-export type SmsProvider = "inbox" | "kavenegar" | "melipayamak" | "smartsms" | "smsir" | "ippanel";
+export type SmsProvider = "inbox" | "kavenegar" | "melipayamak" | "smartsms" | "baseservice" | "smsir" | "ippanel";
 
 export type SmsConfig = {
   smsProvider: SmsProvider;
@@ -10,22 +10,31 @@ export type SmsConfig = {
   smsSupportTwo: string;
 };
 
-const PROVIDERS: SmsProvider[] = ["inbox", "kavenegar", "melipayamak", "smartsms", "smsir", "ippanel"];
+const PROVIDERS: SmsProvider[] = [
+  "inbox",
+  "kavenegar",
+  "melipayamak",
+  "smartsms",
+  "baseservice",
+  "smsir",
+  "ippanel",
+];
 
 export function smsConfig(): SmsConfig {
   const irKey = process.env.SMS_IR_API_KEY || "";
   const irTemplate = process.env.SMS_IR_TEMPLATE_ID || "";
   let p = (process.env.SMS_PROVIDER || "").toLowerCase();
   if (!p) {
-    if (process.env.SMS_API_KEY && process.env.SMS_PASSWORD) p = "smartsms";
+    if (process.env.SMS_PASSWORD && (process.env.SMS_TEMPLATE || irTemplate)) p = "baseservice";
+    else if (process.env.SMS_API_KEY && process.env.SMS_PASSWORD) p = "smartsms";
     else if (irKey) p = "smsir";
     else p = "inbox";
   }
   return {
     smsProvider: PROVIDERS.includes(p as SmsProvider) ? (p as SmsProvider) : "inbox",
-    smsApiKey: process.env.SMS_API_KEY || irKey,
+    smsApiKey: process.env.SMS_USERNAME || process.env.SMS_API_KEY || "",
     smsPassword: process.env.SMS_PASSWORD || "",
-    smsTemplate: process.env.SMS_TEMPLATE || irTemplate || "verify",
+    smsTemplate: process.env.SMS_BODY_ID || process.env.SMS_TEMPLATE || irTemplate || "verify",
     smsSender: process.env.SMS_SENDER || "",
     smsSupportOne: process.env.SMS_SENDER_2 || "",
     smsSupportTwo: process.env.SMS_SENDER_3 || "",
@@ -34,8 +43,12 @@ export function smsConfig(): SmsConfig {
 
 export function smsLive(cfg = smsConfig()) {
   if (cfg.smsProvider === "inbox") return false;
-  if (cfg.smsProvider === "smartsms" || cfg.smsProvider === "melipayamak") {
-    return Boolean(cfg.smsApiKey && cfg.smsPassword);
+  if (cfg.smsProvider === "smartsms") {
+    return Boolean(cfg.smsApiKey && cfg.smsPassword && cfg.smsSender);
+  }
+  if (cfg.smsProvider === "melipayamak" || cfg.smsProvider === "baseservice") {
+    const bodyId = Number(cfg.smsTemplate);
+    return Boolean(cfg.smsApiKey && cfg.smsPassword && Number.isFinite(bodyId) && bodyId > 0);
   }
   return Boolean(cfg.smsApiKey);
 }
@@ -65,6 +78,77 @@ function smartSmsError(code: unknown, fallback: string) {
     "15": "متن پیامک باید عبارت لغو۱۱ داشته باشد",
   };
   return map[n] || fallback;
+}
+
+function baseServiceError(code: unknown, fallback: string) {
+  const n = String(code ?? "");
+  const map: Record<string, string> = {
+    "0": "نام کاربری یا ApiKey اشتباه است",
+    "-1": "وب‌سرویس خدماتی برای این حساب فعال نیست",
+    "-2": "در هر ارسال فقط یک شماره مجاز است",
+    "-3": "خط ارسال تعریف نشده است",
+    "-4": "شناسه متن خدماتی صحیح نیست یا تأیید نشده",
+    "-5": "متغیرهای متن با الگوی تأییدشده یکی نیست",
+    "-6": "خطای داخلی سامانه پیامک",
+    "-10": "لینک در متغیر الگو مجاز نیست",
+    "-108": "IP مسدود است",
+    "-109": "باید IP مجاز برای API تنظیم شود",
+    "-110": "باید از ApiKey استفاده شود",
+    "-111": "IP مجاز نیست",
+    "-112": "دسترسی وب‌سرویس غیرفعال است",
+    "2": "اعتبار پیامک کافی نیست",
+    "6": "سامانه در حال به‌روزرسانی است",
+    "7": "متن فیلتر شد",
+    "10": "کاربر فعال نیست",
+    "11": "ارسال انجام نشد",
+    "12": "مدارک پنل کامل نیست",
+    "18": "شماره موبایل معتبر نیست",
+    "19": "سقف روزانه API پر شده است",
+  };
+  return map[n] || fallback;
+}
+
+async function sendBaseServiceNumber(
+  settings: SmsConfig,
+  to: string,
+  code: string,
+): Promise<{ sent: boolean; via: string; error?: string }> {
+  const username = (settings.smsApiKey || "").trim();
+  const password = (settings.smsPassword || "").trim();
+  const bodyId = Number(settings.smsTemplate);
+  if (!username || !password) {
+    return { sent: false, via: "baseservice", error: "نام کاربری یا ApiKey پیامک تنظیم نشده" };
+  }
+  if (!Number.isFinite(bodyId) || bodyId <= 0) {
+    return { sent: false, via: "baseservice", error: "شناسه متن خدماتی (bodyId) تنظیم نشده" };
+  }
+  const res = await fetch("https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber", {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({
+      username,
+      password,
+      text: code,
+      to,
+      bodyId,
+    }),
+  });
+  const data = (await res.json().catch(() => ({}))) as {
+    Value?: string | number;
+    RetStatus?: number;
+    StrRetStatus?: string;
+  };
+  const recId = String(data.Value ?? "");
+  if (data.RetStatus === 1 && recId.length >= 10 && !recId.startsWith("-")) {
+    return { sent: true, via: "baseservice" };
+  }
+  return {
+    sent: false,
+    via: "baseservice",
+    error: data.StrRetStatus && data.StrRetStatus !== "Ok"
+      ? baseServiceError(data.Value, data.StrRetStatus)
+      : baseServiceError(data.Value, "ارسال پیامک ناموفق"),
+  };
 }
 
 async function sendSmartSms(
@@ -123,7 +207,9 @@ export async function sendOtpSms(
   const to = iranPhone(phone);
   const provider = settings.smsProvider;
   const key = (settings.smsApiKey || "").trim();
-  if (provider === "inbox" || !key) {
+  const shared =
+    provider === "baseservice" || provider === "melipayamak" || provider === "smartsms";
+  if (provider === "inbox" || (!shared && !key) || (shared && !settings.smsPassword)) {
     return { sent: false, via: "inbox" };
   }
 
@@ -157,8 +243,13 @@ export async function sendOtpSms(
       return { sent: false, via: "kavenegar", error: data.return?.message || "ارسال پیامک ناموفق" };
     }
 
-    if (provider === "smartsms" || provider === "melipayamak") {
-      return await sendSmartSms(settings, to, code);
+    if (provider === "baseservice" || provider === "melipayamak" || provider === "smartsms") {
+      const bodyId = Number(settings.smsTemplate);
+      if (Number.isFinite(bodyId) && bodyId > 0) {
+        return await sendBaseServiceNumber(settings, to, code);
+      }
+      if (provider === "smartsms") return await sendSmartSms(settings, to, code);
+      return await sendBaseServiceNumber(settings, to, code);
     }
 
     if (provider === "smsir") {
