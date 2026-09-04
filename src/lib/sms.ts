@@ -114,40 +114,45 @@ async function sendBaseServiceNumber(
   code: string,
 ): Promise<{ sent: boolean; via: string; error?: string }> {
   const username = (settings.smsApiKey || "").trim();
-  const password = (settings.smsPassword || "").trim();
+  const passwords = [
+    (settings.smsPassword || "").trim(),
+    (process.env.SMS_IR_API_KEY || "").trim(),
+  ].filter((p, i, a) => p && a.indexOf(p) === i);
   const bodyId = Number(settings.smsTemplate);
-  if (!username || !password) {
+  if (!username || !passwords.length) {
     return { sent: false, via: "baseservice", error: "نام کاربری یا ApiKey پیامک تنظیم نشده" };
   }
   if (!Number.isFinite(bodyId) || bodyId <= 0) {
     return { sent: false, via: "baseservice", error: "شناسه متن خدماتی (bodyId) تنظیم نشده" };
   }
-  const res = await fetch("https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber", {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      username,
-      password,
-      text: code,
-      to,
-      bodyId,
-    }),
-  });
-  const data = (await res.json().catch(() => ({}))) as {
-    Value?: string | number;
-    RetStatus?: number;
-    StrRetStatus?: string;
-  };
-  const recId = String(data.Value ?? "");
-  if (data.RetStatus === 1 && recId.length >= 10 && !recId.startsWith("-")) {
-    return { sent: true, via: "baseservice" };
+  let last: { Value?: string | number; RetStatus?: number; StrRetStatus?: string } = {};
+  for (const password of passwords) {
+    const res = await fetch("https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber", {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify({
+        username,
+        password,
+        text: code,
+        to,
+        bodyId,
+      }),
+    });
+    last = (await res.json().catch(() => ({}))) as typeof last;
+    const recId = String(last.Value ?? "");
+    if (last.RetStatus === 1 && recId.length >= 10 && !recId.startsWith("-")) {
+      return { sent: true, via: "baseservice" };
+    }
+    const err = String(last.Value ?? "");
+    if (err !== "0" && err !== "-110") break;
   }
   return {
     sent: false,
     via: "baseservice",
-    error: data.StrRetStatus && data.StrRetStatus !== "Ok"
-      ? baseServiceError(data.Value, data.StrRetStatus)
-      : baseServiceError(data.Value, "ارسال پیامک ناموفق"),
+    error:
+      last.StrRetStatus && last.StrRetStatus !== "Ok"
+        ? baseServiceError(last.Value, last.StrRetStatus)
+        : baseServiceError(last.Value, "ارسال پیامک ناموفق"),
   };
 }
 
